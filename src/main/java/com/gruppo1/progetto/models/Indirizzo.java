@@ -1,9 +1,6 @@
-package models;
+package com.gruppo1.progetto.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Indirizzo {
@@ -14,11 +11,16 @@ public class Indirizzo {
     private String cap;
     private Integer numero_civico;
 
-    public Indirizzo(Long id, String via, String cap, Integer numero_civico) {
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public Indirizzo(Long id, String via, String cap, Integer numero_civico, Cliente cliente) {
         this.id = id;
         this.via = via;
         this.cap = cap;
         this.numero_civico = numero_civico;
+        this.cliente = cliente;
     }
 
     public Indirizzo() {
@@ -54,5 +56,13 @@ public class Indirizzo {
 
     public void setNumero_civico(Integer numero_civico) {
         this.numero_civico = numero_civico;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
