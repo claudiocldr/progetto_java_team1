@@ -23,6 +23,9 @@ public class Cliente {
 
     private String password;
 
+    @OneToMany (mappedBy = "cliente")
+    private List<Ordine> ordini;
+
     @ManyToMany
     @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;
