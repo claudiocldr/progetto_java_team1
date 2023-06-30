@@ -9,7 +9,7 @@ import java.util.List;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_cliente;
     private String nome;
     private String cognome;
 
@@ -27,8 +27,8 @@ public class Cliente {
     @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;
 
-    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi) {
-        this.id = id;
+    public Cliente(Long id_cliente, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi) {
+        this.id_cliente = id_cliente;
         this.nome = nome;
         this.cognome = cognome;
         this.dataDiNascita = dataDiNascita;
@@ -42,12 +42,12 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getId_cliente() {
+        return id_cliente;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_cliente(Long id_cliente) {
+        this.id_cliente = id_cliente;
     }
 
     public String getNome() {

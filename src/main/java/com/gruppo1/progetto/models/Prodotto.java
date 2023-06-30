@@ -14,6 +14,10 @@ public class Prodotto {
     private String sku;
     private Integer quantita;
 
+    @ManyToOne
+    @JoinColumn(name = "id_carrello")
+    private Prodotto prodotto;
+
     public Long getId_prodotto() {
         return id_prodotto;
     }
@@ -60,5 +64,13 @@ public class Prodotto {
 
     public void setQuantita(Integer quantita) {
         this.quantita = quantita;
+    }
+
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
+
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
     }
 }
