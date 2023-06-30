@@ -17,14 +17,17 @@ public class Cliente {
 
     private String telefono;
 
+    @Column(unique=true)
     private String email;
     private String codiceFiscale;
+
+    private String password;
 
     @ManyToMany
     @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;
 
-    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, List<Indirizzo> indirizzi) {
+    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -32,6 +35,7 @@ public class Cliente {
         this.telefono = telefono;
         this.email = email;
         this.codiceFiscale = codiceFiscale;
+        this.password = password;
         this.indirizzi = indirizzi;
     }
 
@@ -100,5 +104,13 @@ public class Cliente {
 
     public void setIndirizzi(List<Indirizzo> indirizzi) {
         this.indirizzi = indirizzi;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
