@@ -20,7 +20,8 @@ public class Cliente {
     private String email;
     private String codiceFiscale;
 
-    @OneToMany(mappedBy = "cliente")
+    @ManyToMany
+    @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;
 
     public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, List<Indirizzo> indirizzi) {
