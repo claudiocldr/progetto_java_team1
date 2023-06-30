@@ -7,17 +7,17 @@ import jakarta.persistence.*;
 public class Indirizzo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_indirizzo;
     private String via;
     private String cap;
     private Integer numero_civico;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    public Indirizzo(Long id, String via, String cap, Integer numero_civico, Cliente cliente) {
-        this.id = id;
+    public Indirizzo(Long id_indirizzo, String via, String cap, Integer numero_civico, Cliente cliente) {
+        this.id_indirizzo = id_indirizzo;
         this.via = via;
         this.cap = cap;
         this.numero_civico = numero_civico;
@@ -27,12 +27,12 @@ public class Indirizzo {
     public Indirizzo() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getId_indirizzo() {
+        return id_indirizzo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_indirizzo(Long id_indirizzo) {
+        this.id_indirizzo = id_indirizzo;
     }
 
     public String getVia() {
