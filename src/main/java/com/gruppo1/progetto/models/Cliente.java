@@ -23,6 +23,10 @@ public class Cliente {
 
     private String password;
 
+    @OneToMany
+    @JoinTable(name = "id_ordine")
+    private Ordine ordine;
+
     @ManyToMany
     @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;

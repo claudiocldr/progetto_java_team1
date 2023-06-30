@@ -18,7 +18,7 @@ public class MetodoDiPagamento {
     private String cvv;
 
     @OneToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     public Long getId() {

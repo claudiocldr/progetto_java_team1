@@ -16,7 +16,7 @@ public class Prodotto {
 
     @ManyToOne
     @JoinColumn(name = "id_carrello")
-    private Prodotto prodotto;
+    private Carrello carrello;
 
     public Long getId_prodotto() {
         return id_prodotto;
@@ -66,11 +66,11 @@ public class Prodotto {
         this.quantita = quantita;
     }
 
-    public Prodotto getProdotto() {
-        return prodotto;
+    public Carrello getCarrello() {
+        return carrello;
     }
 
-    public void setProdotto(Prodotto prodotto) {
-        this.prodotto = prodotto;
+    public void setCarrello(Carrello carrello) {
+        this.carrello = carrello;
     }
 }

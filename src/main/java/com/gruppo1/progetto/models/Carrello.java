@@ -14,9 +14,13 @@ public class Carrello {
 
     @OneToMany
     @JoinColumn(name = "id_prodotto")
-    private Prodotto prodotto;
+    private List<Prodotto> prodotti;
 
-    private List<Prodotto> quantita;
+    @OneToOne
+    @JoinColumn(name = "id_ordine")
+    private Ordine ordine;
+
+    private Integer quantita;
 
     public Long getId_carrello() {
         return id_carrello;
@@ -26,19 +30,19 @@ public class Carrello {
         this.id_carrello = id_carrello;
     }
 
-    public Prodotto getProdotto() {
-        return prodotto;
+    public List<Prodotto> getProdotti() {
+        return prodotti;
     }
 
-    public void setProdotto(Prodotto prodotto) {
-        this.prodotto = prodotto;
+    public void setProdotti(List<Prodotto> prodotti) {
+        this.prodotti = prodotti;
     }
 
-    public List<Prodotto> getQuantita() {
+    public Integer getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(List<Prodotto> quantita) {
+    public void setQuantita(Integer quantita) {
         this.quantita = quantita;
     }
 }
