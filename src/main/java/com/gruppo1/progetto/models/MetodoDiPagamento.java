@@ -2,14 +2,16 @@ package com.gruppo1.progetto.models;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "metodo_di_pagamento")
 public class MetodoDiPagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String numero_carta;
-    private String nome_cognome;
+    @Column(name = "numero_carta")
+    private String numeroCarta;
+    private String nomeCognome;
 
     @OneToOne
     @JoinColumn(name = "indirizzo_id")
@@ -29,20 +31,20 @@ public class MetodoDiPagamento {
         this.id = id;
     }
 
-    public String getNumero_carta() {
-        return numero_carta;
+    public String getNumeroCarta() {
+        return numeroCarta;
     }
 
-    public void setNumero_carta(String numero_carta) {
-        this.numero_carta = numero_carta;
+    public void setNumeroCarta(String numeroCarta) {
+        this.numeroCarta = numeroCarta;
     }
 
-    public String getNome_cognome() {
-        return nome_cognome;
+    public String getNomeCognome() {
+        return nomeCognome;
     }
 
-    public void setNome_cognome(String nome_cognome) {
-        this.nome_cognome = nome_cognome;
+    public void setNomeCognome(String nomeCognome) {
+        this.nomeCognome = nomeCognome;
     }
 
     public Indirizzo getIndirizzo() {
