@@ -10,17 +10,17 @@ public class Indirizzo {
     private Long id;
     private String via;
     private String cap;
-    private Integer numero_civico;
+    private Integer numeroCivico;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    public Indirizzo(Long id, String via, String cap, Integer numero_civico, Cliente cliente) {
+    public Indirizzo(Long id, String via, String cap, Integer numeroCivico, Cliente cliente) {
         this.id = id;
         this.via = via;
         this.cap = cap;
-        this.numero_civico = numero_civico;
+        this.numeroCivico = numeroCivico;
         this.cliente = cliente;
     }
 
@@ -51,12 +51,12 @@ public class Indirizzo {
         this.cap = cap;
     }
 
-    public Integer getNumero_civico() {
-        return numero_civico;
+    public Integer getNumeroCivico() {
+        return numeroCivico;
     }
 
-    public void setNumero_civico(Integer numero_civico) {
-        this.numero_civico = numero_civico;
+    public void setNumeroCivico(Integer numeroCivico) {
+        this.numeroCivico = numeroCivico;
     }
 
     public Cliente getCliente() {

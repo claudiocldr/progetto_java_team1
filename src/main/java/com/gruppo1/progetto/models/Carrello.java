@@ -10,7 +10,7 @@ public class Carrello {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_carrello;
+    private Long idCarrello;
 
     @OneToMany
     @JoinColumn(name = "id_prodotto")
@@ -22,12 +22,12 @@ public class Carrello {
 
     private Integer quantita;
 
-    public Long getId_carrello() {
-        return id_carrello;
+    public Long getIdCarrello() {
+        return idCarrello;
     }
 
-    public void setId_carrello(Long id_carrello) {
-        this.id_carrello = id_carrello;
+    public void setIdCarrello(Long idCarrello) {
+        this.idCarrello = idCarrello;
     }
 
     public List<Prodotto> getProdotti() {
