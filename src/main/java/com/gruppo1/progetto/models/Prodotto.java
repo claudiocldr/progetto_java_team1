@@ -2,6 +2,7 @@ package com.gruppo1.progetto.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,18 @@ public class Prodotto {
     joinColumns = @JoinColumn(name = "prodotto_id" ),
     inverseJoinColumns = @JoinColumn(name = "ordine_id"))
     private List<Ordine> ordini;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "modify_by")
+    private String modifyBy;
+
+    @Column(name = "modify_on")
+    private LocalDateTime modifyOn;
 
     public Long getId() {
         return id;
@@ -76,5 +89,37 @@ public class Prodotto {
 
     public void setQuantita(Integer quantita) {
         this.quantita = quantita;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public LocalDateTime getModifyOn() {
+        return modifyOn;
+    }
+
+    public void setModifyOn(LocalDateTime modifyOn) {
+        this.modifyOn = modifyOn;
     }
 }

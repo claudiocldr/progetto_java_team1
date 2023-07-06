@@ -2,6 +2,7 @@ package com.gruppo1.progetto.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,18 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private RecordStatusEnum status;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "modify_by")
+    private String modifyBy;
+
+    @Column(name = "modify_on")
+    private LocalDateTime modifyOn;
 
     public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi, RecordStatusEnum status) {
         this.id = id;
@@ -136,5 +149,37 @@ public class Cliente {
 
     public void setStatus(RecordStatusEnum status) {
         this.status = status;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public LocalDateTime getModifyOn() {
+        return modifyOn;
+    }
+
+    public void setModifyOn(LocalDateTime modifyOn) {
+        this.modifyOn = modifyOn;
     }
 }

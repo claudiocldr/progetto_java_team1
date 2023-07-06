@@ -2,6 +2,8 @@ package com.gruppo1.progetto.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "indirizzo")
 public class Indirizzo {
@@ -15,6 +17,18 @@ public class Indirizzo {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "modify_by")
+    private String modifyBy;
+
+    @Column(name = "modify_on")
+    private LocalDateTime modifyOn;
 
     public Indirizzo(Long id, String via, String cap, Integer numeroCivico, Cliente cliente) {
         this.id = id;
@@ -65,5 +79,37 @@ public class Indirizzo {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public LocalDateTime getModifyOn() {
+        return modifyOn;
+    }
+
+    public void setModifyOn(LocalDateTime modifyOn) {
+        this.modifyOn = modifyOn;
     }
 }
