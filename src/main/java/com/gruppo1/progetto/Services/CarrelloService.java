@@ -15,11 +15,11 @@ public class CarrelloService {
     private CarrelloRepo<Carrello> carrelloRepo;
 
     //Create
-    public void createCarrello (CarrelloDto carrelloDto, String createBy){
+    public void createCarrello (CarrelloDto carrelloDto, String author){
         Carrello cE = new Carrello();
         cE.setProdotti(carrelloDto.getProdotti());
         cE.setOrdine(carrelloDto.getOrdine());
-        cE.setCreatedBy(createBy);
+        cE.setCreatedBy(author);
         cE.setCreatedOn(LocalDateTime.now());
         cE.setQuantita(carrelloDto.getQuantita());
 
@@ -27,8 +27,8 @@ public class CarrelloService {
     }
 
     //Read
-    public CarrelloDto readCarrello(Long idCarrello){
-        Optional<Carrello> carrello = carrelloRepo.findById(idCarrello.intValue());
+    public CarrelloDto readCarrello(Long id){
+        Optional<Carrello> carrello = carrelloRepo.findById(id.intValue());
 
         if(carrello.isPresent()){
         CarrelloDto carrelloDto = new CarrelloDto();
@@ -42,7 +42,7 @@ public class CarrelloService {
     }
 
     //Update
-    public void updateCarrello(CarrelloDto carrelloDto, Long id, String author){
+    public void updateCarrello(CarrelloDto carrelloDto, String author){
         try{
             if(carrelloDto.equals(null)){
                 throw new Exception("Impossibile aggiornare il carrello, l'oggetto è null");
@@ -60,7 +60,6 @@ public class CarrelloService {
     }
 
     //Delete
-
     public void deleteCarrello(Long id){
         try {
             carrelloRepo.deleteById(id.intValue());
