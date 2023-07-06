@@ -17,20 +17,24 @@ public class Cliente {
 
     private String telefono;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
     private String codiceFiscale;
 
     private String password;
 
-    @OneToMany (mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente")
     private List<Ordine> ordini;
 
     @ManyToMany
-    @JoinTable(name= "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
+    @JoinTable(name = "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
     private List<Indirizzo> indirizzi;
 
-    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private RecordStatusEnum status;
+
+    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi, RecordStatusEnum status) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -40,6 +44,7 @@ public class Cliente {
         this.codiceFiscale = codiceFiscale;
         this.password = password;
         this.indirizzi = indirizzi;
+        this.status = status;
     }
 
     public Cliente() {
@@ -115,5 +120,21 @@ public class Cliente {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Ordine> getOrdini() {
+        return ordini;
+    }
+
+    public void setOrdini(List<Ordine> ordini) {
+        this.ordini = ordini;
+    }
+
+    public RecordStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(RecordStatusEnum status) {
+        this.status = status;
     }
 }
