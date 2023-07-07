@@ -1,6 +1,6 @@
-package com.gruppo1.progetto.Services;
+package com.gruppo1.progetto.services;
 
-import com.gruppo1.progetto.Repositories.CarrelloRepo;
+import com.gruppo1.progetto.repositories.CarrelloRepo;
 import com.gruppo1.progetto.dto.CarrelloDto;
 import com.gruppo1.progetto.models.Carrello;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class CarrelloService {
 @Autowired
-    private CarrelloRepo<Carrello> carrelloRepo;
+    private CarrelloRepo carrelloRepo;
 
     //Create
     public void createCarrello (CarrelloDto carrelloDto, String author){
@@ -44,7 +44,7 @@ public class CarrelloService {
     //Update
     public void updateCarrello(CarrelloDto carrelloDto, String author){
         try{
-            if(carrelloDto.equals(null)){
+            if(carrelloDto == null){
                 throw new Exception("Impossibile aggiornare il carrello, l'oggetto è null");
             } else {
                 Carrello c = new Carrello();

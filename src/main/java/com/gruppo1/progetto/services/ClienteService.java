@@ -1,6 +1,6 @@
-package com.gruppo1.progetto.Services;
+package com.gruppo1.progetto.services;
 
-import com.gruppo1.progetto.Repositories.ClienteRepo;
+import com.gruppo1.progetto.repositories.ClienteRepo;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class ClienteService {
     //Update
     public void updateCliente(ClienteDto clienteDto, String author){
         try{
-            if(clienteDto.equals(null)){
+            if(clienteDto == null){
                 throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
             } else {
                 Cliente c = new Cliente();

@@ -1,7 +1,9 @@
 package com.gruppo1.progetto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -13,11 +15,13 @@ public class Ordine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date data;
+    private LocalDate data;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonBackReference
     private Cliente cliente;
+
 
     @ManyToMany(mappedBy = "ordini")
     private List<Prodotto> prodotti;
@@ -34,7 +38,7 @@ public class Ordine {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    public Ordine(Long id, Date data, Cliente cliente) {
+    public Ordine(Long id, LocalDate data, Cliente cliente) {
         this.id = id;
         this.data = data;
         this.cliente = cliente;
@@ -51,11 +55,11 @@ public class Ordine {
         this.id = id;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

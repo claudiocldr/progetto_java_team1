@@ -1,4 +1,4 @@
-package com.gruppo1.progetto.Repositories;
+package com.gruppo1.progetto.repositories;
 
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;

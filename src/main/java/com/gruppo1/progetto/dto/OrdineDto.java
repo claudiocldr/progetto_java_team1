@@ -2,22 +2,22 @@ package com.gruppo1.progetto.dto;
 
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Prodotto;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 public class OrdineDto {
-    private Date data;
+    private LocalDate data;
     private List<Prodotto> prodotti;
 
-    public Date getData() {
+    private Cliente cliente;
+
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -27,5 +27,13 @@ public class OrdineDto {
 
     public void setProdotti(List<Prodotto> prodotti) {
         this.prodotti = prodotti;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

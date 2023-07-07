@@ -1,5 +1,6 @@
 package com.gruppo1.progetto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class Cliente {
     private String password;
 
     @OneToMany(mappedBy = "cliente")
+    @JsonBackReference
     private List<Ordine> ordini;
 
     @ManyToMany
