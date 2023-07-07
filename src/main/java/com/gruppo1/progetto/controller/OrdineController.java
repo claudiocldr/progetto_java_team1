@@ -12,7 +12,7 @@ public class OrdineController {
     @Autowired
     OrdineService ordineService;
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     ResponseEntity<String> updateById(@RequestBody OrdineDto ordineDto, @RequestParam Long id) throws Exception {
         ordineService.updateOrdine(ordineDto, id, "ciccio");
         return ResponseEntity.ok().build();
