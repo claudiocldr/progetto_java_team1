@@ -8,19 +8,25 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table (name = "cliente")
 public class Cliente {
+    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String nome;
+    @Column
     private String cognome;
-
+    @Column(name = "data_di_nascita")
     private Date dataDiNascita;
-
+    @Column
     private String telefono;
 
     @Column(unique = true)
     private String email;
+
+    @Column(name = "codice_fiscale")
     private String codiceFiscale;
 
     private String password;

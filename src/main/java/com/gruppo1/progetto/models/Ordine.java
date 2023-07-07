@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,7 +14,8 @@ public class Ordine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate data;
+    @Column(name = "data_ordine")
+    private LocalDate dataOrdine;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -38,9 +38,9 @@ public class Ordine {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    public Ordine(Long id, LocalDate data, Cliente cliente) {
+    public Ordine(Long id, LocalDate dataOrdine, Cliente cliente) {
         this.id = id;
-        this.data = data;
+        this.dataOrdine = dataOrdine;
         this.cliente = cliente;
     }
 
@@ -55,12 +55,12 @@ public class Ordine {
         this.id = id;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataOrdine() {
+        return dataOrdine;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataOrdine(LocalDate dataOrdine) {
+        this.dataOrdine = dataOrdine;
     }
 
     public Cliente getCliente() {

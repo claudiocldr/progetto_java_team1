@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Repository
 @Transactional
-public interface OrdineRepo extends JpaRepository<Ordine, Long> {
+public interface OrdineRepository extends JpaRepository<Ordine, Long> {
     @Modifying
     @Query(value = "UPDATE ordine SET data = ?, cliente_id = ?, modify_on = ?, modify_by = ? WHERE id = ?", nativeQuery = true)
    void updateOrdineById(LocalDate data, Long clienteId, LocalDateTime modifyOn, String modifyBy, Long id);

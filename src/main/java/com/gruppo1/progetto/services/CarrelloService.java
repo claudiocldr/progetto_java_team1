@@ -1,6 +1,6 @@
 package com.gruppo1.progetto.services;
 
-import com.gruppo1.progetto.repositories.CarrelloRepo;
+import com.gruppo1.progetto.repositories.CarrelloRepository;
 import com.gruppo1.progetto.dto.CarrelloDto;
 import com.gruppo1.progetto.models.Carrello;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import java.util.Optional;
 @Service
 public class CarrelloService {
 @Autowired
-    private CarrelloRepo carrelloRepo;
+    private CarrelloRepository carrelloRepository;
 
     //Create
     public void createCarrello (CarrelloDto carrelloDto, String author){
         Carrello cE = new Carrello();
-        cE.setProdotti(carrelloDto.getProdotti());
+        cE.setListaProdotti(carrelloDto.getProdotti());
         cE.setOrdine(carrelloDto.getOrdine());
         cE.setCreatedBy(author);
         cE.setCreatedOn(LocalDateTime.now());
         cE.setQuantita(carrelloDto.getQuantita());
 
-        carrelloRepo.save(cE);
+        carrelloRepository.save(cE);
     }
 
     //Read
     public CarrelloDto readCarrello(Long id){
-        Optional<Carrello> carrello = carrelloRepo.findById(id.intValue());
+        Optional<Carrello> carrello = carrelloRepository.findById(id.intValue());
 
         if(carrello.isPresent()){
         CarrelloDto carrelloDto = new CarrelloDto();
         Carrello c = carrello.get();
-        carrelloDto.setProdotti(c.getProdotti());
+        carrelloDto.setProdotti(c.getListaProdotti());
         carrelloDto.setOrdine(c.getOrdine());
         carrelloDto.setQuantita(c.getQuantita());
         return carrelloDto;
@@ -48,7 +48,7 @@ public class CarrelloService {
                 throw new Exception("Impossibile aggiornare il carrello, l'oggetto è null");
             } else {
                 Carrello c = new Carrello();
-                c.setProdotti(carrelloDto.getProdotti());
+                c.setListaProdotti(carrelloDto.getProdotti());
                 c.setOrdine(carrelloDto.getOrdine());
                 c.setQuantita(carrelloDto.getQuantita());
                 c.setModifyBy(author);
@@ -62,7 +62,7 @@ public class CarrelloService {
     //Delete
     public void deleteCarrello(Long id){
         try {
-            carrelloRepo.deleteById(id.intValue());
+            carrelloRepository.deleteById(id.intValue());
         } catch (Exception e){
             e.printStackTrace();
         }

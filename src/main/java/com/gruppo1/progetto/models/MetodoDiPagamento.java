@@ -13,12 +13,14 @@ public class MetodoDiPagamento {
     private Long id;
     @Column(name = "numero_carta")
     private String numeroCarta;
+    @Column(name = "nome_cognome")
     private String nomeCognome;
 
     @OneToOne
     @JoinColumn(name = "indirizzo_id")
     private Indirizzo indirizzo;
 
+    @Column
     private String cvv;
 
     @OneToOne

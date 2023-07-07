@@ -1,6 +1,6 @@
 package com.gruppo1.progetto.services;
 
-import com.gruppo1.progetto.repositories.OrdineRepo;
+import com.gruppo1.progetto.repositories.OrdineRepository;
 import com.gruppo1.progetto.dto.OrdineDto;
 import com.gruppo1.progetto.models.Ordine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +12,20 @@ import java.util.Optional;
 @Service
 public class OrdineService {
     @Autowired
-    private OrdineRepo ordineRepo;
+    private OrdineRepository ordineRepository;
 
     //Create
     public void createOrdine (OrdineDto ordineDto, String author) {
         try {
             Ordine ordine = new Ordine();
-            ordine.setData(ordineDto.getData());
+            ordine.setDataOrdine(ordineDto.getData());
             ordine.setProdotti(ordineDto.getProdotti());
             ordine.setCliente(ordineDto.getCliente());
             ordine.setCreatedBy(author);
             ordine.setCreatedOn(LocalDateTime.now());
             ordine.setModifyBy(author);
             ordine.setModifyOn(LocalDateTime.now());
-            ordineRepo.save(ordine);
+            ordineRepository.save(ordine);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,10 +33,10 @@ public class OrdineService {
 
     //Read
     public OrdineDto readOrdine (Long id) throws Exception {
-       try{ Optional<Ordine> ordine = ordineRepo.findById(id);
+       try{ Optional<Ordine> ordine = ordineRepository.findById(id);
                OrdineDto ordineDto = new OrdineDto();
                ordineDto.setCliente(ordine.get().getCliente());
-               ordineDto.setData(ordine.get().getData());
+               ordineDto.setData(ordine.get().getDataOrdine());
                ordineDto.setProdotti(ordine.get().getProdotti());
                return ordineDto;
            }
@@ -56,11 +56,11 @@ public class OrdineService {
             } else {
                 Ordine o = new Ordine();
                 o.setCliente(ordineDto.getCliente());
-                o.setData(ordineDto.getData());
+                o.setDataOrdine(ordineDto.getData());
                 o.setProdotti(ordineDto.getProdotti());
                 o.setModifyOn(LocalDateTime.now());
                 o.setModifyBy(author);
-                ordineRepo.updateOrdineById(o.getData(), o.getCliente().getId(), o.getModifyOn(), o.getModifyBy(), id);
+                ordineRepository.updateOrdineById(o.getDataOrdine(), o.getCliente().getId(), o.getModifyOn(), o.getModifyBy(), id);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class OrdineService {
     //Delete
     public void deleteCarrello(Long id){
         try {
-            ordineRepo.deleteById(id);
+            ordineRepository.deleteById(id);
         } catch (Exception e){
             e.printStackTrace();
         }

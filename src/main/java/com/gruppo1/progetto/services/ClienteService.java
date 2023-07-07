@@ -1,6 +1,6 @@
 package com.gruppo1.progetto.services;
 
-import com.gruppo1.progetto.repositories.ClienteRepo;
+import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class ClienteService {
     @Autowired
-    private ClienteRepo<Cliente> clienteRepo;
+    private ClienteRepository<Cliente> clienteRepository;
 
     //Create
     public void createCliente (ClienteDto clienteDto, String author){
@@ -27,12 +27,12 @@ public class ClienteService {
         cE.setCreatedBy(author);
         cE.setCreatedOn(LocalDateTime.now());
 
-        clienteRepo.save(cE);
+        clienteRepository.save(cE);
     }
 
     //Read
     public ClienteDto readCliente(Long id){
-        Optional<Cliente> cliente = clienteRepo.findById(id.intValue());
+        Optional<Cliente> cliente = clienteRepository.findById(id.intValue());
 
         if(cliente.isPresent()){
             ClienteDto clienteDto = new ClienteDto();
@@ -74,7 +74,7 @@ public class ClienteService {
     //Delete
     public void deleteCliente(Long id){
         try {
-            clienteRepo.deleteById(id.intValue());
+            clienteRepository.deleteById(id.intValue());
         } catch (Exception e){
             e.printStackTrace();
         }

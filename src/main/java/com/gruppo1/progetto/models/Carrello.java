@@ -11,11 +11,13 @@ public class Carrello {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long idCarrello;
 
     @OneToMany
     @JoinColumn(name = "id_prodotto")
-    private List<Prodotto> prodotti;
+    @Column (name = "lista_prodotti")
+    private List<Prodotto> listaProdotti;
 
     @OneToOne
     @JoinColumn(name = "id_ordine")
@@ -43,12 +45,12 @@ public class Carrello {
         this.idCarrello = idCarrello;
     }
 
-    public List<Prodotto> getProdotti() {
-        return prodotti;
+    public List<Prodotto> getListaProdotti() {
+        return listaProdotti;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
+    public void setListaProdotti(List<Prodotto> listaProdotti) {
+        this.listaProdotti = listaProdotti;
     }
 
     public Integer getQuantita() {

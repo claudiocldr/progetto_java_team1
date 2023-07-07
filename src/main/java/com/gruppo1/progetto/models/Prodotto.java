@@ -11,10 +11,15 @@ public class Prodotto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String nome;
+    @Column
     private String descrizione;
+    @Column
     private Double prezzo;
+    @Column
     private String sku;
+    @Column
     private Integer quantita;
 
     @ManyToMany

@@ -10,8 +10,11 @@ public class Indirizzo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String via;
+    @Column
     private String cap;
+    @Column(name = "numero_civico")
     private Integer numeroCivico;
 
     @ManyToOne
