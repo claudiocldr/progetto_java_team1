@@ -1,9 +1,11 @@
 package com.gruppo1.progetto.services;
 
+import com.gruppo1.progetto.models.RecordStatusEnum;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,7 +14,7 @@ import java.util.Optional;
 @Service
 public class ClienteService {
     @Autowired
-    private ClienteRepository<Cliente> clienteRepository;
+    private ClienteRepository clienteRepository;
 
     //Create
     public void createCliente (ClienteDto clienteDto, String author){
@@ -50,21 +52,24 @@ public class ClienteService {
     }
 
     //Update
-    public void updateCliente(ClienteDto clienteDto, String author){
+    public void updateCliente(Cliente cliente, String author){
         try{
-            if(clienteDto == null){
+            if(cliente == null){
                 throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
-            } else {
-                Cliente c = new Cliente();
-                c.setNome(clienteDto.getNome());
-                c.setCognome(clienteDto.getCognome());
-                c.setDataDiNascita(clienteDto.getDataDiNascita());
-                c.setTelefono(clienteDto.getTelefono());
-                c.setEmail(clienteDto.getEmail());
-                c.setCodiceFiscale(clienteDto.getCodiceFiscale());
-                c.setPassword(clienteDto.getPassword());
-                c.setModifyBy(author);
-                c.setModifyOn(LocalDateTime.now());
+            } else {LocalDateTime modifyOn = LocalDateTime.now();
+                clienteRepository.updateClienteById(
+                        cliente.getDataDiNascita(),
+                        modifyOn,
+                        cliente.getCodiceFiscale(),
+                        cliente.getCognome(),
+                        cliente.getEmail(),
+                        author,
+                        cliente.getNome(),
+                        cliente.getPassword(),
+                        RecordStatusEnum.D.name(),
+                        cliente.getTelefono(),
+                        cliente.getId()
+                        );
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -78,5 +83,10 @@ public class ClienteService {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public Cliente findCliente(String email, String password) {
+        return clienteRepository.findClienteByEmailAndPassword(email, password);
+
     }
 }

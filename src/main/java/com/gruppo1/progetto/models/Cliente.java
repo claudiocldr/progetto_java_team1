@@ -3,6 +3,7 @@ package com.gruppo1.progetto.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Cliente {
     @Column
     private String cognome;
     @Column(name = "data_di_nascita")
-    private Date dataDiNascita;
+    private LocalDate dataDiNascita;
     @Column
     private String telefono;
 
@@ -55,7 +56,7 @@ public class Cliente {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    public Cliente(Long id, String nome, String cognome, Date dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi, RecordStatusEnum status) {
+    public Cliente(Long id, String nome, String cognome, LocalDate dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi, RecordStatusEnum status) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -95,11 +96,11 @@ public class Cliente {
         this.cognome = cognome;
     }
 
-    public Date getDataDiNascita() {
+    public LocalDate getDataDiNascita() {
         return dataDiNascita;
     }
 
-    public void setDataDiNascita(Date dataDiNascita) {
+    public void setDataDiNascita(LocalDate dataDiNascita) {
         this.dataDiNascita = dataDiNascita;
     }
 

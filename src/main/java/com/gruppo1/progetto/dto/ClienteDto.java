@@ -4,6 +4,7 @@ import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.Ordine;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ClienteDto {
     private String nome;
     private String cognome;
 
-    private Date dataDiNascita;
+    private LocalDate dataDiNascita;
 
     private String telefono;
 
@@ -39,11 +40,11 @@ public class ClienteDto {
         this.cognome = cognome;
     }
 
-    public Date getDataDiNascita() {
+    public LocalDate getDataDiNascita() {
         return dataDiNascita;
     }
 
-    public void setDataDiNascita(Date dataDiNascita) {
+    public void setDataDiNascita(LocalDate dataDiNascita) {
         this.dataDiNascita = dataDiNascita;
     }
 

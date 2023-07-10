@@ -7,16 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/ordine")
 public class OrdineController {
     @Autowired
     OrdineService ordineService;
 
     @PutMapping("/update")
-    ResponseEntity<String> updateById(@RequestBody OrdineDto ordineDto, @RequestParam Long id) throws Exception {
-        ordineService.updateOrdine(ordineDto, id, "ciccio");
+    ResponseEntity<String> updateOrdineById(@RequestBody OrdineDto ordineDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+        ordineService.updateOrdine(ordineDto, id, author);
         return ResponseEntity.ok().build();
     }
+
+
+
 
 
 
