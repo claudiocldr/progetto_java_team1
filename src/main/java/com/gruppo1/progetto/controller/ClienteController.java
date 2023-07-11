@@ -13,7 +13,7 @@ public class ClienteController {
     ClienteService clienteService;
 
     @PostMapping("/update")
-    ResponseEntity<?> updateClienteByUsername(@RequestBody ClienteDto clienteDto, @RequestParam String email, @RequestParam String password, @RequestParam String author) throws Exception {
+    ResponseEntity<?> updateClienteByEmailAndPassword(@RequestBody ClienteDto clienteDto, @RequestParam String email, @RequestParam String password, @RequestParam String author) throws Exception {
         try {
             Cliente cliente = clienteService.findCliente(email, password);
             cliente.setNome(clienteDto.getNome());

@@ -56,7 +56,8 @@ public class ClienteService {
         try{
             if(cliente == null){
                 throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
-            } else {LocalDateTime modifyOn = LocalDateTime.now();
+            } else {
+                LocalDateTime modifyOn = LocalDateTime.now();
                 clienteRepository.updateClienteById(
                         cliente.getDataDiNascita(),
                         modifyOn,
