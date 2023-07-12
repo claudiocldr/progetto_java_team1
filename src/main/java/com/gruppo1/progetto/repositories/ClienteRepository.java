@@ -29,8 +29,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
             "password = ?8 ," +
             "status = ?9 ," +
             "telefono = ?10 " +
-            "WHERE id = ?11", nativeQuery = true)
-    void updateClienteById(LocalDate data_di_nascita,
+            "WHERE email = ?11 AND password = ?12", nativeQuery = true)
+    void updateClienteByEmailAndPassword(LocalDate data_di_nascita,
                            LocalDateTime modifyOn,
                            String codiceFiscale,
                            String cognome,
@@ -40,6 +40,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
                            String password,
                            String recordStatus,
                            String telefono,
-                           Long id);
+                           String emailBeforeModification,
+                           String passwordBeforeModification);
 
 }

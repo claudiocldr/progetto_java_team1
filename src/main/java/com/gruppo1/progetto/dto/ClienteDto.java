@@ -2,10 +2,7 @@ package com.gruppo1.progetto.dto;
 
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.Ordine;
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class ClienteDto {
@@ -23,6 +20,8 @@ public class ClienteDto {
 
     private List<Ordine> ordini;
     private List<Indirizzo> indirizzi;
+
+
 
     public String getNome() {
         return nome;

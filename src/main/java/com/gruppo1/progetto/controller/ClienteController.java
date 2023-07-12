@@ -12,22 +12,24 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @GetMapping
+    ResponseEntity<?> findClienteById(@RequestParam Long id) {
+       try {
+           return ResponseEntity.ok().body(clienteService.findClienteById(id));
+       } catch (Exception e) {
+           return ResponseEntity.badRequest().body("Impossibile trovare il cliente richiesto");
+       }
+    }
+
     @PostMapping("/update")
-    ResponseEntity<?> updateClienteByEmailAndPassword(@RequestBody ClienteDto clienteDto, @RequestParam String email, @RequestParam String password, @RequestParam String author) throws Exception {
+    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam String email, @RequestParam String password, @RequestParam String author) throws Exception {
         try {
-            Cliente cliente = clienteService.findCliente(email, password);
-            cliente.setNome(clienteDto.getNome());
-            cliente.setCognome(clienteDto.getCognome());
-            cliente.setDataDiNascita(clienteDto.getDataDiNascita());
-            cliente.setTelefono(clienteDto.getTelefono());
-            cliente.setEmail(clienteDto.getEmail());
-            cliente.setCodiceFiscale(clienteDto.getCodiceFiscale());
-            cliente.setTelefono(clienteDto.getPassword());
-            clienteService.updateCliente(cliente, author);
+            Cliente cliente = clienteService.findClienteByEmailAndPassword(email, password);
+            clienteService.updateClienteByEmailAndPassword(cliente, author);
             return ResponseEntity.ok().body("update correttamente eseguito");
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.badRequest().body("c'è stato un problema con l'update");
         }
-        return ResponseEntity.badRequest().body("c'è stato un problema con l'update");
     }
 }

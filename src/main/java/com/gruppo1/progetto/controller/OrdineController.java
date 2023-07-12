@@ -14,8 +14,11 @@ public class OrdineController {
 
     @PutMapping("/update")
     ResponseEntity<String> updateOrdineById(@RequestBody OrdineDto ordineDto, @RequestParam Long id, @RequestParam String author) throws Exception {
-        ordineService.updateOrdine(ordineDto, id, author);
-        return ResponseEntity.ok().build();
+        try {ordineService.updateOrdine(ordineDto, id, author);
+            return ResponseEntity.ok().body("modifica dell'ordine effettuata con successo");} catch (Exception e) {
+            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento dell'ordine");
+        }
+
     }
 
 

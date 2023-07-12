@@ -5,7 +5,6 @@ import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,7 +32,7 @@ public class ClienteService {
     }
 
     //Read
-    public ClienteDto readCliente(Long id){
+    public ClienteDto findClienteById(Long id){
         Optional<Cliente> cliente = clienteRepository.findById(id.intValue());
 
         if(cliente.isPresent()){
@@ -47,18 +46,19 @@ public class ClienteService {
             clienteDto.setCodiceFiscale(c.getCodiceFiscale());
             clienteDto.setPassword(c.getPassword());
             return clienteDto;
+        } else {
+            return null;
         }
-        return null;
     }
 
     //Update
-    public void updateCliente(Cliente cliente, String author){
+    public void updateClienteByEmailAndPassword(Cliente cliente, String author){
         try{
             if(cliente == null){
                 throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
             } else {
                 LocalDateTime modifyOn = LocalDateTime.now();
-                clienteRepository.updateClienteById(
+                clienteRepository.updateClienteByEmailAndPassword(
                         cliente.getDataDiNascita(),
                         modifyOn,
                         cliente.getCodiceFiscale(),
@@ -69,7 +69,8 @@ public class ClienteService {
                         cliente.getPassword(),
                         RecordStatusEnum.D.name(),
                         cliente.getTelefono(),
-                        cliente.getId()
+                        cliente.getEmail(),
+                        cliente.getPassword()
                         );
             }
         } catch (Exception e){
@@ -86,8 +87,8 @@ public class ClienteService {
         }
     }
 
-    public Cliente findCliente(String email, String password) {
-        return clienteRepository.findClienteByEmailAndPassword(email, password);
-
+    public Cliente findClienteByEmailAndPassword(String email, String password) {
+         Cliente cliente = clienteRepository.findClienteByEmailAndPassword(email, password);
+        return cliente;
     }
 }
