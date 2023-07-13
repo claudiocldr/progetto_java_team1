@@ -41,7 +41,7 @@ public class IndirizzoService {
     }
 
     // Update
-    public void updateIndirizzo(IndirizzoDto indirizzoDto, String author) {
+    public void updateIndirizzo(IndirizzoDto indirizzoDto, Long id, String author) {
         try {
             if (indirizzoDto == null) {
                 throw new Exception("Impossibile aggiornare l'indirizzo, l'oggetto è null");
@@ -52,6 +52,7 @@ public class IndirizzoService {
                 i.setNumeroCivico(indirizzoDto.getNumeroCivico());
                 i.setModifyBy(author);
                 i.setModifyOn(LocalDateTime.now());
+                indirizzoRepository.updateIndirizzoById(i.getVia(), i.getCap(), i.getNumeroCivico(), i.getCliente().getId(), i.getModifyBy(), i.getModifyOn(), id);
             }
         } catch (Exception e) {
             e.printStackTrace();

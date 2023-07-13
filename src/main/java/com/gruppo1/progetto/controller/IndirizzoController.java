@@ -37,14 +37,16 @@ public class IndirizzoController {
         return ResponseEntity.ok().body(indirizzoService.readIndirizzo(id));
     }
 
-//    @PutMapping("/update")
-//    ResponseEntity<String> updateIndirizzoById(@RequestBody IndirizzoDto indirizzoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
-//        try {indirizzoService.updateIndirizzo(indirizzoDto, id, author);
-//            return ResponseEntity.ok().body("modifica dell'indirizzo effettuata con successo");} catch (Exception e) {
-//            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento dell'indirizzo");
-//        }
-//
-//    }
+    @PutMapping("/update")
+    ResponseEntity<String> updateIndirizzoById(@RequestBody IndirizzoDto indirizzoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+        try {
+            indirizzoService.updateIndirizzo(indirizzoDto, id, author);
+            return ResponseEntity.ok().body("modifica dell'indirizzo effettuata con successo");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento dell'indirizzo");
+        }
+
+    }
 
     @DeleteMapping("/")
     ResponseEntity<String> deleteIndirizzoById(@RequestParam Long id) {

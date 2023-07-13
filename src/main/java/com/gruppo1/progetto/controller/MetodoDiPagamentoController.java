@@ -35,15 +35,15 @@ public class MetodoDiPagamentoController {
         return ResponseEntity.ok().body(metodoDiPagamentoService.readMetodoDiPagamento(id));
     }
 
-//    @PutMapping("/update")
-//    ResponseEntity<String> updateMDPById(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
-//        try {
-//            metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, id, author);
-//            return ResponseEntity.ok().body("modifica del metodo di pagamento effettuata con successo");
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento del metodo di pagamento");
-//        }
-//    }
+    @PutMapping("/update")
+    ResponseEntity<String> updateMDPById(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+        try {
+            metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, id, author);
+            return ResponseEntity.ok().body("modifica del metodo di pagamento effettuata con successo");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento del metodo di pagamento");
+        }
+    }
 
     @DeleteMapping("/")
     ResponseEntity<String> deleteMDPById(@RequestParam Long id) {

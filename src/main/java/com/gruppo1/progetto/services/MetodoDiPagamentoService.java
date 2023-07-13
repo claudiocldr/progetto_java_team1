@@ -42,7 +42,7 @@ public class MetodoDiPagamentoService {
     }
 
     // Update
-    public void updateMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, String author) {
+    public void updateMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, Long id, String author) {
         try {
             if (metodoDiPagamentoDto == null) {
                 throw new Exception("Impossibile aggiornare il Metodo Di Pagamento, l'oggetto è null");
@@ -54,6 +54,7 @@ public class MetodoDiPagamentoService {
                 m.setCvv(metodoDiPagamentoDto.getCvv());
                 m.setModifyBy(author);
                 m.setModifyOn(LocalDateTime.now());
+                metodoDiPagamentoRepository.updateIndirizzoById(m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo().getId(), m.getCvv(), m.getCliente().getId(), m.getModifyBy(), m.getModifyOn(), id);
             }
         } catch (Exception e) {
             e.printStackTrace();
