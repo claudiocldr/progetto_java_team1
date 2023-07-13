@@ -15,8 +15,18 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @GetMapping("/")
+    ResponseEntity<?> getClienteById(@RequestParam Long id){
+    Optional<ClienteDto> clienteDto = clienteService.readCliente(id);
+    if (clienteDto.isPresent()) {
+        return ResponseEntity.ok().body(clienteDto);
+    }
+    else {
+        return ResponseEntity.badRequest().body("Non è stato possibile trovare un cliente con l'id selezionato");
+    }
+    }
     @PutMapping("/update")
-    ResponseEntity<?> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) throws Exception {
         try {
 
 

@@ -3,11 +3,13 @@ package com.gruppo1.progetto.dto;
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.Ordine;
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
+@Component
 public class ClienteDto {
 
     private Long id;

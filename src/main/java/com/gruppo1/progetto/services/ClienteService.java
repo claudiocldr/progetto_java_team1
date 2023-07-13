@@ -4,6 +4,7 @@ import com.gruppo1.progetto.models.RecordStatusEnum;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
+import org.apache.tomcat.util.Diagnostics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ import java.util.logging.Logger;
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ClienteDto clienteDto;
 
 
     //Create
@@ -39,9 +43,23 @@ public class ClienteService {
     }
 
     //Read
-    public Optional<Cliente> readCliente(Long id){
+    public Optional<ClienteDto> readCliente(Long id){
         Optional<Cliente> cliente = clienteRepository.findById(Math.toIntExact(id));
-        return cliente;
+        if (cliente.isPresent()) {
+        clienteDto.setId(clienteDto.getId());
+        clienteDto.setNome(cliente.get().getNome());
+        clienteDto.setPassword(cliente.get().getPassword());
+        clienteDto.setCodiceFiscale(cliente.get().getCodiceFiscale());
+        clienteDto.setOrdini(cliente.get().getOrdini());
+        clienteDto.setIndirizzi(cliente.get().getIndirizzi());
+        clienteDto.setDataDiNascita(cliente.get().getDataDiNascita());
+        clienteDto.setEmail(cliente.get().getEmail());
+        clienteDto.setTelefono(cliente.get().getTelefono());
+
+        return Optional.ofNullable(clienteDto);}
+        else {
+            return Optional.empty();
+        }
     }
 
     //Update
@@ -68,7 +86,7 @@ public class ClienteService {
                 {
                     e.printStackTrace();
                     Logger logger = Logger.getLogger("clienteLogger");
-                    logger.log(new LogRecord(Level.WARNING, "C'è stato un errore con l'update" + e.getMessage()));
+                    logger.log(new LogRecord(Level.WARNING, "C'è stato un errore con l'update"));
 
                 }
             }
