@@ -32,9 +32,10 @@ public class OrdineService {
     }
 
     //Read
-    public OrdineDto readOrdine (Long id) throws Exception {
+    public OrdineDto readOrdine (Long id)  {
        try{ Optional<Ordine> ordine = ordineRepository.findById(id);
                OrdineDto ordineDto = new OrdineDto();
+               ordineDto.setId(ordine.get().getId());
                ordineDto.setCliente(ordine.get().getCliente());
                ordineDto.setData(ordine.get().getDataOrdine());
                ordineDto.setProdotti(ordine.get().getProdotti());

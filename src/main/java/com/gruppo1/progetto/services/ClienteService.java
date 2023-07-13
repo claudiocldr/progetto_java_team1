@@ -4,11 +4,9 @@ import com.gruppo1.progetto.models.RecordStatusEnum;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
-import org.apache.tomcat.util.Diagnostics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -25,8 +23,9 @@ public class ClienteService {
 
 
     //Create
-    public void createCliente (ClienteDto clienteDto, String author){
+    public void insertCliente (ClienteDto clienteDto, String author){
         Cliente cE = new Cliente();
+        cE.setId(clienteDto.getId());
         cE.setNome(clienteDto.getNome());
         cE.setCognome(clienteDto.getCognome());
         cE.setDataDiNascita(clienteDto.getDataDiNascita());
@@ -43,10 +42,11 @@ public class ClienteService {
     }
 
     //Read
-    public Optional<ClienteDto> readCliente(Long id){
+    public ClienteDto readCliente(Long id){
         Optional<Cliente> cliente = clienteRepository.findById(Math.toIntExact(id));
         if (cliente.isPresent()) {
-        clienteDto.setId(clienteDto.getId());
+        clienteDto.setId(cliente.get().getId());
+        clienteDto.setCognome(cliente.get().getCognome());
         clienteDto.setNome(cliente.get().getNome());
         clienteDto.setPassword(cliente.get().getPassword());
         clienteDto.setCodiceFiscale(cliente.get().getCodiceFiscale());
@@ -56,9 +56,9 @@ public class ClienteService {
         clienteDto.setEmail(cliente.get().getEmail());
         clienteDto.setTelefono(cliente.get().getTelefono());
 
-        return Optional.ofNullable(clienteDto);}
+        return clienteDto;}
         else {
-            return Optional.empty();
+            return clienteDto;
         }
     }
 
@@ -66,8 +66,8 @@ public class ClienteService {
     public void updateCliente(Long id, ClienteDto clienteDto, String author){
         try{
             if(clienteDto == null){
-                throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
-            } else {
+                throw new Exception();
+            }else {
                 try {
                 LocalDateTime modifyOn = LocalDateTime.now();
                 clienteRepository.updateClienteById(

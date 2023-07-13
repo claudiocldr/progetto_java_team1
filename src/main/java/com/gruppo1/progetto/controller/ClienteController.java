@@ -17,24 +17,45 @@ public class ClienteController {
 
     @GetMapping("/")
     ResponseEntity<?> getClienteById(@RequestParam Long id){
-    Optional<ClienteDto> clienteDto = clienteService.readCliente(id);
-    if (clienteDto.isPresent()) {
+    ClienteDto clienteDto = clienteService.readCliente(id);
+    if (clienteDto != null) {
         return ResponseEntity.ok().body(clienteDto);
     }
     else {
         return ResponseEntity.badRequest().body("Non è stato possibile trovare un cliente con l'id selezionato");
     }
     }
+
     @PutMapping("/update")
-    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) {
         try {
 
 
-            clienteService.updateCliente(id, clienteDto, author);
+           clienteService.updateCliente(id, clienteDto, author);
             return ResponseEntity.ok().body("update correttamente eseguito");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ResponseEntity.badRequest().body("c'è stato un problema con l'update");
+    }
+
+    @PostMapping("/")
+
+    ResponseEntity<String> insertNewCliente(@RequestBody ClienteDto clienteDto, @RequestParam String author) {
+        try {
+            clienteService.insertCliente(clienteDto, author);
+            return ResponseEntity.ok().body("Cliente correttamente inserito");
+        }  catch (Exception e) {
+            return ResponseEntity.badRequest().body("C'è stato un problema con l'inserimento del cliente");
+        }
+    }
+
+    @DeleteMapping("/")
+    ResponseEntity<String> deleteClienteById (@RequestParam Long id) {
+       try {clienteService.deleteCliente(id);
+            return ResponseEntity.ok().body("Cliente correttamente cancellato");}
+       catch (Exception e) {
+           return ResponseEntity.badRequest().body("Errore nella cancellazione del cliente");
+       }
     }
 }
