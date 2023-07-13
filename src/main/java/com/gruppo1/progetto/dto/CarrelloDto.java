@@ -1,8 +1,6 @@
 package com.gruppo1.progetto.dto;
 
-import com.gruppo1.progetto.models.Ordine;
 import com.gruppo1.progetto.models.Prodotto;
-import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
