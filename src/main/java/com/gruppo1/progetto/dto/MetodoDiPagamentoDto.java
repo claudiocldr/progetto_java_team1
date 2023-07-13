@@ -7,11 +7,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 public class MetodoDiPagamentoDto {
+    private Long id;
     private String numeroCarta;
     private String nomeCognome;
 
     private Indirizzo indirizzo;
     private String cvv;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNumeroCarta() {
         return numeroCarta;
