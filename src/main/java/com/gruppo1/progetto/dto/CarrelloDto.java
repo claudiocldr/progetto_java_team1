@@ -8,9 +8,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CarrelloDto {
+        private Long id;
         private List<Prodotto> prodotti;
-        private Ordine ordine;
         private Integer quantita;
+
+        private LocalDateTime created_on;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public List<Prodotto> getProdotti() {
         return prodotti;
@@ -20,13 +30,6 @@ public class CarrelloDto {
         this.prodotti = prodotti;
     }
 
-    public Ordine getOrdine() {
-        return ordine;
-    }
-
-    public void setOrdine(Ordine ordine) {
-        this.ordine = ordine;
-    }
 
     public Integer getQuantita() {
         return quantita;
@@ -34,5 +37,13 @@ public class CarrelloDto {
 
     public void setQuantita(Integer quantita) {
         this.quantita = quantita;
+    }
+
+    public LocalDateTime getCreated_on() {
+        return created_on;
+    }
+
+    public void setCreated_on(LocalDateTime created_on) {
+        this.created_on = created_on;
     }
 }

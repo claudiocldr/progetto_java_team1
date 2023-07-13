@@ -19,10 +19,6 @@ public class Carrello {
     @Column (name = "lista_prodotti")
     private List<Prodotto> listaProdotti;
 
-    @OneToOne
-    @JoinColumn(name = "id_ordine")
-    private Ordine ordine;
-
     @Column(name = "created_by")
     private String createdBy;
 
@@ -61,13 +57,6 @@ public class Carrello {
         this.quantita = quantita;
     }
 
-    public Ordine getOrdine() {
-        return ordine;
-    }
-
-    public void setOrdine(Ordine ordine) {
-        this.ordine = ordine;
-    }
 
     public String getCreatedBy() {
         return createdBy;
