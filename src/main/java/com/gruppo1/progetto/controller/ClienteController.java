@@ -26,7 +26,7 @@ public class ClienteController {
     }
     }
     @PutMapping("/update")
-    ResponseEntity<?> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) throws Exception {
+    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) throws Exception {
         try {
 
 
