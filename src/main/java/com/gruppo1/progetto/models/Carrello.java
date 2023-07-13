@@ -6,18 +6,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "carrello")
+@Table
 public class Carrello {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long idCarrello;
-
-    @OneToMany
-    @JoinColumn(name = "id_prodotto")
-    @Column (name = "lista_prodotti")
-    private List<Prodotto> listaProdotti;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -41,13 +36,6 @@ public class Carrello {
         this.idCarrello = idCarrello;
     }
 
-    public List<Prodotto> getListaProdotti() {
-        return listaProdotti;
-    }
-
-    public void setListaProdotti(List<Prodotto> listaProdotti) {
-        this.listaProdotti = listaProdotti;
-    }
 
     public Integer getQuantita() {
         return quantita;

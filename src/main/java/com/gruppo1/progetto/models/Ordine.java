@@ -23,7 +23,7 @@ public class Ordine {
     private Cliente cliente;
 
 
-    @ManyToMany(mappedBy = "ordini")
+    @ManyToMany(mappedBy = "listaOrdini")
     private List<Prodotto> prodotti;
 
     @Column(name = "created_by")

@@ -13,12 +13,12 @@ public class CarrelloController {
     @Autowired
     CarrelloService carrelloService;
 
-    @PutMapping("/update")
-    ResponseEntity<String> updateCarrelloById(@RequestBody CarrelloDto carrelloDto, @RequestParam Long id,@RequestParam String author){
-        try{ carrelloService.updateCarrello(carrelloDto, id, author);
-            return ResponseEntity.ok().body("modifica del carrello effettuata con successo");} catch (Exception e){
-            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento del carrello");
-        }
-
-    }
+//    @PutMapping("/update")
+//    ResponseEntity<String> updateCarrelloById(@RequestBody CarrelloDto carrelloDto, @RequestParam Long id,@RequestParam String author){
+//        try{ carrelloService.updateCarrello(carrelloDto, id, author);
+//            return ResponseEntity.ok().body("modifica del carrello effettuata con successo");} catch (Exception e){
+//            return ResponseEntity.badRequest().body("c'è stato un problema con l'aggiornamento del carrello");
+//        }
+//
+//    }
 }

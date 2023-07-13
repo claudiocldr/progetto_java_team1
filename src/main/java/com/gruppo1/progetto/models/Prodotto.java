@@ -24,9 +24,9 @@ public class Prodotto {
 
     @ManyToMany
     @JoinTable(name = "carrello",
-    joinColumns = @JoinColumn(name = "prodotto_id" ),
-    inverseJoinColumns = @JoinColumn(name = "ordine_id"))
-    private List<Ordine> ordini;
+            joinColumns = @JoinColumn(name = "prodotto_id"),
+            inverseJoinColumns = @JoinColumn(name = "ordine_id"))
+    private List<Ordine> listaOrdini;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -48,12 +48,12 @@ public class Prodotto {
         this.id = id;
     }
 
-    public List<Ordine> getOrdini() {
-        return ordini;
+    public List<Ordine> getListaOrdini() {
+        return listaOrdini;
     }
 
-    public void setOrdini(List<Ordine> ordini) {
-        this.ordini = ordini;
+    public void setListaOrdini(List<Ordine> listaOrdini) {
+        this.listaOrdini = listaOrdini;
     }
 
     public String getNome() {
