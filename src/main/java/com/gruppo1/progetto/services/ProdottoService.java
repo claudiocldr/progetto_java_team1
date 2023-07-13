@@ -35,6 +35,7 @@ public class ProdottoService {
     public ProdottoDto readProdotto (Long id){
         try{ Optional<Prodotto> prodotto = prodottoRepository.findById(id);
             ProdottoDto prodottoDto = new ProdottoDto();
+            prodottoDto.setId(prodotto.get().getId());
             prodottoDto.setNome(prodotto.get().getNome());
             prodottoDto.setDescrizione(prodotto.get().getDescrizione());
             prodottoDto.setPrezzo(prodotto.get().getPrezzo());
