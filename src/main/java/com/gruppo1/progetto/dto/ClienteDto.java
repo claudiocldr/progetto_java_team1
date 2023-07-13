@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ClienteDto {
+
+    private Long id;
     private String nome;
     private String cognome;
 
@@ -23,6 +25,14 @@ public class ClienteDto {
 
     private List<Ordine> ordini;
     private List<Indirizzo> indirizzi;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

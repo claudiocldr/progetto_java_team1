@@ -5,16 +5,20 @@ import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 @Service
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+
 
     //Create
     public void createCliente (ClienteDto clienteDto, String author){
@@ -26,6 +30,8 @@ public class ClienteService {
         cE.setEmail(clienteDto.getEmail());
         cE.setCodiceFiscale(clienteDto.getCodiceFiscale());
         cE.setPassword(clienteDto.getPassword());
+        cE.setModifyBy(author);
+        cE.setModifyOn(LocalDateTime.now());
         cE.setCreatedBy(author);
         cE.setCreatedOn(LocalDateTime.now());
 
@@ -33,44 +39,38 @@ public class ClienteService {
     }
 
     //Read
-    public ClienteDto readCliente(Long id){
-        Optional<Cliente> cliente = clienteRepository.findById(id.intValue());
-
-        if(cliente.isPresent()){
-            ClienteDto clienteDto = new ClienteDto();
-            Cliente c = cliente.get();
-            clienteDto.setNome(c.getNome());
-            clienteDto.setCognome(c.getCognome());
-            clienteDto.setDataDiNascita(c.getDataDiNascita());
-            clienteDto.setTelefono(c.getTelefono());
-            clienteDto.setEmail(c.getEmail());
-            clienteDto.setCodiceFiscale(c.getCodiceFiscale());
-            clienteDto.setPassword(c.getPassword());
-            return clienteDto;
-        }
-        return null;
+    public Optional<Cliente> readCliente(Long id){
+        Optional<Cliente> cliente = clienteRepository.findById(Math.toIntExact(id));
+        return cliente;
     }
 
     //Update
-    public void updateCliente(Cliente cliente, String author){
+    public void updateCliente(Long id, ClienteDto clienteDto, String author){
         try{
-            if(cliente == null){
+            if(clienteDto == null){
                 throw new Exception("Impossibile aggiornare il cliente, l'oggetto è null");
             } else {
+                try {
                 LocalDateTime modifyOn = LocalDateTime.now();
                 clienteRepository.updateClienteById(
-                        cliente.getDataDiNascita(),
+                        clienteDto.getDataDiNascita(),
                         modifyOn,
-                        cliente.getCodiceFiscale(),
-                        cliente.getCognome(),
-                        cliente.getEmail(),
+                        clienteDto.getCodiceFiscale(),
+                        clienteDto.getCognome(),
+                        clienteDto.getEmail(),
                         author,
-                        cliente.getNome(),
-                        cliente.getPassword(),
-                        RecordStatusEnum.D.name(),
-                        cliente.getTelefono(),
-                        cliente.getId()
-                        );
+                        clienteDto.getNome(),
+                        clienteDto.getPassword(),
+                        RecordStatusEnum.A.name(),
+                        clienteDto.getTelefono(),
+                        id);}
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Logger logger = Logger.getLogger("clienteLogger");
+                    logger.log(new LogRecord(Level.WARNING, "C'è stato un errore con l'update" + e.getMessage()));
+
+                }
             }
         } catch (Exception e){
             e.printStackTrace();
