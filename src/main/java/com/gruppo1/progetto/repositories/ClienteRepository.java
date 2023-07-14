@@ -18,6 +18,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     Cliente findClienteByEmailAndPassword(String email, String password);
     Optional<Cliente> findById (Long id);
 
+    void deleteClienteById (Long id);
+
     @Modifying
     @Query(value = "UPDATE cliente " +
             "SET "+

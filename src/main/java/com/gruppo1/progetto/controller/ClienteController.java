@@ -1,12 +1,9 @@
 package com.gruppo1.progetto.controller;
 
 import com.gruppo1.progetto.dto.ClienteDto;
-import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.services.ClienteService;
-import org.apache.logging.slf4j.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,52 +12,40 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
-
-    private final static Logger logger = LoggerFactory.getLogger(ClienteController.class);
     @Autowired
     public ClienteService clienteService;
 
     @GetMapping("/")
-    ResponseEntity<?> getClienteById(@RequestParam Long id){
-    ClienteDto clienteDto = clienteService.readCliente(id);
-    if (clienteDto.getId() != null) {
-        return ResponseEntity.ok().body(clienteDto);
-    }
-    else {
-        logger.debug("debug: {}", id);
-        return ResponseEntity.badRequest().body("Non è stato possibile trovare un cliente con l'id selezionato");
-    }
+    public ResponseEntity<Optional<ClienteDto>> getClienteById(@RequestParam Long id) {
+        Optional<ClienteDto> cliente = clienteService.findClienteById(id);
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok().body(cliente);
+        } else {
+            return ResponseEntity.badRequest().body(cliente);
+        }
     }
 
     @PutMapping("/update")
-    ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) {
-        try {
-
-            clienteService.updateCliente(id, clienteDto, author);
-            return ResponseEntity.ok().body("update correttamente eseguito");
-        } catch (Exception e) {
-            e.printStackTrace();
+    public ResponseEntity<Optional<ClienteDto>> updateClienteById(@RequestBody Optional<ClienteDto> clienteDto, @RequestParam Long id, @RequestParam String author) {
+        if (clienteDto.isPresent()) {
+            Optional<ClienteDto> clienteDto1 = clienteService.updateCliente(id, clienteDto, author);
+            return ResponseEntity.ok().body(clienteDto1);
+        } else {
+            return ResponseEntity.badRequest().body(clienteDto);
         }
-        return ResponseEntity.badRequest().body("c'è stato un problema con l'update");
     }
-
+        @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+        public ResponseEntity<Optional<ClienteDto>> deleteClienteById (@RequestParam Long id){
+                Optional<ClienteDto> clienteDtoCancellato = clienteService.deleteCliente(id);
+                return ResponseEntity.ok().body(clienteDtoCancellato);
+        }
     @PostMapping("/")
 
-    ResponseEntity<String> insertNewCliente(@RequestBody ClienteDto clienteDto, @RequestParam String author) {
-        try {
-            clienteService.insertCliente(clienteDto, author);
-            return ResponseEntity.ok().body("Cliente correttamente inserito");
-        }  catch (Exception e) {
-            return ResponseEntity.badRequest().body("C'è stato un problema con l'inserimento del cliente");
-        }
+    public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody Optional<ClienteDto> clienteDto, @RequestParam String author) {
+            Optional<ClienteDto> clienteDtoInserito =clienteService.insertCliente(clienteDto, author);
+            return ResponseEntity.ok().body(clienteDtoInserito);
     }
 
-    @DeleteMapping("/")
-    ResponseEntity<String> deleteClienteById (@RequestParam Long id) {
-       try {clienteService.deleteCliente(id);
-            return ResponseEntity.ok().body("Cliente correttamente cancellato");}
-       catch (Exception e) {
-           return ResponseEntity.badRequest().body("Errore nella cancellazione del cliente");
-       }
-    }
+
 }
+
