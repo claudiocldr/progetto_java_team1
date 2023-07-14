@@ -27,6 +27,7 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteDto);
     }
     else {
+        logger.debug("debug: {}", id);
         return ResponseEntity.badRequest().body("Non è stato possibile trovare un cliente con l'id selezionato");
     }
     }
