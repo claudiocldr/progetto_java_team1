@@ -27,13 +27,9 @@ public class ProdottoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
-        if (prodottoDto.isPresent()) {
+    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam Long id, @RequestParam String author) {
             Optional<ProdottoDto> prodottoDtoAggiornato = prodottoService.updateProdotto(prodottoDto, id, author);
             return ResponseEntity.ok().body(prodottoDtoAggiornato);
-        } else {
-            return ResponseEntity.badRequest().body(prodottoDto);
-        }
     }
 
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
