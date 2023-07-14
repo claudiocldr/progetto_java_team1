@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 @RequestMapping("/api/ordine")
 public class OrdineController {
     @Autowired
-    OrdineService ordineService;
+    public OrdineService ordineService;
 
     @GetMapping("/")
     ResponseEntity<OrdineDto> readOrdineById(@RequestParam Long id) {

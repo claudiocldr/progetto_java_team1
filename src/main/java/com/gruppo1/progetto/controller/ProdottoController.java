@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ProdottoController {
 
     @Autowired
-    ProdottoService prodottoService;
+    public ProdottoService prodottoService;
 
     @GetMapping("/")
     ResponseEntity<ProdottoDto> readProdottoById(@RequestParam Long id){

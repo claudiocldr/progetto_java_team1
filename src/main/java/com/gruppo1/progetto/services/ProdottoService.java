@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProdottoService {
 
     @Autowired
-    ProdottoRepository prodottoRepository;
+    private ProdottoRepository prodottoRepository;
 
     //Create
     public void createProdotto (ProdottoDto prodottoDto, String author){

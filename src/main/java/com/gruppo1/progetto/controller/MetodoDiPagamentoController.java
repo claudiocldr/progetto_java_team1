@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class MetodoDiPagamentoController {
 
     @Autowired
-    private MetodoDiPagamentoService metodoDiPagamentoService;
+    public MetodoDiPagamentoService metodoDiPagamentoService;
 
 
     @PostMapping("/")

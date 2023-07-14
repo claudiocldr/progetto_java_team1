@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class CarrelloController {
 
     @Autowired
-    CarrelloService carrelloService;
+    public CarrelloService carrelloService;
 
 //    @PutMapping("/update")
 //    ResponseEntity<String> updateCarrelloById(@RequestBody CarrelloDto carrelloDto, @RequestParam Long id,@RequestParam String author){

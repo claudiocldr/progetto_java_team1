@@ -3,6 +3,9 @@ package com.gruppo1.progetto.controller;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.services.ClienteService;
+import org.apache.logging.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +15,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ClienteController.class);
     @Autowired
-    ClienteService clienteService;
+    public ClienteService clienteService;
 
     @GetMapping("/")
     ResponseEntity<?> getClienteById(@RequestParam Long id){
     ClienteDto clienteDto = clienteService.readCliente(id);
-    if (clienteDto != null) {
+    if (clienteDto.getId() != null) {
         return ResponseEntity.ok().body(clienteDto);
     }
     else {
@@ -30,8 +35,7 @@ public class ClienteController {
     ResponseEntity<String> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) {
         try {
 
-
-           clienteService.updateCliente(id, clienteDto, author);
+            clienteService.updateCliente(id, clienteDto, author);
             return ResponseEntity.ok().body("update correttamente eseguito");
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,11 +12,11 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api/cliente")
+@RequestMapping("/api/indirizzo")
 public class IndirizzoController {
 
     @Autowired
-    private IndirizzoService indirizzoService;
+    public IndirizzoService indirizzoService;
 
 
     @PostMapping("/")

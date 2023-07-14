@@ -4,13 +4,15 @@ import com.gruppo1.progetto.dto.MetodoDiPagamentoDto;
 import com.gruppo1.progetto.models.MetodoDiPagamento;
 import com.gruppo1.progetto.repositories.MetodoDiPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class MetodoDiPagamentoService {
     @Autowired
-    private MetodoDiPagamentoRepository<MetodoDiPagamento> metodoDiPagamentoRepository;
+    private MetodoDiPagamentoRepository metodoDiPagamentoRepository;
 
     // Create
     public void createMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, String author) {
@@ -27,7 +29,7 @@ public class MetodoDiPagamentoService {
 
     // Read
     public MetodoDiPagamentoDto readMetodoDiPagamento(Long id) {
-        Optional<MetodoDiPagamento> metodoDiPagamento = metodoDiPagamentoRepository.findById(id.intValue());
+        Optional<MetodoDiPagamento> metodoDiPagamento = metodoDiPagamentoRepository.findById(id);
         if (metodoDiPagamento.isPresent()) {
             MetodoDiPagamentoDto metodoDiPagamentoDto = new MetodoDiPagamentoDto();
             MetodoDiPagamento m = metodoDiPagamento.get();
@@ -64,7 +66,7 @@ public class MetodoDiPagamentoService {
     // Delete
     public void deleteMetodoDiPagamento(Long id) {
         try {
-            metodoDiPagamentoRepository.deleteById(id.intValue());
+            metodoDiPagamentoRepository.deleteById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }

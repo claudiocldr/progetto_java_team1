@@ -4,17 +4,20 @@ import com.gruppo1.progetto.models.RecordStatusEnum;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.models.Cliente;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+
 
 @Service
 public class ClienteService {
+    private static final Logger logger = LoggerFactory.getLogger(ClienteService.class);
+
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -38,7 +41,10 @@ public class ClienteService {
         cE.setCreatedBy(author);
         cE.setCreatedOn(LocalDateTime.now());
 
-        clienteRepository.save(cE);
+        try {clienteRepository.save(cE);}
+        catch (Exception e) {
+            logger.error("C'è stato un errore con l'inserimento del cliente", e);
+        }
     }
 
     //Read
@@ -64,6 +70,19 @@ public class ClienteService {
 
     //Update
     public void updateCliente(Long id, ClienteDto clienteDto, String author){
+        logger.debug("input: {} {} {} {} {} {} {} {} {} {} {} {}",
+                id,
+                clienteDto.getCodiceFiscale(),
+                clienteDto.getCognome(),
+                clienteDto.getDataDiNascita(),
+                clienteDto.getEmail(),
+                clienteDto.getId(),
+                clienteDto.getIndirizzi(),
+                clienteDto.getNome(),
+                clienteDto.getOrdini(),
+                clienteDto.getPassword(),
+                clienteDto.getTelefono(),
+                author );
         try{
             if(clienteDto == null){
                 throw new Exception();
@@ -84,14 +103,12 @@ public class ClienteService {
                         id);}
                 catch (Exception e)
                 {
-                    e.printStackTrace();
-                    Logger logger = Logger.getLogger("clienteLogger");
-                    logger.log(new LogRecord(Level.WARNING, "C'è stato un errore con l'update"));
+                logger.error("c'è stato un errore con l'update", e);
 
                 }
             }
         } catch (Exception e){
-            e.printStackTrace();
+            logger.error("c'è stato un errore con l'update", e);
         }
     }
 
@@ -100,7 +117,7 @@ public class ClienteService {
         try {
             clienteRepository.deleteById(id.intValue());
         } catch (Exception e){
-            e.printStackTrace();
+            logger.error("c'è stato un errore con la cancellazione", e);
         }
     }
 
