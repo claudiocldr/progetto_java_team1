@@ -22,7 +22,7 @@ public class Prodotto {
     @Column
     private Integer quantita;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "carrello",
             joinColumns = @JoinColumn(name = "prodotto_id"),
             inverseJoinColumns = @JoinColumn(name = "ordine_id"))

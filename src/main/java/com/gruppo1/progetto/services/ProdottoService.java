@@ -1,6 +1,8 @@
 package com.gruppo1.progetto.services;
 
+import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.dto.ProdottoDto;
+import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Prodotto;
 import com.gruppo1.progetto.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,61 +19,77 @@ public class ProdottoService {
     private ProdottoRepository prodottoRepository;
 
     //Create
-    public void createProdotto (ProdottoDto prodottoDto, String author){
-        try{
+    public Optional<ProdottoDto> createProdotto (Optional<ProdottoDto> prodottoDto, String author){
+        if(prodottoDto.isPresent()) {
             Prodotto prodotto = new Prodotto();
-            prodotto.setNome(prodottoDto.getNome());
-            prodotto.setDescrizione(prodottoDto.getDescrizione());
-            prodotto.setPrezzo(prodottoDto.getPrezzo());
-            prodotto.setSku(prodottoDto.getSku());
-            prodotto.setQuantita(prodottoDto.getQuantita());
+            prodotto.setNome(prodottoDto.get().getNome());
+            prodotto.setDescrizione(prodottoDto.get().getDescrizione());
+            prodotto.setPrezzo(prodottoDto.get().getPrezzo());
+            prodotto.setSku(prodottoDto.get().getSku());
+            prodotto.setQuantita(prodottoDto.get().getQuantita());
+            prodotto.setModifyBy(author);
+            prodotto.setModifyOn(LocalDateTime.now());
+            prodotto.setCreatedBy(author);
+            prodotto.setCreatedOn(LocalDateTime.now());
             prodottoRepository.save(prodotto);
-        } catch (Exception e){
-            e.printStackTrace();
         }
+            return prodottoDto;
     }
 
     //Read
-    public ProdottoDto readProdotto (Long id){
-        try{ Optional<Prodotto> prodotto = prodottoRepository.findById(id);
-            ProdottoDto prodottoDto = new ProdottoDto();
-            prodottoDto.setId(prodotto.get().getId());
-            prodottoDto.setNome(prodotto.get().getNome());
-            prodottoDto.setDescrizione(prodotto.get().getDescrizione());
-            prodottoDto.setPrezzo(prodotto.get().getPrezzo());
-            prodottoDto.setSku(prodotto.get().getSku());
-            prodottoDto.setQuantita(prodotto.get().getQuantita());
+    public Optional<ProdottoDto> readProdotto (Long id){
+        Optional<Prodotto> prodotto = prodottoRepository.findById(id);
+        Optional<ProdottoDto> prodottoDto = Optional.of(new ProdottoDto());
+           if(prodotto.isPresent()) {
+               prodottoDto.get().setId(prodotto.get().getId());
+               prodottoDto.get().setNome(prodotto.get().getNome());
+               prodottoDto.get().setDescrizione(prodotto.get().getDescrizione());
+               prodottoDto.get().setPrezzo(prodotto.get().getPrezzo());
+               prodottoDto.get().setSku(prodotto.get().getSku());
+               prodottoDto.get().setQuantita(prodotto.get().getQuantita());
+           }
             return prodottoDto;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+
     }
 
     //Update
-    public void updateProdotto(ProdottoDto prodottoDto, Long id, String author){
-        try{
-            Prodotto p = new Prodotto();
-            p.setNome(prodottoDto.getNome());
-            p.setDescrizione(prodottoDto.getDescrizione());
-            p.setPrezzo(prodottoDto.getPrezzo());
-            p.setSku(prodottoDto.getSku());
-            p.setQuantita(prodottoDto.getQuantita());
-            p.setModifyOn(LocalDateTime.now());
-            p.setModifyBy(author);
-            prodottoRepository.updateProdottoById(p.getNome(),p.getDescrizione(),p.getPrezzo(),p.getSku(),p.getQuantita(),p.getModifyOn(),p.getModifyBy(),id);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public Optional<ProdottoDto> updateProdotto(Optional<ProdottoDto> prodottoDto, Long id, String author){
+        LocalDateTime modifyOn = LocalDateTime.now();
+        prodottoRepository.updateProdottoById(
+                prodottoDto.get().getNome(),
+                prodottoDto.get().getDescrizione(),
+                prodottoDto.get().getPrezzo(),
+                prodottoDto.get().getSku(),
+                prodottoDto.get().getQuantita(),
+                modifyOn,
+                author,
+                id
+        );
+        Optional<Prodotto> prodotto = prodottoRepository.findById(id);
+        Optional<ProdottoDto> prodottoDtoAggiornato = Optional.of(new ProdottoDto());
+        prodottoDtoAggiornato.get().setNome(prodotto.get().getNome());
+        prodottoDtoAggiornato.get().setId(prodotto.get().getId());
+        prodottoDtoAggiornato.get().setDescrizione(prodotto.get().getDescrizione());
+        prodottoDtoAggiornato.get().setPrezzo(prodotto.get().getPrezzo());
+        prodottoDtoAggiornato.get().setQuantita(prodotto.get().getQuantita());
+        prodottoDtoAggiornato.get().setSku(prodotto.get().getSku());
+        return prodottoDtoAggiornato;
     }
 
-    //delete
-    public void deleteProdotto(Long id){
-        try {
+    //Delete
+    public Optional<ProdottoDto> deleteProdotto(Long id){
+        Optional<Prodotto> prodottoDaCancellare = prodottoRepository.findById(id);
             prodottoRepository.deleteById(id);
-        } catch (Exception e){
-            e.printStackTrace();
+        Optional<ProdottoDto> prodottoDtoCancellato = Optional.of(new ProdottoDto());
+        if(prodottoDaCancellare.isPresent()){
+            prodottoDtoCancellato.get().setId(prodottoDaCancellare.get().getId());
+            prodottoDtoCancellato.get().setDescrizione(prodottoDaCancellare.get().getDescrizione());
+            prodottoDtoCancellato.get().setNome(prodottoDaCancellare.get().getNome());
+            prodottoDtoCancellato.get().setPrezzo(prodottoDaCancellare.get().getPrezzo());
+            prodottoDtoCancellato.get().setQuantita(prodottoDaCancellare.get().getQuantita());
+            prodottoDtoCancellato.get().setSku(prodottoDaCancellare.get().getSku());
         }
+            return prodottoDtoCancellato;
     }
 
 }

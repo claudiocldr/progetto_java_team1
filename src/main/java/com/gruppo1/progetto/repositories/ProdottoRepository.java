@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 @Transactional
 public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
+
     @Modifying
     @Query(value = "UPDATE prodotto SET name = ?, descrizione = ?, prezzo = ?, sku = ?, quantita = ?, modify_on = ?, modify_by = ? WHERE ID = ?", nativeQuery = true)
     void updateProdottoById(String nome, String descrizione, Double prezzo, String sku, Integer quantita, LocalDateTime modifyOn, String modifyBy, Long id);
