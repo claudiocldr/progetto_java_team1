@@ -10,11 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
-public interface CarrelloRepository extends JpaRepository<Carrello, Integer> {
+public interface CarrelloRepository extends JpaRepository<Carrello, Long> {
     @Modifying
     @Query(value = "UPDATE carrello SET quantita = ?, lista_prodotti = ?, modify_by = ?, modify_on = ? WHERE id = ?", nativeQuery = true)
     void updateCarrelloById(Integer quantita, List<Prodotto> listaProdotti, String modifyBy, LocalDateTime modifyOn, Long id);
+
+    @Query(value = "SELECT * FROM carrello WHERE ordine_id = ?", nativeQuery = true)
+    List<Optional<Carrello>> findCarrelloByOrdineId(Long id);
 }

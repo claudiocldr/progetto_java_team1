@@ -3,16 +3,22 @@ package com.gruppo1.progetto.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table
 public class Carrello {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long idCarrello;
+    @EmbeddedId
+    private CarrelloKey id;
+
+    @ManyToOne
+    @MapsId("ordineId")
+    @JoinColumn(name = "ordine_id")
+    private Ordine ordine;
+
+    @ManyToOne
+    @MapsId("ProdottoId")
+    @JoinColumn(name = "prodotto_id")
+    private Prodotto prodotto;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -26,25 +32,25 @@ public class Carrello {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    private Integer quantita;
-
-    public Long getIdCarrello() {
-        return idCarrello;
+    public CarrelloKey getId() {
+        return id;
     }
 
-    public void setIdCarrello(Long idCarrello) {
-        this.idCarrello = idCarrello;
+    public void setId(CarrelloKey id) {
+        this.id = id;
     }
 
-
-    public Integer getQuantita() {
-        return quantita;
+    public Ordine getOrdine() {
+        return ordine;
     }
 
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
+    public void setOrdine(Ordine ordine) {
+        this.ordine = ordine;
     }
 
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -77,4 +83,9 @@ public class Carrello {
     public void setModifyOn(LocalDateTime modifyOn) {
         this.modifyOn = modifyOn;
     }
+
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
+    }
 }
+

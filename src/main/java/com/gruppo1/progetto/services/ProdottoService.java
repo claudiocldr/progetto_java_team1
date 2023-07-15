@@ -23,7 +23,6 @@ public class ProdottoService {
             prodotto.setDescrizione(prodottoDto.get().getDescrizione());
             prodotto.setPrezzo(prodottoDto.get().getPrezzo());
             prodotto.setSku(prodottoDto.get().getSku());
-            prodotto.setQuantita(prodottoDto.get().getQuantita());
             prodotto.setModifyBy(author);
             prodotto.setModifyOn(LocalDateTime.now());
             prodotto.setCreatedBy(author);
@@ -34,7 +33,10 @@ public class ProdottoService {
     }
 
     //Read
-    public Optional<ProdottoDto> readProdotto(Long id) {
+    public Optional<Prodotto> findProdottoById (Long id) {
+        return prodottoRepository.findById(id);
+    }
+    public Optional<ProdottoDto> findProdottoAndReturnDto(Long id) {
         Optional<Prodotto> prodotto = prodottoRepository.findById(id);
         Optional<ProdottoDto> prodottoDto = Optional.of(new ProdottoDto());
         if (prodotto.isPresent()) {
@@ -43,7 +45,6 @@ public class ProdottoService {
             prodottoDto.get().setDescrizione(prodotto.get().getDescrizione());
             prodottoDto.get().setPrezzo(prodotto.get().getPrezzo());
             prodottoDto.get().setSku(prodotto.get().getSku());
-            prodottoDto.get().setQuantita(prodotto.get().getQuantita());
         }
         return prodottoDto;
 
@@ -58,7 +59,6 @@ public class ProdottoService {
                     prodottoDto.get().getDescrizione(),
                     prodottoDto.get().getPrezzo(),
                     prodottoDto.get().getSku(),
-                    prodottoDto.get().getQuantita(),
                     modifyOn,
                     author,
                     id
@@ -69,7 +69,6 @@ public class ProdottoService {
             prodottoDtoAggiornato.get().setId(prodotto.get().getId());
             prodottoDtoAggiornato.get().setDescrizione(prodotto.get().getDescrizione());
             prodottoDtoAggiornato.get().setPrezzo(prodotto.get().getPrezzo());
-            prodottoDtoAggiornato.get().setQuantita(prodotto.get().getQuantita());
             prodottoDtoAggiornato.get().setSku(prodotto.get().getSku());
             return prodottoDtoAggiornato;
         } else {
@@ -87,7 +86,6 @@ public class ProdottoService {
             prodottoDtoCancellato.get().setDescrizione(prodottoDaCancellare.get().getDescrizione());
             prodottoDtoCancellato.get().setNome(prodottoDaCancellare.get().getNome());
             prodottoDtoCancellato.get().setPrezzo(prodottoDaCancellare.get().getPrezzo());
-            prodottoDtoCancellato.get().setQuantita(prodottoDaCancellare.get().getQuantita());
             prodottoDtoCancellato.get().setSku(prodottoDaCancellare.get().getSku());
         }
         return prodottoDtoCancellato;

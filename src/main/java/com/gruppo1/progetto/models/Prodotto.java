@@ -1,5 +1,6 @@
 package com.gruppo1.progetto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,13 +20,12 @@ public class Prodotto {
     private Double prezzo;
     @Column
     private String sku;
-    @Column
-    private Integer quantita;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "carrello",
             joinColumns = @JoinColumn(name = "prodotto_id"),
             inverseJoinColumns = @JoinColumn(name = "ordine_id"))
+    @JsonBackReference
     private List<Ordine> listaOrdini;
 
     @Column(name = "created_by")
@@ -86,14 +86,6 @@ public class Prodotto {
 
     public void setSku(String sku) {
         this.sku = sku;
-    }
-
-    public Integer getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
     }
 
     public String getCreatedBy() {

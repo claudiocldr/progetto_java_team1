@@ -1,47 +1,58 @@
 package com.gruppo1.progetto.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Prodotto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class CarrelloDto {
-        private Long id;
-        private List<Prodotto> prodotti;
-        private Integer quantita;
+        private List<ProdottoDto> listaProdotti;
+        private Double totaleProdotti;
 
-        private LocalDateTime created_on;
+        @JsonIgnore
+        private OrdineDto ordineDto;
+        private OrdineCarrelloDto dettagliOrdine;
+        @JsonIgnore
+        private ProdottoDto prodottoDto;
 
-    public Long getId() {
-        return id;
+
+    public List<ProdottoDto> getListaProdotti() {
+        return listaProdotti;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public ProdottoDto getProdottoDto() {
+        return prodottoDto;
     }
 
-    public List<Prodotto> getProdotti() {
-        return prodotti;
+    public void setProdottoDto(ProdottoDto prodottoDto) {
+        this.prodottoDto = prodottoDto;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
+    public void setListaProdotti(List<ProdottoDto> listaProdotti) {
+        this.listaProdotti = listaProdotti;
     }
 
-
-    public Integer getQuantita() {
-        return quantita;
+    public Double getTotaleProdotti() {
+        return totaleProdotti;
     }
 
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
+    public void setTotaleProdotti(Double totaleProdotti) {
+        this.totaleProdotti = totaleProdotti;
     }
 
-    public LocalDateTime getCreated_on() {
-        return created_on;
+    public OrdineCarrelloDto getDettagliOrdine() {
+        return dettagliOrdine;
     }
 
-    public void setCreated_on(LocalDateTime created_on) {
-        this.created_on = created_on;
+    public void setDettagliOrdine(OrdineCarrelloDto dettagliOrdine) {
+        this.dettagliOrdine = dettagliOrdine;
+    }
+
+    public OrdineDto getOrdineDto() {
+        return ordineDto;
+    }
+
+    public void setOrdineDto(OrdineDto ordineDto) {
+        this.ordineDto = ordineDto;
     }
 }
