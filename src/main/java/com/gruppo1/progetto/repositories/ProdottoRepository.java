@@ -15,6 +15,6 @@ import java.util.Optional;
 public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
 
     @Modifying
-    @Query(value = "UPDATE prodotto SET nome = ?, descrizione = ?, prezzo = ?, sku = ?, quantita = ?, modify_on = ?, modify_by = ? WHERE ID = ?", nativeQuery = true)
-    void updateProdottoById(String nome, String descrizione, Double prezzo, String sku, Integer quantita, LocalDateTime modifyOn, String modifyBy, Long id);
+    @Query(value = "UPDATE prodotto SET nome = ?, descrizione = ?, prezzo = ?, sku = ?, modify_on = ?, modify_by = ? WHERE ID = ?", nativeQuery = true)
+    void updateProdottoById(String nome, String descrizione, Double prezzo, String sku, LocalDateTime modifyOn, String modifyBy, Long id);
 }

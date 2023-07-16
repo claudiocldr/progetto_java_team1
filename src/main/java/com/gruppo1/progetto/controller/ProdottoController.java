@@ -18,7 +18,7 @@ public class ProdottoController {
 
     @GetMapping("/")
     public ResponseEntity<Optional<ProdottoDto>> getProdottoById(@RequestParam Long id) {
-        Optional<ProdottoDto> prodottoDto = prodottoService.readProdotto(id);
+        Optional<ProdottoDto> prodottoDto = prodottoService.findProdottoAndReturnDto(id);
         if (prodottoDto.isPresent()) {
             return ResponseEntity.ok().body(prodottoDto);
         } else {
@@ -26,11 +26,11 @@ public class ProdottoController {
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam Long id, @RequestParam String author) {
-            Optional<ProdottoDto> prodottoDtoAggiornato = prodottoService.updateProdotto(prodottoDto, id, author);
-            return ResponseEntity.ok().body(prodottoDtoAggiornato);
-    }
+//    @PutMapping("/update")
+//    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam Long id, @RequestParam String author) {
+//            Optional<ProdottoDto> prodottoDtoAggiornato = prodottoService.updateProdotto(prodottoDto, id, author);
+//            return ResponseEntity.ok().body(prodottoDtoAggiornato);
+//    }
 
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Optional<ProdottoDto>> deleteProdottoById(@RequestParam Long id) {

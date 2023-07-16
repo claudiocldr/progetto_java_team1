@@ -33,7 +33,10 @@ public class ProdottoService {
     }
 
     //Read
-    public Optional<ProdottoDto> readProdotto(Long id) {
+    public Optional<Prodotto> findProdottoById (Long id) {
+        return prodottoRepository.findById(id);
+    }
+    public Optional<ProdottoDto> findProdottoAndReturnDto(Long id) {
         Optional<Prodotto> prodotto = prodottoRepository.findById(id);
         Optional<ProdottoDto> prodottoDto = Optional.of(new ProdottoDto());
         if (prodotto.isPresent()) {
@@ -56,7 +59,6 @@ public class ProdottoService {
                     prodottoDto.get().getDescrizione(),
                     prodottoDto.get().getPrezzo(),
                     prodottoDto.get().getSku(),
-                    prodottoDto.get().getQuantita(),
                     modifyOn,
                     author,
                     id

@@ -1,5 +1,6 @@
 package com.gruppo1.progetto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class Prodotto {
     @JoinTable(name = "carrello",
             joinColumns = @JoinColumn(name = "prodotto_id"),
             inverseJoinColumns = @JoinColumn(name = "ordine_id"))
+    @JsonBackReference
     private List<Ordine> listaOrdini;
 
     @Column(name = "created_by")

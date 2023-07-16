@@ -6,7 +6,6 @@ public class ProdottoDto {
     private String descrizione;
     private Double prezzo;
     private String sku;
-    private Integer quantita;
 
     public Long getId() {
         return id;
@@ -48,11 +47,4 @@ public class ProdottoDto {
         this.sku = sku;
     }
 
-    public Integer getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
-    }
 }
