@@ -19,8 +19,6 @@ public class Prodotto {
     private Double prezzo;
     @Column
     private String sku;
-    @Column
-    private Integer quantita;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "carrello",
@@ -86,14 +84,6 @@ public class Prodotto {
 
     public void setSku(String sku) {
         this.sku = sku;
-    }
-
-    public Integer getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
     }
 
     public String getCreatedBy() {

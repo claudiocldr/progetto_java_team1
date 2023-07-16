@@ -23,7 +23,6 @@ public class ProdottoService {
             prodotto.setDescrizione(prodottoDto.get().getDescrizione());
             prodotto.setPrezzo(prodottoDto.get().getPrezzo());
             prodotto.setSku(prodottoDto.get().getSku());
-            prodotto.setQuantita(prodottoDto.get().getQuantita());
             prodotto.setModifyBy(author);
             prodotto.setModifyOn(LocalDateTime.now());
             prodotto.setCreatedBy(author);
@@ -43,7 +42,6 @@ public class ProdottoService {
             prodottoDto.get().setDescrizione(prodotto.get().getDescrizione());
             prodottoDto.get().setPrezzo(prodotto.get().getPrezzo());
             prodottoDto.get().setSku(prodotto.get().getSku());
-            prodottoDto.get().setQuantita(prodotto.get().getQuantita());
         }
         return prodottoDto;
 
@@ -69,7 +67,6 @@ public class ProdottoService {
             prodottoDtoAggiornato.get().setId(prodotto.get().getId());
             prodottoDtoAggiornato.get().setDescrizione(prodotto.get().getDescrizione());
             prodottoDtoAggiornato.get().setPrezzo(prodotto.get().getPrezzo());
-            prodottoDtoAggiornato.get().setQuantita(prodotto.get().getQuantita());
             prodottoDtoAggiornato.get().setSku(prodotto.get().getSku());
             return prodottoDtoAggiornato;
         } else {
@@ -87,7 +84,6 @@ public class ProdottoService {
             prodottoDtoCancellato.get().setDescrizione(prodottoDaCancellare.get().getDescrizione());
             prodottoDtoCancellato.get().setNome(prodottoDaCancellare.get().getNome());
             prodottoDtoCancellato.get().setPrezzo(prodottoDaCancellare.get().getPrezzo());
-            prodottoDtoCancellato.get().setQuantita(prodottoDaCancellare.get().getQuantita());
             prodottoDtoCancellato.get().setSku(prodottoDaCancellare.get().getSku());
         }
         return prodottoDtoCancellato;

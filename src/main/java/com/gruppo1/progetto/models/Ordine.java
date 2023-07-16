@@ -110,4 +110,18 @@ public class Ordine {
     public void setModifyOn(LocalDateTime modifyOn) {
         this.modifyOn = modifyOn;
     }
+
+    @Override
+    public String toString() {
+        return "Ordine{" +
+                "id=" + id +
+                ", dataOrdine=" + dataOrdine +
+                ", cliente=" + cliente +
+                ", prodotti=" + prodotti +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdOn=" + createdOn +
+                ", modifyBy='" + modifyBy + '\'' +
+                ", modifyOn=" + modifyOn +
+                '}';
+    }
 }
