@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ProdottoService {
 
     @Autowired
-    private ProdottoRepository prodottoRepository;
+    public ProdottoRepository prodottoRepository;
 
     //Create
     public Optional<ProdottoDto> createProdotto(Optional<ProdottoDto> prodottoDto, String author) {
@@ -79,7 +79,6 @@ public class ProdottoService {
     //Delete
     public Optional<ProdottoDto> deleteProdotto(Long id) {
         Optional<Prodotto> prodottoDaCancellare = prodottoRepository.findById(id);
-        prodottoRepository.deleteById(id);
         Optional<ProdottoDto> prodottoDtoCancellato = Optional.of(new ProdottoDto());
         if (prodottoDaCancellare.isPresent()) {
             prodottoDtoCancellato.get().setId(prodottoDaCancellare.get().getId());
@@ -88,6 +87,9 @@ public class ProdottoService {
             prodottoDtoCancellato.get().setPrezzo(prodottoDaCancellare.get().getPrezzo());
             prodottoDtoCancellato.get().setSku(prodottoDaCancellare.get().getSku());
         }
+        prodottoRepository.deleteById(id);
+
+
         return prodottoDtoCancellato;
     }
 
