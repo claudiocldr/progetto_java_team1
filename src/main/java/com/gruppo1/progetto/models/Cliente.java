@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class Cliente {
     private String password;
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
-    @JsonBackReference
+    @JsonIgnore
     private List<Ordine> ordini;
 
     @ManyToMany(fetch = FetchType.EAGER)

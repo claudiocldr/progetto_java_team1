@@ -1,24 +1,30 @@
 package com.gruppo1.progetto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Prodotto;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class OrdineDto {
-    private Long id;
+    private UUID id;
     private LocalDate data;
+
+
     private List<Prodotto> prodotti;
 
+    @JsonIgnore
     private Cliente cliente;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

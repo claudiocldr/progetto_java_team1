@@ -3,22 +3,23 @@ package com.gruppo1.progetto.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Embeddable
     public class OrdineProdottoKey implements Serializable {
 
 
         @Column(name = "ordine_id")
-        Long ordineId;
+        UUID ordineId;
 
         @Column(name = "prodotto_id")
         Long prodottoId;
 
-    public Long getOrdineId() {
+    public UUID getOrdineId() {
         return ordineId;
     }
 
-    public void setOrdineId(Long ordineId) {
+    public void setOrdineId(UUID ordineId) {
         this.ordineId = ordineId;
     }
 

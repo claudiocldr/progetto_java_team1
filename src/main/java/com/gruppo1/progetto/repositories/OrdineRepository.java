@@ -11,10 +11,15 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Transactional
 public interface OrdineRepository extends JpaRepository<Ordine, Long> {
+
+    @Query(nativeQuery = true)
+    Optional<Ordine> findOrdineById(UUID uuid);
     @Modifying
     @Query(value = "UPDATE ordine SET data = ?, cliente_id = ?, modify_on = ?, modify_by = ? WHERE id = ?", nativeQuery = true)
    void updateOrdineById(LocalDate data, Long clienteId, LocalDateTime modifyOn, String modifyBy, Long id);

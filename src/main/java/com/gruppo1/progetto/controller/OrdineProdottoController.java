@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/carrello")
@@ -17,7 +18,7 @@ public class OrdineProdottoController {
     public OrdineProdottoService ordineProdottoService;
 
     @PostMapping("/")
-    public ResponseEntity<Optional<OrdineProdottoDto>> insertOrdineProdotto(@RequestParam Long ordineId,
+    public ResponseEntity<Optional<OrdineProdottoDto>> insertOrdineProdotto(@RequestParam UUID ordineId,
                                                                             @RequestParam Long prodottoId,
                                                                             @RequestParam Long quantita)
     {   Optional<OrdineProdottoDto> ordineProdottoDto = ordineProdottoService.createOrdineProdotto(ordineId, prodottoId, quantita);
@@ -25,7 +26,7 @@ public class OrdineProdottoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Optional<OrdineProdottoDto>>> findOrdineProdottoById(@RequestParam Long id)
+    public ResponseEntity<List<Optional<OrdineProdottoDto>>> findOrdineProdottoById(@RequestParam UUID id)
         {return ResponseEntity.ok().body(ordineProdottoService.findOrdineProdottoByOrderId(id));
     }
 

@@ -21,12 +21,9 @@ public class Prodotto {
     @Column
     private String sku;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "carrello",
-            joinColumns = @JoinColumn(name = "prodotto_id"),
-            inverseJoinColumns = @JoinColumn(name = "ordine_id"))
-    @JsonBackReference
-    private List<Ordine> listaOrdini;
+    @OneToMany
+    @JoinColumn(name = "prodotto_id")
+    private List<OrdineProdotto> ordineProdottoList;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -48,12 +45,12 @@ public class Prodotto {
         this.id = id;
     }
 
-    public List<Ordine> getListaOrdini() {
-        return listaOrdini;
+    public List<OrdineProdotto> getOrdineProdottoList() {
+        return ordineProdottoList;
     }
 
-    public void setListaOrdini(List<Ordine> listaOrdini) {
-        this.listaOrdini = listaOrdini;
+    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
+        this.ordineProdottoList = ordineProdottoList;
     }
 
     public String getNome() {

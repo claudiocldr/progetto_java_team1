@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class OrdineProdottoService {
@@ -24,10 +25,10 @@ public class OrdineProdottoService {
     @Autowired
     public ProdottoRepository prodottoRepository;
 
-    public Optional<OrdineProdottoDto> createOrdineProdotto (Long ordine_id, Long prodotto_id, Long quantita) {
+    public Optional<OrdineProdottoDto> createOrdineProdotto (UUID ordine_id, Long prodotto_id, Long quantita) {
 
     OrdineProdotto ordineProdotto = new OrdineProdotto();
-    Optional<Ordine> ordine = ordineRepository.findById(ordine_id);
+    Optional<Ordine> ordine = ordineRepository.findOrdineById(ordine_id);
     Optional<Prodotto> prodotto = prodottoRepository.findById(prodotto_id);
     Optional<OrdineProdottoKey>  ordineProdottoKey = Optional.of(new OrdineProdottoKey());
     ordineProdottoKey.get().setOrdineId(ordine_id);
@@ -46,7 +47,7 @@ public class OrdineProdottoService {
     return ordineProdottoDto;
     }
 
-    public List<Optional<OrdineProdottoDto>> findOrdineProdottoByOrderId (Long id){
+    public List<Optional<OrdineProdottoDto>> findOrdineProdottoByOrderId (UUID id){
         List<Optional<OrdineProdotto>> listaOrdineProdotto = ordineProdottoRepository.findOrdineProdottoByOrdineId(id);
         List<Optional<OrdineProdottoDto>> listaOrdineProdottoDto = new ArrayList<>();
         for (Optional<OrdineProdotto> ordineProdotto : listaOrdineProdotto){

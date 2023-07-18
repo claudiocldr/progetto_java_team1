@@ -1,30 +1,31 @@
 package com.gruppo1.progetto.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "ordine")
 public class Ordine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
     @Column(name = "data_ordine")
     private LocalDate dataOrdine;
 
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    @JsonBackReference
     private Cliente cliente;
 
-
-    @ManyToMany(mappedBy = "listaOrdini")
-    private List<Prodotto> prodotti;
+    @OneToMany
+    @JoinColumn(name = "ordine_id")
+    private List<OrdineProdotto> ordineProdottoList;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -38,20 +39,12 @@ public class Ordine {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    public Ordine(Long id, LocalDate dataOrdine, Cliente cliente) {
-        this.id = id;
-        this.dataOrdine = dataOrdine;
-        this.cliente = cliente;
-    }
 
-    public Ordine() {
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -71,12 +64,13 @@ public class Ordine {
         this.cliente = cliente;
     }
 
-    public List<Prodotto> getProdotti() {
-        return prodotti;
+
+    public List<OrdineProdotto> getOrdineProdottoList() {
+        return ordineProdottoList;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
+    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
+        this.ordineProdottoList = ordineProdottoList;
     }
 
     public String getCreatedBy() {
@@ -111,17 +105,4 @@ public class Ordine {
         this.modifyOn = modifyOn;
     }
 
-    @Override
-    public String toString() {
-        return "Ordine{" +
-                "id=" + id +
-                ", dataOrdine=" + dataOrdine +
-                ", cliente=" + cliente +
-                ", prodotti=" + prodotti +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdOn=" + createdOn +
-                ", modifyBy='" + modifyBy + '\'' +
-                ", modifyOn=" + modifyOn +
-                '}';
-    }
 }

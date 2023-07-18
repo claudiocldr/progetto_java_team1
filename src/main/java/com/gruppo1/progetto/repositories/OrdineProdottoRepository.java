@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Transactional
@@ -19,5 +20,5 @@ public interface OrdineProdottoRepository extends JpaRepository<OrdineProdotto, 
     @Query(value = "UPDATE ordine_prodotto SET quantita = ?, modify_by = ?, modify_on = ? WHERE ordine_id = ?", nativeQuery = true)
     void updateOrdineProdottoByOrdineId(Integer quantita, List<Prodotto> listaProdotti, String modifyBy, LocalDateTime modifyOn, Long id);
 
-    List<Optional<OrdineProdotto>> findOrdineProdottoByOrdineId(Long id);
+    List<Optional<OrdineProdotto>> findOrdineProdottoByOrdineId(UUID id);
 }

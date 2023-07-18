@@ -19,7 +19,7 @@ public class OrdineProdotto {
     @JoinColumn(name = "prodotto_id")
     Prodotto prodotto;
 
-    private Long quantita;
+    private Long quantita = 0L;
 
     public OrdineProdottoKey getId() {
         return id;
@@ -51,5 +51,9 @@ public class OrdineProdotto {
 
     public void setQuantita(Long quantita) {
         this.quantita = quantita;
+    }
+
+    public void addQuantita(){
+        quantita++;
     }
 }
