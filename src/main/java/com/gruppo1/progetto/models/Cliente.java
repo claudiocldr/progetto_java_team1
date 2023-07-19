@@ -35,8 +35,7 @@ public class Cliente {
     @JsonIgnore
     private List<Ordine> ordini;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "indirizzo_cliente", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "indirizzo_id"))
+    @OneToMany(mappedBy = "cliente")
     private List<Indirizzo> indirizzi;
 
     @Enumerated(EnumType.STRING)
