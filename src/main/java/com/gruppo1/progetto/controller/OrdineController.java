@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,19 +24,10 @@ public class OrdineController {
     @Autowired
     public OrdineService ordineService;
 
-//    @GetMapping("/")
-//    ResponseEntity<Optional<OrdineDto>> findOrdineById(@RequestParam UUID id) {
-//       Optional<Ordine> ordine = ordineService.findOrdineById(id);
-//       OrdineDto ordineDto = new OrdineDto();
-//       ordineDto.setId(ordine.get().getId());
-//       ordineDto.setData(ordine.get().getDataOrdine());
-//       ordineDto.setCliente(ordine.get().getCliente());
-//       for(OrdineProdotto ordineProdotto : ordine.get().getOrdineProdottoList())
-//       {
-//           Optional<Prodotto> prodotto = prodottoService.findProdottoById(ordineProdotto.)
-//       }
-//       return ResponseEntity.ok().body(Optional.of(ordineDto));
-//    }
+    @GetMapping("/")
+    ResponseEntity<Optional<OrdineDto>> findOrdineById(@RequestParam UUID id) {
+      return ResponseEntity.ok().body(Optional.of(ordineService.findOrdineById(id)));
+    }
 
     @PostMapping("/")
     ResponseEntity<Optional<OrdineDto>> insertOrdine (@RequestBody ArrayList<Long> idProdottiOrdine,@RequestParam Long idCliente, @RequestParam String author)

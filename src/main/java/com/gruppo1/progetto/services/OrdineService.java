@@ -93,31 +93,35 @@ public class OrdineService {
     }
 
 
-    public Optional<Ordine> findOrdineById(UUID id) {
-        return ordineRepository.findOrdineById(id);
+    public OrdineDto findOrdineById(UUID id) {
+
+         Optional<Ordine> ordine = ordineRepository.findOrdineById(id);
+        OrdineDto ordineDto = new OrdineDto();
+        ordineDto.setId(ordine.get().getId());
+
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setCodiceFiscale(ordine.get().getCliente().getCodiceFiscale());
+        clienteDto.setCognome(ordine.get().getCliente().getCognome());
+        clienteDto.setDataDiNascita(ordine.get().getCliente().getDataDiNascita());
+        clienteDto.setEmail(ordine.get().getCliente().getEmail());
+        clienteDto.setId(ordine.get().getCliente().getId());
+        clienteDto.setNome(ordine.get().getCliente().getNome());
+        clienteDto.setPassword(ordine.get().getCliente().getPassword());
+        clienteDto.setTelefono(ordine.get().getCliente().getTelefono());
+        ordineDto.setClienteDto(clienteDto);
+        ordineDto.setData(ordine.get().getDataOrdine());
+
+        ArrayList<ProdottoDto> prodottoDtoArrayList = new ArrayList<>();
+        for(OrdineProdotto ordineProdotto : ordine.get().getOrdineProdottoList()){
+            Prodotto prodotto = prodottoRepository.findById(ordineProdotto.getProdotto().getId()).get();
+            ProdottoDto prodottoDto = new ProdottoDto(prodotto.getId(), prodotto.getNome(), prodotto.getDescrizione(), prodotto.getPrezzo(), prodotto.getSku());
+            prodottoDtoArrayList.add(prodottoDto);
+        }
+        ordineDto.setProdotti(prodottoDtoArrayList);
+
+        return ordineDto;
     }
-    //Readpublic Optional<OrdineDto> findOrdineAndReturnDto(Long id)  {
-    ////       Optional<Ordine> ordine = ordineRepository.findById(id);
-    ////       Optional<OrdineDto> ordineDto = Optional.of(new OrdineDto());
-    ////       if (ordine.isPresent()){
-    ////               ordineDto.get().setId(ordine.get().getId());
-    ////               ordineDto.get().setCliente(ordine.get().getCliente());
-    ////               ordineDto.get().setData(ordine.get().getDataOrdine());
-    ////               List<Prodotto> prodottoDtoList = new ArrayList<>();
-    ////               for(Prodotto prodotto : ordine.get().getProdotti())
-    ////               {
-    ////                   ProdottoDto prodottoDto = new ProdottoDto();
-    ////                   prodottoDto.setDescrizione(prodotto.getDescrizione());
-    ////                   prodottoDto.setId(prodotto.getId());
-    ////                   prodottoDto.setNome(prodotto.getNome());
-    ////                   prodottoDto.setPrezzo(prodotto.getPrezzo());
-    ////                   prodottoDto.setSku(prodotto.getSku());
-    ////               }
-    ////
-    ////               ordineDto.get().setProdotti(prodottoDtoList);
-    ////               }
-    ////       return ordineDto;
-    ////    }
+
 //
 
     //Update

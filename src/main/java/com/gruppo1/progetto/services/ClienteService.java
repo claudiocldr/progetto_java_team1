@@ -7,6 +7,7 @@ import com.gruppo1.progetto.repositories.OrdineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -23,20 +24,22 @@ public class ClienteService {
 
     //Create
     public ClienteDto insertCliente(ClienteDto clienteDto, String author) {
-            Cliente c = new Cliente();
-            c.setNome(clienteDto.getNome());
-            c.setCodiceFiscale(clienteDto.getCodiceFiscale());
-            c.setCognome(clienteDto.getCognome());
-            c.setDataDiNascita(clienteDto.getDataDiNascita());
-            c.setEmail(clienteDto.getEmail());
-            c.setPassword(clienteDto.getPassword());
-            c.setStatus(RecordStatusEnum.A);
-            c.setTelefono(clienteDto.getTelefono());
-            c.setModifyBy(author);
-            c.setModifyOn(LocalDateTime.now());
-            c.setCreatedBy(author);
-            c.setCreatedOn(LocalDateTime.now());
-            clienteRepository.save(c);
+        Cliente c = new Cliente();
+        c.setNome(clienteDto.getNome());
+        c.setCodiceFiscale(clienteDto.getCodiceFiscale());
+        c.setCognome(clienteDto.getCognome());
+        c.setDataDiNascita(clienteDto.getDataDiNascita());
+        c.setEmail(clienteDto.getEmail());
+        c.setPassword(clienteDto.getPassword());
+        c.setStatus(RecordStatusEnum.A);
+        c.setTelefono(clienteDto.getTelefono());
+        c.setModifyBy(author);
+        c.setModifyOn(LocalDateTime.now());
+        c.setCreatedBy(author);
+        c.setCreatedOn(LocalDateTime.now());
+        c.setOrdini(new ArrayList<>());
+        c.setIndirizzi(new ArrayList<>());
+        clienteRepository.save(c);
         return clienteDto;
     }
 
@@ -58,36 +61,35 @@ public class ClienteService {
 
 
     }
-}
 
     //Update
-//    public Optional<ClienteDto> updateCliente(Long id, Optional<ClienteDto> clienteDto, String author) {
-//        LocalDateTime modifyOn = LocalDateTime.now();
-//        clienteRepository.updateClienteById(
-//                clienteDto.get().getDataDiNascita(),
-//                modifyOn,
-//                clienteDto.get().getCodiceFiscale(),
-//                clienteDto.get().getCognome(),
-//                clienteDto.get().getEmail(),
-//                author,
-//                clienteDto.get().getNome(),
-//                clienteDto.get().getPassword(),
-//                RecordStatusEnum.A.name(),
-//                clienteDto.get().getTelefono(),
-//                id);
-//        Optional<Cliente> cliente = clienteRepository.findById(id);
-//        Optional<ClienteDto> clienteDtoAggiornato = Optional.of(new ClienteDto());
-//        clienteDtoAggiornato.get().setCodiceFiscale(cliente.get().getCodiceFiscale());
-//        clienteDtoAggiornato.get().setCognome(cliente.get().getCognome());
-//        clienteDtoAggiornato.get().setDataDiNascita(cliente.get().getDataDiNascita());
-//        clienteDtoAggiornato.get().setEmail(cliente.get().getEmail());
-//        clienteDtoAggiornato.get().setId(cliente.get().getId());
-//        clienteDtoAggiornato.get().setIndirizzi(cliente.get().getIndirizzi());
-//        clienteDtoAggiornato.get().setNome(cliente.get().getNome());
-//        clienteDtoAggiornato.get().setOrdini(cliente.get().getOrdini());
-//        clienteDtoAggiornato.get().setPassword(cliente.get().getPassword());
-//        clienteDtoAggiornato.get().setTelefono(cliente.get().getTelefono());
-//    return clienteDtoAggiornato;
+    public ClienteDto updateCliente(Long id, ClienteDto clienteDto, String author) {
+        LocalDateTime modifyOn = LocalDateTime.now();
+        clienteRepository.updateClienteById(
+                clienteDto.getDataDiNascita(),
+                modifyOn,
+                clienteDto.getCodiceFiscale(),
+                clienteDto.getCognome(),
+                clienteDto.getEmail(),
+                author,
+                clienteDto.getNome(),
+                clienteDto.getPassword(),
+                RecordStatusEnum.A.name(),
+                clienteDto.getTelefono(),
+                id);
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        ClienteDto clienteDtoAggiornato = new ClienteDto();
+        clienteDtoAggiornato.setCodiceFiscale(cliente.get().getCodiceFiscale());
+        clienteDtoAggiornato.setCognome(cliente.get().getCognome());
+        clienteDtoAggiornato.setDataDiNascita(cliente.get().getDataDiNascita());
+        clienteDtoAggiornato.setEmail(cliente.get().getEmail());
+        clienteDtoAggiornato.setId(cliente.get().getId());
+        clienteDtoAggiornato.setNome(cliente.get().getNome());
+        clienteDtoAggiornato.setPassword(cliente.get().getPassword());
+        clienteDtoAggiornato.setTelefono(cliente.get().getTelefono());
+        return clienteDtoAggiornato;
+    }
+}
 //    }
 ////Delete
 //public Optional<ClienteDto> deleteCliente(Long id){
