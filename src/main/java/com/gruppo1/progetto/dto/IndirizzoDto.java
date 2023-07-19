@@ -8,6 +8,16 @@ public class IndirizzoDto {
     private String cap;
     private Integer numeroCivico;
 
+    public IndirizzoDto(Long id, String via, String cap, Integer numeroCivico) {
+        this.id = id;
+        this.via = via;
+        this.cap = cap;
+        this.numeroCivico = numeroCivico;
+    }
+
+    public IndirizzoDto() {
+    }
+
     public Long getId() {
         return id;
     }

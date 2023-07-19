@@ -14,7 +14,7 @@ public class ClienteController {
     @Autowired
     public ClienteService clienteService;
 
-    @GetMapping("/")
+    @GetMapping("/get")
     public ResponseEntity<Optional<ClienteDto>> getClienteById(@RequestParam Long id) {
         ClienteDto cliente = clienteService.findClienteById(id);
         return ResponseEntity.ok().body(Optional.of(cliente));
@@ -26,17 +26,20 @@ public class ClienteController {
             ClienteDto clienteDtoAggiornato = clienteService.updateCliente(id, clienteDto, author);
             return ResponseEntity.ok().body(Optional.of(clienteDtoAggiornato));
     }
-//        @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-//        public ResponseEntity<Optional<ClienteDto>> deleteClienteById (@RequestParam Long id){
-//                Optional<ClienteDto> clienteDtoCancellato = clienteService.deleteCliente(id);
-//                return ResponseEntity.ok().body(clienteDtoCancellato);
-//        }
-    @PostMapping("/")
+    @PostMapping("/create")
 
     public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody ClienteDto clienteDto, @RequestParam String author) {
             ClienteDto clienteDtoInserito =clienteService.insertCliente(clienteDto, author);
             return ResponseEntity.ok().body(Optional.of(clienteDtoInserito));
     }
+
+    @DeleteMapping("/delete")
+
+    public ResponseEntity<Optional<ClienteDto>> deleteCliente(@RequestParam Long id) {
+        return ResponseEntity.ok().body(Optional.of(clienteService.deleteCliente(id)));
+    }
+
+
 
 
 }

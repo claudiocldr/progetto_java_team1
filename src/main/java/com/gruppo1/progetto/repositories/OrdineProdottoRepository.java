@@ -21,4 +21,6 @@ public interface OrdineProdottoRepository extends JpaRepository<OrdineProdotto, 
     void updateOrdineProdottoByOrdineId(Integer quantita, List<Prodotto> listaProdotti, String modifyBy, LocalDateTime modifyOn, Long id);
 
     List<Optional<OrdineProdotto>> findOrdineProdottoByOrdineId(UUID id);
+
+    void deleteOrdineProdottoByOrdineId(UUID OrdineId);
 }

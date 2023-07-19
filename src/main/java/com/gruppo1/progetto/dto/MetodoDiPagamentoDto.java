@@ -1,5 +1,6 @@
 package com.gruppo1.progetto.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
 import jakarta.persistence.Column;
@@ -11,8 +12,19 @@ public class MetodoDiPagamentoDto {
     private String numeroCarta;
     private String nomeCognome;
 
-    private Indirizzo indirizzo;
+    private IndirizzoDto indirizzo;
     private String cvv;
+
+    private ClienteDto clienteDto;
+
+    public MetodoDiPagamentoDto() {
+
+    }
+
+
+    public void setIndirizzo(IndirizzoDto indirizzo) {
+        this.indirizzo = indirizzo;
+    }
 
     public Long getId() {
         return id;
@@ -38,12 +50,8 @@ public class MetodoDiPagamentoDto {
         this.nomeCognome = nomeCognome;
     }
 
-    public Indirizzo getIndirizzo() {
+    public IndirizzoDto getIndirizzo() {
         return indirizzo;
-    }
-
-    public void setIndirizzo(Indirizzo indirizzo) {
-        this.indirizzo = indirizzo;
     }
 
     public String getCvv() {
@@ -52,5 +60,13 @@ public class MetodoDiPagamentoDto {
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
+    }
+
+    public ClienteDto getClienteDto() {
+        return clienteDto;
+    }
+
+    public void setClienteDto(ClienteDto clienteDto) {
+        this.clienteDto = clienteDto;
     }
 }

@@ -5,11 +5,13 @@ import com.gruppo1.progetto.dto.OrdineProdottoDto;
 import com.gruppo1.progetto.dto.ProdottoDto;
 import com.gruppo1.progetto.models.*;
 import com.gruppo1.progetto.repositories.ClienteRepository;
+import com.gruppo1.progetto.repositories.OrdineProdottoRepository;
 import com.gruppo1.progetto.repositories.OrdineRepository;
 import com.gruppo1.progetto.dto.OrdineDto;
 import com.gruppo1.progetto.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,13 +32,14 @@ public class OrdineService {
     private ProdottoRepository prodottoRepository;
 
     @Autowired
-    private OrdineProdottoService ordineProdottoService;
+    private OrdineProdottoRepository ordineProdottoRepository;
 
     public OrdineDto createOrdine(Long idCliente, ArrayList<Long> idprodottiOrdine, String author) {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
         Ordine ordine = new Ordine();
         ordine.setId(UUID.randomUUID());
+        ordine.setDataOrdine(LocalDate.now());
         ordine.setCliente(cliente.get());
         ordine.setCreatedBy(author);
         ordine.setCreatedOn(LocalDateTime.now());
@@ -80,12 +83,12 @@ public class OrdineService {
         ordineDto.setClienteDto(clienteDto);
         ordineDto.setData(ordine.getDataOrdine());
 
-        ArrayList<ProdottoDto> prodottoDtoList =  new ArrayList<>();
-                prodottiOrdine.stream().map(m -> new ProdottoDto(m.getId(), m.getNome(), m.getDescrizione(), m.getPrezzo(), m.getSku())).forEach(prodottoDtoList::add);
+        ArrayList<ProdottoDto> prodottoDtoList = new ArrayList<>();
+        prodottiOrdine.stream().map(m -> new ProdottoDto(m.getId(), m.getNome(), m.getDescrizione(), m.getPrezzo(), m.getSku())).forEach(prodottoDtoList::add);
         ordineDto.setProdotti(prodottoDtoList);
 //
         for (OrdineProdotto ordineProdotto : ordineProdottoList) {
-            ordineProdottoService.ordineProdottoRepository.save(ordineProdotto);
+            ordineProdottoRepository.save(ordineProdotto);
         }
 
 
@@ -95,7 +98,7 @@ public class OrdineService {
 
     public OrdineDto findOrdineById(UUID id) {
 
-         Optional<Ordine> ordine = ordineRepository.findOrdineById(id);
+        Optional<Ordine> ordine = ordineRepository.findOrdineById(id);
         OrdineDto ordineDto = new OrdineDto();
         ordineDto.setId(ordine.get().getId());
 
@@ -112,45 +115,29 @@ public class OrdineService {
         ordineDto.setData(ordine.get().getDataOrdine());
 
         ArrayList<ProdottoDto> prodottoDtoArrayList = new ArrayList<>();
-        for(OrdineProdotto ordineProdotto : ordine.get().getOrdineProdottoList()){
+        for (OrdineProdotto ordineProdotto : ordine.get().getOrdineProdottoList()) {
             Prodotto prodotto = prodottoRepository.findById(ordineProdotto.getProdotto().getId()).get();
             ProdottoDto prodottoDto = new ProdottoDto(prodotto.getId(), prodotto.getNome(), prodotto.getDescrizione(), prodotto.getPrezzo(), prodotto.getSku());
-            prodottoDtoArrayList.add(prodottoDto);
+            for (Integer i = 0; i < ordineProdotto.getQuantita(); i++) {
+                prodottoDtoArrayList.add(prodottoDto);
+            }
         }
         ordineDto.setProdotti(prodottoDtoArrayList);
 
         return ordineDto;
     }
 
-//
-
-    //Update
-//    public void updateOrdine(OrdineDto ordineDto, Long id, String author){
-//        try{
-//            if(ordineDto == null){
-//                throw new Exception("Impossibile aggiornare l'ordine, l'oggetto è null");
-//            } else {
-//                Ordine o = new Ordine();
-//                o.setCliente(ordineDto.getCliente());
-//                o.setDataOrdine(ordineDto.getData());
-//
-//                o.setProdotti();
-//                o.setModifyOn(LocalDateTime.now());
-//                o.setModifyBy(author);
-//                ordineRepository.updateOrdineById(o.getDataOrdine(), o.getCliente().getId(), o.getModifyOn(), o.getModifyBy(), id);
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
+    //
     //Delete
-    public void deleteCarrello(Long id) {
-        try {
-            ordineRepository.deleteById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public OrdineDto deleteOrdine(UUID id) {
+
+        OrdineDto ordine = findOrdineById(id);
+        ordineProdottoRepository.deleteOrdineProdottoByOrdineId(id);
+        ordineRepository.deleteOrdineById(id);
+
+
+        return ordine;
+
     }
 
 }

@@ -45,5 +45,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
                            String recordStatus,
                            String telefono,
                            Long id);
-
 }

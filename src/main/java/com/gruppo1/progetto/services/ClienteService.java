@@ -21,6 +21,9 @@ public class ClienteService {
     @Autowired
     private OrdineRepository ordineRepository;
 
+    @Autowired
+    private OrdineService ordineService;
+
 
     //Create
     public ClienteDto insertCliente(ClienteDto clienteDto, String author) {
@@ -89,22 +92,21 @@ public class ClienteService {
         clienteDtoAggiornato.setTelefono(cliente.get().getTelefono());
         return clienteDtoAggiornato;
     }
+
+public ClienteDto deleteCliente(Long id){
+        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
+        clienteDaCancellare.get().getOrdini().stream().forEach(x ->ordineService.deleteOrdine(x.getId()));
+        clienteRepository.deleteClienteById(id);
+
+    ClienteDto clienteDtoCancellato = new ClienteDto();
+    if (clienteDaCancellare.isPresent()) {
+        clienteDtoCancellato.setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
+        clienteDtoCancellato.setCognome(clienteDaCancellare.get().getCognome());
+        clienteDtoCancellato.setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
+        clienteDtoCancellato.setEmail(clienteDaCancellare.get().getEmail());
+        clienteDtoCancellato.setId(clienteDaCancellare.get().getId());
+        clienteDtoCancellato.setNome(clienteDaCancellare.get().getNome());
+        clienteDtoCancellato.setPassword(clienteDaCancellare.get().getPassword());
+        clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());}
+    return clienteDtoCancellato;}
 }
-//    }
-////Delete
-//public Optional<ClienteDto> deleteCliente(Long id){
-//        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
-//        clienteRepository.deleteClienteById(id);
-//    Optional<ClienteDto> clienteDtoCancellato = Optional.of(new ClienteDto());
-//    if (clienteDaCancellare.isPresent()) {
-//        clienteDtoCancellato.get().setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
-//        clienteDtoCancellato.get().setCognome(clienteDaCancellare.get().getCognome());
-//        clienteDtoCancellato.get().setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
-//        clienteDtoCancellato.get().setEmail(clienteDaCancellare.get().getEmail());
-//        clienteDtoCancellato.get().setId(clienteDaCancellare.get().getId());
-//        clienteDtoCancellato.get().setIndirizzi(clienteDaCancellare.get().getIndirizzi());
-//        clienteDtoCancellato.get().setNome(clienteDaCancellare.get().getNome());
-//        clienteDtoCancellato.get().setOrdini(clienteDaCancellare.get().getOrdini());
-//        clienteDtoCancellato.get().setPassword(clienteDaCancellare.get().getPassword());
-//        clienteDtoCancellato.get().setTelefono(clienteDaCancellare.get().getTelefono());}
-//    return clienteDtoCancellato;
