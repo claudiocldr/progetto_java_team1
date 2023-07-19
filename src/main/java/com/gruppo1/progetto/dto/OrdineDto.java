@@ -6,6 +6,7 @@ import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Prodotto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +16,14 @@ public class OrdineDto {
     private LocalDate data;
 
 
-    private List<Prodotto> prodotti;
+    private ArrayList<ProdottoDto> prodotti;
 
-    @JsonIgnore
-    private Cliente cliente;
+    private ClienteDto clienteDto;
+
+    public OrdineDto() {
+    }
+
+
 
     public UUID getId() {
         return id;
@@ -36,19 +41,19 @@ public class OrdineDto {
         this.data = data;
     }
 
-    public List<Prodotto> getProdotti() {
+    public ArrayList<ProdottoDto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
+    public void setProdotti(ArrayList<ProdottoDto> prodotti) {
         this.prodotti = prodotti;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public ClienteDto getClienteDto() {
+        return clienteDto;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteDto(ClienteDto clienteDto) {
+        this.clienteDto = clienteDto;
     }
 }

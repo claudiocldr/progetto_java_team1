@@ -27,8 +27,8 @@ public class ProdottoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam Long id, @RequestParam String author) {
-            Optional<ProdottoDto> prodottoDtoAggiornato = prodottoService.updateProdotto(prodottoDto, id, author);
+    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody ProdottoDto prodottoDto, @RequestParam Long id, @RequestParam String author) {
+            Optional<ProdottoDto> prodottoDtoAggiornato = Optional.of(prodottoService.updateProdotto(prodottoDto, id, author));
             return ResponseEntity.ok().body(prodottoDtoAggiornato);
     }
 
@@ -40,8 +40,8 @@ public class ProdottoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Optional<ProdottoDto>> insertProdotto(@RequestBody Optional<ProdottoDto> prodottoDto, @RequestParam String author) {
-        Optional<ProdottoDto> prodottoDtoInserito = prodottoService.createProdotto(prodottoDto, author);
+    public ResponseEntity<Optional<ProdottoDto>> insertProdotto(@RequestBody ProdottoDto prodottoDto, @RequestParam String author) throws Exception {
+        Optional<ProdottoDto> prodottoDtoInserito = Optional.of(prodottoService.createProdotto(prodottoDto, author));
         return ResponseEntity.ok().body(prodottoDtoInserito);
     }
 

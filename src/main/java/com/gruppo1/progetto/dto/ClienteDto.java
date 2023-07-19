@@ -25,8 +25,21 @@ public class ClienteDto {
 
     private String password;
 
-    private List<Ordine> ordini;
-    private List<Indirizzo> indirizzi;
+
+
+    public ClienteDto() {
+    }
+
+    public ClienteDto(Long id, String nome, String cognome, LocalDate dataDiNascita, String telefono, String email, String codiceFiscale, String password) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataDiNascita = dataDiNascita;
+        this.telefono = telefono;
+        this.email = email;
+        this.codiceFiscale = codiceFiscale;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -90,21 +103,5 @@ public class ClienteDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Ordine> getOrdini() {
-        return ordini;
-    }
-
-    public void setOrdini(List<Ordine> ordini) {
-        this.ordini = ordini;
-    }
-
-    public List<Indirizzo> getIndirizzi() {
-        return indirizzi;
-    }
-
-    public void setIndirizzi(List<Indirizzo> indirizzi) {
-        this.indirizzi = indirizzi;
     }
 }

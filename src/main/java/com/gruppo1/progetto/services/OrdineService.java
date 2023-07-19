@@ -1,5 +1,7 @@
 package com.gruppo1.progetto.services;
 
+import com.gruppo1.progetto.dto.ClienteDto;
+import com.gruppo1.progetto.dto.OrdineProdottoDto;
 import com.gruppo1.progetto.dto.ProdottoDto;
 import com.gruppo1.progetto.models.*;
 import com.gruppo1.progetto.repositories.ClienteRepository;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdineService {
@@ -62,12 +65,25 @@ public class OrdineService {
                 ordineProdottoList.add(ordineProdotto);
             }
         }
-        ordineRepository.save(ordine);
+        Ordine ordineSalvato = ordineRepository.save(ordine);
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setId(cliente.get().getId());
+        clienteDto.setNome(cliente.get().getNome());
+        clienteDto.setCognome(cliente.get().getCognome());
+        clienteDto.setDataDiNascita(cliente.get().getDataDiNascita());
+        clienteDto.setTelefono(cliente.get().getTelefono());
+        clienteDto.setEmail(cliente.get().getEmail());
+        clienteDto.setCodiceFiscale(cliente.get().getCodiceFiscale());
+        clienteDto.setPassword(cliente.get().getPassword());
+
         OrdineDto ordineDto = new OrdineDto();
-//        ordineDto.setCliente(cliente.get());
-//        ordineDto.setData(LocalDate.now());
-//        ordineDto.setId(ordine.getId());
-//        ordineDto.setProdotti(prodottiOrdine);
+        ordineDto.setClienteDto(clienteDto);
+        ordineDto.setData(ordine.getDataOrdine());
+
+        ArrayList<ProdottoDto> prodottoDtoList =  new ArrayList<>();
+                prodottiOrdine.stream().map(m -> new ProdottoDto(m.getId(), m.getNome(), m.getDescrizione(), m.getPrezzo(), m.getSku())).forEach(prodottoDtoList::add);
+        ordineDto.setProdotti(prodottoDtoList);
+//
         for (OrdineProdotto ordineProdotto : ordineProdottoList) {
             ordineProdottoService.ordineProdottoRepository.save(ordineProdotto);
         }

@@ -7,6 +7,17 @@ public class ProdottoDto {
     private Double prezzo;
     private String sku;
 
+    public ProdottoDto() {
+    }
+
+    public ProdottoDto(Long id, String nome, String descrizione, Double prezzo, String sku) {
+        this.id = id;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.sku = sku;
+    }
+
     public Long getId() {
         return id;
     }

@@ -16,20 +16,18 @@ public class ProdottoService {
     public ProdottoRepository prodottoRepository;
 
     //Create
-    public Optional<ProdottoDto> createProdotto(Optional<ProdottoDto> prodottoDto, String author) {
-        if (prodottoDto.isPresent()) {
+    public ProdottoDto createProdotto(ProdottoDto prodottoDto, String author) throws Exception {
             Prodotto prodotto = new Prodotto();
-            prodotto.setNome(prodottoDto.get().getNome());
-            prodotto.setDescrizione(prodottoDto.get().getDescrizione());
-            prodotto.setPrezzo(prodottoDto.get().getPrezzo());
-            prodotto.setSku(prodottoDto.get().getSku());
+            prodotto.setNome(prodottoDto.getNome());
+            prodotto.setDescrizione(prodottoDto.getDescrizione());
+            prodotto.setPrezzo(prodottoDto.getPrezzo());
+            prodotto.setSku(prodottoDto.getSku());
             prodotto.setModifyBy(author);
             prodotto.setModifyOn(LocalDateTime.now());
             prodotto.setCreatedBy(author);
             prodotto.setCreatedOn(LocalDateTime.now());
-            prodottoRepository.save(prodotto);
-        }
-        return prodottoDto;
+            Prodotto prodottoSaved = prodottoRepository.save(prodotto);
+            return new ProdottoDto(prodottoSaved.getId(), prodottoSaved.getNome(), prodottoSaved.getDescrizione(), prodottoSaved.getPrezzo(), prodottoSaved.getSku());
     }
 
     //Read
@@ -51,29 +49,24 @@ public class ProdottoService {
     }
 
     //Update
-    public Optional<ProdottoDto> updateProdotto(Optional<ProdottoDto> prodottoDto, Long id, String author) {
+    public ProdottoDto updateProdotto(ProdottoDto prodottoDto, Long id, String author) {
         LocalDateTime modifyOn = LocalDateTime.now();
-        if (prodottoDto.isPresent()) {
-            prodottoRepository.updateProdottoById(
-                    prodottoDto.get().getNome(),
-                    prodottoDto.get().getDescrizione(),
-                    prodottoDto.get().getPrezzo(),
-                    prodottoDto.get().getSku(),
-                    modifyOn,
-                    author,
-                    id
-            );
-            Optional<Prodotto> prodotto = prodottoRepository.findById(id);
-            Optional<ProdottoDto> prodottoDtoAggiornato = Optional.of(new ProdottoDto());
-            prodottoDtoAggiornato.get().setNome(prodotto.get().getNome());
-            prodottoDtoAggiornato.get().setId(prodotto.get().getId());
-            prodottoDtoAggiornato.get().setDescrizione(prodotto.get().getDescrizione());
-            prodottoDtoAggiornato.get().setPrezzo(prodotto.get().getPrezzo());
-            prodottoDtoAggiornato.get().setSku(prodotto.get().getSku());
-            return prodottoDtoAggiornato;
-        } else {
-            return Optional.of(new ProdottoDto());
-        }
+        prodottoRepository.updateProdottoById(
+                prodottoDto.getNome(),
+                prodottoDto.getDescrizione(),
+                prodottoDto.getPrezzo(),
+                prodottoDto.getSku(),
+                modifyOn,
+                author,
+                id);
+        Optional<Prodotto> prodotto = prodottoRepository.findById(id);
+        ProdottoDto prodottoDtoAggiornato = new ProdottoDto();
+        prodottoDtoAggiornato.setNome(prodotto.get().getNome());
+        prodottoDtoAggiornato.setId(prodotto.get().getId());
+        prodottoDtoAggiornato.setDescrizione(prodotto.get().getDescrizione());
+        prodottoDtoAggiornato.setPrezzo(prodotto.get().getPrezzo());
+        prodottoDtoAggiornato.setSku(prodotto.get().getSku());
+        return prodottoDtoAggiornato;
     }
 
     //Delete

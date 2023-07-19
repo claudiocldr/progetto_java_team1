@@ -15,35 +15,35 @@ public class ClienteController {
     @Autowired
     public ClienteService clienteService;
 
-    @GetMapping("/")
-    public ResponseEntity<Optional<ClienteDto>> getClienteById(@RequestParam Long id) {
-        Optional<ClienteDto> cliente = clienteService.findClienteById(id);
-        if (cliente.isPresent()) {
-            return ResponseEntity.ok().body(cliente);
-        } else {
-            return ResponseEntity.badRequest().body(cliente);
-        }
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<Optional<ClienteDto>> getClienteById(@RequestParam Long id) {
+//        Optional<ClienteDto> cliente = clienteService.findClienteById(id);
+//        if (cliente.isPresent()) {
+//            return ResponseEntity.ok().body(cliente);
+//        } else {
+//            return ResponseEntity.badRequest().body(cliente);
+//        }
+//    }
 
-    @PutMapping("/update")
-    public ResponseEntity<Optional<ClienteDto>> updateClienteById(@RequestBody Optional<ClienteDto> clienteDto, @RequestParam Long id, @RequestParam String author) {
-        if (clienteDto.isPresent()) {
-            Optional<ClienteDto> clienteDto1 = clienteService.updateCliente(id, clienteDto, author);
-            return ResponseEntity.ok().body(clienteDto1);
-        } else {
-            return ResponseEntity.badRequest().body(clienteDto);
-        }
-    }
-        @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<Optional<ClienteDto>> deleteClienteById (@RequestParam Long id){
-                Optional<ClienteDto> clienteDtoCancellato = clienteService.deleteCliente(id);
-                return ResponseEntity.ok().body(clienteDtoCancellato);
-        }
+//    @PutMapping("/update")
+//    public ResponseEntity<Optional<ClienteDto>> updateClienteById(@RequestBody Optional<ClienteDto> clienteDto, @RequestParam Long id, @RequestParam String author) {
+//        if (clienteDto.isPresent()) {
+//            Optional<ClienteDto> clienteDto1 = clienteService.updateCliente(id, clienteDto, author);
+//            return ResponseEntity.ok().body(clienteDto1);
+//        } else {
+//            return ResponseEntity.badRequest().body(clienteDto);
+//        }
+//    }
+//        @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//        public ResponseEntity<Optional<ClienteDto>> deleteClienteById (@RequestParam Long id){
+//                Optional<ClienteDto> clienteDtoCancellato = clienteService.deleteCliente(id);
+//                return ResponseEntity.ok().body(clienteDtoCancellato);
+//        }
     @PostMapping("/")
 
-    public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody Optional<ClienteDto> clienteDto, @RequestParam String author) {
-            Optional<ClienteDto> clienteDtoInserito =clienteService.insertCliente(clienteDto, author);
-            return ResponseEntity.ok().body(clienteDtoInserito);
+    public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody ClienteDto clienteDto, @RequestParam String author) {
+            ClienteDto clienteDtoInserito =clienteService.insertCliente(clienteDto, author);
+            return ResponseEntity.ok().body(Optional.of(clienteDtoInserito));
     }
 
 
