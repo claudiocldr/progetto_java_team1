@@ -17,6 +17,8 @@ public interface IndirizzoRepository extends JpaRepository<Indirizzo, Integer> {
 
     Optional<Indirizzo> findById(Long id);
     Optional<List<Indirizzo>> findAllByClienteId(Long clienteId);
+
+    void deleteIndirizzoById(Long id);
     @Modifying
     @Query(value = "UPDATE indirizzo SET via = ?, cap = ?, numero_civico = ?,  modify_by = ?, modify_on = ? WHERE id = ?", nativeQuery = true)
     void updateIndirizzoById(String via, String cap, Integer numeroCivico, String modifyBy, LocalDateTime modifyOn, Long id);

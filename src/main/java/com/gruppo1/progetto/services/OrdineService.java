@@ -80,6 +80,7 @@ public class OrdineService {
         clienteDto.setPassword(cliente.get().getPassword());
 
         OrdineDto ordineDto = new OrdineDto();
+        ordineDto.setId(ordineSalvato.getId());
         ordineDto.setClienteDto(clienteDto);
         ordineDto.setData(ordine.getDataOrdine());
 

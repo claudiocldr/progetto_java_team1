@@ -15,8 +15,6 @@ public class MetodoDiPagamentoDto {
     private IndirizzoDto indirizzo;
     private String cvv;
 
-    private ClienteDto clienteDto;
-
     public MetodoDiPagamentoDto() {
 
     }
@@ -60,13 +58,5 @@ public class MetodoDiPagamentoDto {
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
-    }
-
-    public ClienteDto getClienteDto() {
-        return clienteDto;
-    }
-
-    public void setClienteDto(ClienteDto clienteDto) {
-        this.clienteDto = clienteDto;
     }
 }

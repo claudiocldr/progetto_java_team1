@@ -23,9 +23,9 @@ public class MetodoDiPagamentoController {
 
     @PostMapping("/create")
     @Operation(summary = "Create a new payment method")
-    public ResponseEntity<Optional<MetodoDiPagamentoDto>> createMDP(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestBody ClienteDto clienteDto, @RequestParam Long indirizzo_id, @RequestParam String author) {
+    public ResponseEntity<Optional<MetodoDiPagamentoDto>> createMDP(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestParam Long clienteId, @RequestParam Long indirizzo_id, @RequestParam String author) {
 
-           return ResponseEntity.ok().body(Optional.of(metodoDiPagamentoService.createMetodoDiPagamento(metodoDiPagamentoDto,clienteDto,indirizzo_id, author))) ;
+           return ResponseEntity.ok().body(Optional.of(metodoDiPagamentoService.createMetodoDiPagamento(metodoDiPagamentoDto,clienteId,indirizzo_id, author))) ;
     }
 
     @GetMapping("/find")
@@ -36,9 +36,9 @@ public class MetodoDiPagamentoController {
 //
     @PutMapping("/update")
     @Operation(summary = "Update payment method by id", description= "payment method must exist")
-    public ResponseEntity<MetodoDiPagamentoDto> updateMDPById(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestParam Long id, @RequestParam String author) throws Exception {
-            metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, id, author);
-            return ResponseEntity.ok().body(metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, id, author));
+    public ResponseEntity<MetodoDiPagamentoDto> updateMDPById(@RequestBody MetodoDiPagamentoDto metodoDiPagamentoDto, @RequestParam String author) throws Exception {
+            metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, author);
+            return ResponseEntity.ok().body(metodoDiPagamentoService.updateMetodoDiPagamento(metodoDiPagamentoDto, author));
     }
 
     @DeleteMapping("/delete")

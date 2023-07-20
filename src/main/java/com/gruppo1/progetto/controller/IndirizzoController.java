@@ -25,7 +25,7 @@ public class IndirizzoController {
     @Operation(summary = "Create a new address")
     public ResponseEntity<Optional<IndirizzoDto>> createIndirizzo(@RequestBody IndirizzoDto indirizzoDto, @RequestParam String author, @RequestParam Long idCliente) {
 
-            return ResponseEntity.ok().body(Optional.of(indirizzoService.createIndirizzo(indirizzoDto, author)));
+            return ResponseEntity.ok().body(Optional.of(indirizzoService.createIndirizzo(indirizzoDto, author, idCliente)));
     }
 
     @GetMapping("/find")
@@ -48,9 +48,9 @@ public class IndirizzoController {
     @DeleteMapping("/delete")
     @Operation(summary = "Delete address by ID",
             description= "Address must exist")
-    public ResponseEntity<String> deleteIndirizzoById(@RequestParam Long id) {
+    public ResponseEntity<IndirizzoDto> deleteIndirizzoById(@RequestParam Long id) {
 
-            indirizzoService.deleteIndirizzo(id);
-            return ResponseEntity.ok().body("Indirizzo correttamente cancellato");
+            return ResponseEntity.ok().body(indirizzoService.deleteIndirizzo(id));
+
     }
 }

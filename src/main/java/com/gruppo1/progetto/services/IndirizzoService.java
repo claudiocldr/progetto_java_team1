@@ -24,7 +24,7 @@ public class IndirizzoService {
     private ClienteRepository clienteRepository;
 
     // Create
-    public IndirizzoDto createIndirizzo(IndirizzoDto indirizzoDto, String author) {
+    public IndirizzoDto createIndirizzo(IndirizzoDto indirizzoDto, String author, Long clienteId) {
 
         Indirizzo iE = new Indirizzo();
         iE.setVia(indirizzoDto.getVia());
@@ -34,7 +34,7 @@ public class IndirizzoService {
         iE.setCreatedOn(LocalDateTime.now());
         iE.setModifyBy(author);
         iE.setModifyOn(LocalDateTime.now());
-        Optional<Cliente> cliente = clienteRepository.findById(indirizzoDto.getId());
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
         ClienteDto clienteDto = new ClienteDto(cliente.get().getId(),
                 cliente.get().getNome(),
                 cliente.get().getCognome(),
@@ -45,7 +45,8 @@ public class IndirizzoService {
                 cliente.get().getPassword());
         iE.setCliente(cliente.get());
         indirizzoDto.setClienteDto(clienteDto);
-        indirizzoRepository.save(iE);
+        Indirizzo indirizzoCreato = indirizzoRepository.save(iE);
+        indirizzoDto.setId(indirizzoCreato.getId());
         return indirizzoDto;
 
 
@@ -57,7 +58,7 @@ public class IndirizzoService {
         if (indirizzo.isPresent()) {
             IndirizzoDto indirizzoDto = new IndirizzoDto();
             Indirizzo i = indirizzo.get();
-            indirizzoDto.setId(indirizzoDto.getId());
+            indirizzoDto.setId(indirizzo.get().getId());
             indirizzoDto.setVia(i.getVia());
             indirizzoDto.setCap(i.getCap());
             indirizzoDto.setNumeroCivico(i.getNumeroCivico());
@@ -68,48 +69,32 @@ public class IndirizzoService {
 
     // Update
     public IndirizzoDto updateIndirizzo(IndirizzoDto indirizzoDto, String author) {
-        Indirizzo i = new Indirizzo();
-//        Long id, String nome, String cognome, LocalDate dataDiNascita, String telefono, String email, String codiceFiscale, String password, List<Indirizzo> indirizzi, RecordStatusEnum
-//        status
-//        i.setCliente(new Cliente(
-//                indirizzoDto.getClienteDto().getId(),
-//                indirizzoDto.getClienteDto().getNome(),
-//                indirizzoDto.getClienteDto().getCognome(),
-//                indirizzoDto.getClienteDto().getDataDiNascita(),
-//                indirizzoDto.getClienteDto().getTelefono(),
-//                indirizzoDto.getClienteDto().getEmail(),
-//                indirizzoDto.getClienteDto().getCodiceFiscale(),
-//                indirizzoDto.getClienteDto().getPassword(),
-//                new ArrayList<Indirizzo>(), RecordStatusEnum.A ));
-//        i.getCliente().setIndirizzi((indirizzoRepository.findAllByClienteId(i.getCliente().getId()).get()));
-
-        i.setId(indirizzoDto.getId());
-        i.setVia(indirizzoDto.getVia());
-        i.setCap(indirizzoDto.getCap());
-        i.setNumeroCivico(indirizzoDto.getNumeroCivico());
-        i.setModifyBy(author);
-        i.setModifyOn(LocalDateTime.now());
-        indirizzoRepository.updateIndirizzoById(i.getVia(), i.getCap(), i.getNumeroCivico(), i.getModifyBy(), i.getModifyOn(), i.getId());
-//        Optional<Indirizzo> indirizzo = indirizzoRepository.findById(i.getId());
-//        ClienteDto clienteDto = new ClienteDto(indirizzo.get().getCliente().getId(),
-//                indirizzo.get().getCliente().getNome(),
-//                indirizzo.get().getCliente().getCognome(),
-//                indirizzo.get().getCliente().getDataDiNascita(),
-//                indirizzo.get().getCliente().getTelefono(),
-//                indirizzo.get().getCliente().getEmail(),
-//                indirizzo.get().getCliente().getCodiceFiscale(),
-//                indirizzo.get().getCliente().getPassword());
-//        indirizzoDto.setClienteDto(clienteDto);
+        Optional<Indirizzo> indirizzo = indirizzoRepository.findById(indirizzoDto.getId());
+        indirizzo.get().setVia(indirizzoDto.getVia());
+        indirizzo.get().setCap(indirizzoDto.getCap());
+        indirizzo.get().setNumeroCivico(indirizzoDto.getNumeroCivico());
+        indirizzo.get().setModifyBy(author);
+        indirizzo.get().setModifyOn(LocalDateTime.now());
+        indirizzoRepository.updateIndirizzoById(indirizzo.get().getVia(),
+                indirizzo.get().getCap(),
+                indirizzo.get().getNumeroCivico(),
+                indirizzo.get().getModifyBy(),
+                indirizzo.get().getModifyOn(),
+                indirizzo.get().getId());
 
         return indirizzoDto;
+
     }
 
     // Delete
-    public void deleteIndirizzo(Long id) {
-        try {
-            indirizzoRepository.deleteById(id.intValue());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public IndirizzoDto deleteIndirizzo(Long id) {
+            Indirizzo indirizzo = indirizzoRepository.findById(id).get();
+            IndirizzoDto indirizzoCancellato = new IndirizzoDto();
+            indirizzoCancellato.setId(indirizzo.getId());
+            indirizzoCancellato.setCap(indirizzo.getCap());
+            indirizzoCancellato.setVia(indirizzo.getVia());
+            indirizzoCancellato.setNumeroCivico(indirizzo.getNumeroCivico());
+            indirizzoRepository.deleteIndirizzoById(id);
+        return indirizzoCancellato;
     }
 }
