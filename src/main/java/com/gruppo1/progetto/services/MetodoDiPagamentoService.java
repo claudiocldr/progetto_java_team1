@@ -7,6 +7,7 @@ import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.MetodoDiPagamento;
 import com.gruppo1.progetto.repositories.ClienteRepository;
+import com.gruppo1.progetto.repositories.IndirizzoRepository;
 import com.gruppo1.progetto.repositories.MetodoDiPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class MetodoDiPagamentoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private IndirizzoRepository indirizzoRepository;
+
     // Create
     public MetodoDiPagamentoDto createMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, ClienteDto clienteDto, Long indirizzoId, String author) {
         MetodoDiPagamento mE = new MetodoDiPagamento();
@@ -36,50 +40,72 @@ public class MetodoDiPagamentoService {
         metodoDiPagamentoRepository.save(mE);
         return metodoDiPagamentoDto;
     }
-}
 
-//    // Read
-//    public MetodoDiPagamentoDto readMetodoDiPagamento(Long id) {
-//        Optional<MetodoDiPagamento> metodoDiPagamento = metodoDiPagamentoRepository.findById(id);
-//        MetodoDiPagamentoDto metodoDiPagamentoDto = new MetodoDiPagamentoDto();
-//        if (metodoDiPagamento.isPresent()) {
-//
-//            MetodoDiPagamento m = metodoDiPagamento.get();
-//            metodoDiPagamentoDto.setNumeroCarta(m.getNumeroCarta());
-//            metodoDiPagamentoDto.setNomeCognome(m.getNomeCognome());
-//            metodoDiPagamentoDto.setIndirizzo(m.getIndirizzo());
-//            metodoDiPagamentoDto.setCvv(m.getCvv());
-//
-//            return metodoDiPagamentoDto;
-//        }
-//        return metodoDiPagamentoDto;
-//    }
-//
-//    // Update
-//    public MetodoDiPagamentoDto updateMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, Long id, String author) {
-//                MetodoDiPagamento m = new MetodoDiPagamento();
-//                m.setNumeroCarta(metodoDiPagamentoDto.getNumeroCarta());
-//                m.setNomeCognome(metodoDiPagamentoDto.getNomeCognome());
-//                m.setIndirizzo(metodoDiPagamentoDto.getIndirizzo());
-//                m.setCvv(metodoDiPagamentoDto.getCvv());
-//                m.setModifyBy(author);
-//                m.setModifyOn(LocalDateTime.now());
-//                metodoDiPagamentoRepository.updateIndirizzoById(m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo().getId(), m.getCvv(), m.getCliente().getId(), m.getModifyBy(), m.getModifyOn(), id);
-//
-//                ClienteDto clienteDto = new ClienteDto(
-//                        m.getCliente().getId(),
-//                        m.getCliente().getNome(),
-//                        m.getCliente().getCognome(),
-//                        m.getCliente().getDataDiNascita(),
-//                        m.getCliente().getTelefono(),
-//                        m.getCliente().getEmail(),
-//                        m.getCliente().getCodiceFiscale(),
-//                        m.getCliente().getPassword());
-//                return new MetodoDiPagamentoDto(m.getId(), m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo(), m.getCvv(), clienteDto);
-//    }
-//
-//    // Delete
-//    public void deleteMetodoDiPagamento(Long id) {
-//            metodoDiPagamentoRepository.deleteById(id);
-//    }
-//}
+
+    // Read
+    public MetodoDiPagamentoDto readMetodoDiPagamento(Long id) {
+        Optional<MetodoDiPagamento> metodoDiPagamento = metodoDiPagamentoRepository.findById(id);
+        MetodoDiPagamentoDto metodoDiPagamentoDto = new MetodoDiPagamentoDto();
+        if (metodoDiPagamento.isPresent()) {
+
+            MetodoDiPagamento m = metodoDiPagamento.get();
+            metodoDiPagamentoDto.setNumeroCarta(m.getNumeroCarta());
+            metodoDiPagamentoDto.setNomeCognome(m.getNomeCognome());
+
+            IndirizzoDto indirizzoDto = new IndirizzoDto();
+            indirizzoDto.setCap(m.getIndirizzo().getCap());
+            indirizzoDto.setId(m.getIndirizzo().getId());
+            indirizzoDto.setNumeroCivico(m.getIndirizzo().getNumeroCivico());
+            indirizzoDto.setVia(m.getIndirizzo().getVia());
+            metodoDiPagamentoDto.setIndirizzo(indirizzoDto);
+
+            metodoDiPagamentoDto.setCvv(m.getCvv());
+
+            return metodoDiPagamentoDto;
+        }
+        return metodoDiPagamentoDto;
+    }
+
+
+    // Update
+    public MetodoDiPagamentoDto updateMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, Long id, String author) {
+                MetodoDiPagamento m = metodoDiPagamentoRepository.findById(metodoDiPagamentoDto.getId()).get();
+                m.setNumeroCarta(metodoDiPagamentoDto.getNumeroCarta());
+                m.setNomeCognome(metodoDiPagamentoDto.getNomeCognome());
+               Indirizzo indirizzoAggiornato = indirizzoRepository.findById(metodoDiPagamentoDto.getIndirizzo().getId()).get();
+                m.setIndirizzo(indirizzoAggiornato);
+                m.setCvv(metodoDiPagamentoDto.getCvv());
+                m.setModifyBy(author);
+                m.setModifyOn(LocalDateTime.now());
+                metodoDiPagamentoRepository.updateIndirizzoById(m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo().getId(), m.getCvv(), m.getModifyBy(), m.getModifyOn(), id);
+
+                IndirizzoDto indirizzoDto = new IndirizzoDto();
+                indirizzoDto.setCap(indirizzoAggiornato.getCap());
+                indirizzoDto.setNumeroCivico(indirizzoAggiornato.getNumeroCivico());
+                indirizzoDto.setVia(indirizzoAggiornato.getVia());
+                indirizzoDto.setId(indirizzoAggiornato.getId());
+
+                MetodoDiPagamentoDto metodoDiPagamentoDtoAggiornato = new MetodoDiPagamentoDto();
+                metodoDiPagamentoDtoAggiornato.setCvv(m.getCvv());
+                metodoDiPagamentoDtoAggiornato.setId(m.getId());
+                metodoDiPagamentoDtoAggiornato.setIndirizzo(indirizzoDto);
+
+                return metodoDiPagamentoDtoAggiornato;
+    }
+
+    // Delete
+    public MetodoDiPagamentoDto deleteMetodoDiPagamento(Long id) {
+        Optional<MetodoDiPagamento> metodoDiPagamento = metodoDiPagamentoRepository.findById(id);
+        MetodoDiPagamentoDto metodoDiPagamentoDto = new MetodoDiPagamentoDto();
+        metodoDiPagamentoDto.setNomeCognome(metodoDiPagamento.get().getNomeCognome());
+        metodoDiPagamentoDto.setNumeroCarta(metodoDiPagamento.get().getNumeroCarta());
+        IndirizzoDto indirizzoDto = new IndirizzoDto();
+        indirizzoDto.setCap(metodoDiPagamento.get().getIndirizzo().getCap());
+        indirizzoDto.setNumeroCivico(metodoDiPagamento.get().getIndirizzo().getNumeroCivico());
+        indirizzoDto.setVia(metodoDiPagamento.get().getIndirizzo().getVia());
+        indirizzoDto.setId(metodoDiPagamento.get().getIndirizzo().getId());
+        metodoDiPagamentoDto.setIndirizzo(indirizzoDto);
+        metodoDiPagamentoRepository.deleteById(id);
+        return metodoDiPagamentoDto;
+    }
+}

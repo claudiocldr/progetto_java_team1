@@ -24,12 +24,16 @@ public class OrdineController {
     }
 
     @PostMapping("/create")
+    @Operation(summary = "Insert a new order",
+            description= "Order must exist")
     public ResponseEntity<Optional<OrdineDto>> insertOrdine(@RequestBody ArrayList<Long> idProdottiOrdine, @RequestParam Long idCliente, @RequestParam String author) {
         Optional<OrdineDto> ordineDto = Optional.of(ordineService.createOrdine(idCliente, idProdottiOrdine, author));
         return ResponseEntity.ok().body(ordineDto);
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Delete order by ID",
+            description= "Order must exist")
     public ResponseEntity<Optional<OrdineDto>> deleteOrdine (@RequestParam UUID id)
     {
         return ResponseEntity.ok().body(Optional.of(ordineService.deleteOrdine(id)));
