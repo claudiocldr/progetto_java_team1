@@ -42,8 +42,16 @@ public class ClienteService {
         c.setCreatedOn(LocalDateTime.now());
         c.setOrdini(new ArrayList<>());
         c.setIndirizzi(new ArrayList<>());
-        clienteRepository.save(c);
-        return clienteDto;
+        Cliente cliente = clienteRepository.save(c);
+        ClienteDto clienteDtoAggiornato = new ClienteDto(cliente.getId(),
+                cliente.getNome(),
+                cliente.getCognome(),
+                cliente.getDataDiNascita(),
+                cliente.getTelefono(),
+                cliente.getEmail(),
+                cliente.getCodiceFiscale(),
+                cliente.getPassword());
+        return clienteDtoAggiornato;
     }
 
     //Read
