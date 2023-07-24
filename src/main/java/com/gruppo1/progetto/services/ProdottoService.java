@@ -11,9 +11,12 @@ import java.util.Optional;
 
 @Service
 public class ProdottoService {
+    private final ProdottoRepository prodottoRepository;
 
     @Autowired
-    public ProdottoRepository prodottoRepository;
+    public ProdottoService(ProdottoRepository prodottoRepository) {
+        this.prodottoRepository = prodottoRepository;
+    }
 
     //Create
     public ProdottoDto createProdotto(ProdottoDto prodottoDto, String author) throws Exception {
@@ -26,8 +29,13 @@ public class ProdottoService {
             prodotto.setModifyOn(LocalDateTime.now());
             prodotto.setCreatedBy(author);
             prodotto.setCreatedOn(LocalDateTime.now());
+            try {
             Prodotto prodottoSaved = prodottoRepository.save(prodotto);
-            return new ProdottoDto(prodottoSaved.getId(), prodottoSaved.getNome(), prodottoSaved.getDescrizione(), prodottoSaved.getPrezzo(), prodottoSaved.getSku());
+            return new ProdottoDto(prodottoSaved.getId(), prodottoSaved.getNome(), prodottoSaved.getDescrizione(), prodottoSaved.getPrezzo(), prodottoSaved.getSku());}
+            catch (Exception e) {
+                return new ProdottoDto();
+            }
+
     }
 
     //Read
@@ -36,15 +44,18 @@ public class ProdottoService {
     }
     public Optional<ProdottoDto> findProdottoAndReturnDto(Long id) {
         Optional<Prodotto> prodotto = prodottoRepository.findById(id);
-        Optional<ProdottoDto> prodottoDto = Optional.of(new ProdottoDto());
-        if (prodotto.isPresent()) {
-            prodottoDto.get().setId(prodotto.get().getId());
-            prodottoDto.get().setNome(prodotto.get().getNome());
-            prodottoDto.get().setDescrizione(prodotto.get().getDescrizione());
-            prodottoDto.get().setPrezzo(prodotto.get().getPrezzo());
-            prodottoDto.get().setSku(prodotto.get().getSku());
+        ProdottoDto prodottoDto = new ProdottoDto();
+        try {
+            prodottoDto.setId(prodotto.get().getId());
+            prodottoDto.setNome(prodotto.get().getNome());
+            prodottoDto.setDescrizione(prodotto.get().getDescrizione());
+            prodottoDto.setPrezzo(prodotto.get().getPrezzo());
+            prodottoDto.setSku(prodotto.get().getSku());
+            return Optional.of(prodottoDto);}
+
+        catch (Exception e){
+            return Optional.of(prodottoDto);
         }
-        return prodottoDto;
 
     }
 
@@ -61,29 +72,32 @@ public class ProdottoService {
                 id);
         Optional<Prodotto> prodotto = prodottoRepository.findById(id);
         ProdottoDto prodottoDtoAggiornato = new ProdottoDto();
+        if(prodotto.isPresent()){
         prodottoDtoAggiornato.setNome(prodotto.get().getNome());
         prodottoDtoAggiornato.setId(prodotto.get().getId());
         prodottoDtoAggiornato.setDescrizione(prodotto.get().getDescrizione());
         prodottoDtoAggiornato.setPrezzo(prodotto.get().getPrezzo());
         prodottoDtoAggiornato.setSku(prodotto.get().getSku());
-        return prodottoDtoAggiornato;
+        return prodottoDtoAggiornato;} else {
+            return prodottoDtoAggiornato;
+        }
     }
 
     //Delete
-    public Optional<ProdottoDto> deleteProdotto(Long id) {
+    public ProdottoDto deleteProdotto(Long id) {
         Optional<Prodotto> prodottoDaCancellare = prodottoRepository.findById(id);
-        Optional<ProdottoDto> prodottoDtoCancellato = Optional.of(new ProdottoDto());
+        ProdottoDto prodottoDtoCancellato = new ProdottoDto();
         if (prodottoDaCancellare.isPresent()) {
-            prodottoDtoCancellato.get().setId(prodottoDaCancellare.get().getId());
-            prodottoDtoCancellato.get().setDescrizione(prodottoDaCancellare.get().getDescrizione());
-            prodottoDtoCancellato.get().setNome(prodottoDaCancellare.get().getNome());
-            prodottoDtoCancellato.get().setPrezzo(prodottoDaCancellare.get().getPrezzo());
-            prodottoDtoCancellato.get().setSku(prodottoDaCancellare.get().getSku());
+            prodottoDtoCancellato.setId(prodottoDaCancellare.get().getId());
+            prodottoDtoCancellato.setDescrizione(prodottoDaCancellare.get().getDescrizione());
+            prodottoDtoCancellato.setNome(prodottoDaCancellare.get().getNome());
+            prodottoDtoCancellato.setPrezzo(prodottoDaCancellare.get().getPrezzo());
+            prodottoDtoCancellato.setSku(prodottoDaCancellare.get().getSku());
+            prodottoRepository.deleteById(id);
+            return prodottoDtoCancellato;
+        } else {
+            return prodottoDtoCancellato;
         }
-        prodottoRepository.deleteById(id);
-
-
-        return prodottoDtoCancellato;
     }
 
 }
