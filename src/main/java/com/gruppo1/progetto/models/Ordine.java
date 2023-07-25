@@ -14,6 +14,7 @@ import java.util.UUID;
 public class Ordine {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "data_ordine")
     private LocalDate dataOrdine;

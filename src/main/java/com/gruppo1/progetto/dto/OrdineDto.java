@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Prodotto;
+import org.hibernate.type.descriptor.jdbc.ArrayJdbcType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,11 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class OrdineDto {
-    private UUID id;
+    private Long id;
     private LocalDate data;
 
 
-    private ArrayList<ProdottoDto> prodotti;
+    private List<RigaOrdineDto> prodotti;
 
     private ClienteDto clienteDto;
 
@@ -24,14 +25,6 @@ public class OrdineDto {
     }
 
 
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public LocalDate getData() {
         return data;
@@ -41,11 +34,20 @@ public class OrdineDto {
         this.data = data;
     }
 
-    public ArrayList<ProdottoDto> getProdotti() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public List<RigaOrdineDto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(ArrayList<ProdottoDto> prodotti) {
+    public void setProdotti(List<RigaOrdineDto> prodotti) {
         this.prodotti = prodotti;
     }
 

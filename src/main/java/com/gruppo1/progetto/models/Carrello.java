@@ -16,6 +16,9 @@ public class Carrello {
     @OneToMany
     private List<RigaOrdine> rigaOrdineList;
 
+    public Carrello() {
+    }
+
     public Carrello(Long id, Ordine ordine) {
         this.id = id;
         this.ordine = ordine;

@@ -18,12 +18,12 @@ import java.util.UUID;
 @Transactional
 public interface OrdineRepository extends JpaRepository<Ordine, Long> {
 
-//    @Query(nativeQuery = true)
-//    Optional<Ordine> findOrdineById(UUID uuid);
-//
-//    @Query(value= "DELETE FROM ordine WHERE id = ?",nativeQuery = true)
-//    @Modifying
-//    void deleteOrdineById(UUID uuid);
+    @Query(nativeQuery = true)
+    Optional<Ordine> findOrdineById(Long id);
+
+    @Query(value= "DELETE FROM ordine WHERE id = ?",nativeQuery = true)
+    @Modifying
+    void deleteOrdineById(Long id);
 //
 //    @Modifying
 //    @Query(value= "DELETE FROM ordine WHERE cliente_id = ?",nativeQuery = true)
