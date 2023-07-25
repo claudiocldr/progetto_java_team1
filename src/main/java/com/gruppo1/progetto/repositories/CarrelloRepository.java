@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface CarrelloRepository extends JpaRepository<Carrello, Long> {
+
+    Carrello findByNomeAndClienteId(String nome, Long clienteId);
+
+    void deleteAllByClienteId(Long clienteId);
+
 }

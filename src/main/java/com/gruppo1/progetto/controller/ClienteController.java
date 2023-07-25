@@ -39,13 +39,13 @@ public class ClienteController {
             return ResponseEntity.ok().body(Optional.of(clienteDtoInserito));
     }
 
-//    @DeleteMapping("/delete")
-//    @Operation(summary = "Update customer",
-//            description= "Customer must exist")
-//
-////    public ResponseEntity<Optional<ClienteDto>> deleteCliente(@RequestParam Long id) {
-////        return ResponseEntity.ok().body(Optional.of(clienteService.deleteCliente(id)));
-////    }
+    @DeleteMapping("/delete")
+    @Operation(summary = "Update customer",
+            description= "Customer must exist")
+
+    public ResponseEntity<Optional<ClienteDto>> deleteCliente(@RequestParam Long id) {
+        return ResponseEntity.ok().body(Optional.of(clienteService.deleteCliente(id)));
+    }
 
 
 

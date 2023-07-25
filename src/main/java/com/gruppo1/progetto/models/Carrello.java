@@ -10,19 +10,23 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Ordine ordine;
+    private String nome;
 
+    @ManyToMany(mappedBy = "carrello")
+    List<Ordine> ordini;
     @OneToMany(mappedBy = "carrello")
     private List<RigaOrdine> rigaOrdineList;
+
+    @ManyToOne
+    private Cliente cliente;
 
     public Carrello() {
     }
 
-    public Carrello(Long id, Ordine ordine) {
-        this.id = id;
-        this.ordine = ordine;
+    public Carrello(String nome) {
+        this.nome = nome;
     }
+
 
     public Long getId() {
         return id;
@@ -32,12 +36,12 @@ public class Carrello {
         this.id = id;
     }
 
-    public Ordine getOrdine() {
-        return ordine;
+    public List<Ordine> getOrdini() {
+        return ordini;
     }
 
-    public void setOrdine(Ordine ordine) {
-        this.ordine = ordine;
+    public void setOrdini(List<Ordine> ordini) {
+        this.ordini = ordini;
     }
 
     public List<RigaOrdine> getRigaOrdineList() {
@@ -46,5 +50,21 @@ public class Carrello {
 
     public void setRigaOrdineList(List<RigaOrdine> rigaOrdineList) {
         this.rigaOrdineList = rigaOrdineList;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

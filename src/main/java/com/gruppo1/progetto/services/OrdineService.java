@@ -26,7 +26,7 @@ public class OrdineService {
         this.rigaOrdineService = rigaOrdineService;
     }
 
-    public OrdineDto createOrdine(Long idCliente, Long idCarrello, String author) {
+    public OrdineDto createOrdine(Long idCliente, String nomeCarrello, String author) {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
         ClienteDto clienteDto = new ClienteDto();
@@ -46,10 +46,11 @@ public class OrdineService {
         ordine.setCreatedOn(LocalDateTime.now());
         ordine.setModifyBy(author);
         ordine.setModifyOn(LocalDateTime.now());
-        Carrello carrello = carrelloRepository.findById(idCarrello).get();
-        ordine.setCarrello(carrello);
+        Carrello carrelloSelezionato = carrelloRepository.findByNomeAndClienteId(nomeCarrello, cliente.get().getId());
 
-        List<RigaOrdineDto> rigaOrdineList = rigaOrdineService.getAllByCarrelloId(carrello.getId());
+        ordine.setCarrello(List.of(carrelloSelezionato));
+
+        List<RigaOrdineDto> rigaOrdineList = rigaOrdineService.getAllByCarrelloId(carrelloSelezionato.getId());
 
 
         ordine.setCliente(clienteRepository.findById(idCliente).get());
@@ -58,15 +59,12 @@ public class OrdineService {
         OrdineDto ordineDto = new OrdineDto();
         ordineDto.setClienteDto(clienteDto);
         ordineDto.setData(ordine.getDataOrdine());
-
-
         ordineDto.setProdotti(rigaOrdineList);
+
         ordineDto.setId(ordineSalvato.getId());
         return ordineDto;
 
     }
-
-
     public OrdineDto findOrdineById(Long id) {
 
         Optional<Ordine> ordine = ordineRepository.findById(id);
@@ -85,21 +83,39 @@ public class OrdineService {
         ordineDto.setClienteDto(clienteDto);
         ordineDto.setData(ordine.get().getDataOrdine());
 
-        List<RigaOrdineDto> listaProdotti = rigaOrdineService.getAllByCarrelloId(ordine.get().getCarrello().getId());
+        List<RigaOrdineDto> listaProdotti = rigaOrdineService.getAllByCarrelloId(ordine.get().getCarrello().get(0).getId());
         ordineDto.setProdotti(listaProdotti);
 
         return ordineDto;
     }
 
+
     //Delete
     public OrdineDto deleteOrdine(Long id) {
 
-        OrdineDto ordine = findOrdineById(id);
-        ordineRepository.deleteOrdineById(id);
+        Optional<Ordine> ordine = ordineRepository.findById(id);
+        ordineRepository.deleteById(id);
+        OrdineDto ordineDto = new OrdineDto();
+        ordineDto.setId(ordine.get().getId());
+
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setCodiceFiscale(ordine.get().getCliente().getCodiceFiscale());
+        clienteDto.setCognome(ordine.get().getCliente().getCognome());
+        clienteDto.setDataDiNascita(ordine.get().getCliente().getDataDiNascita());
+        clienteDto.setEmail(ordine.get().getCliente().getEmail());
+        clienteDto.setId(ordine.get().getCliente().getId());
+        clienteDto.setNome(ordine.get().getCliente().getNome());
+        clienteDto.setPassword(ordine.get().getCliente().getPassword());
+        clienteDto.setTelefono(ordine.get().getCliente().getTelefono());
+        ordineDto.setClienteDto(clienteDto);
+        ordineDto.setData(ordine.get().getDataOrdine());
+
+        List<RigaOrdineDto> listaProdotti = rigaOrdineService.getAllByCarrelloId(ordine.get().getCarrello().get(0).getId());
+        ordineDto.setProdotti(listaProdotti);
 
 
-        return ordine;
+        return ordineDto;
 
     }
-
 }
+

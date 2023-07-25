@@ -11,4 +11,6 @@ import java.util.List;
 @Transactional
 public interface RigaOrdineRepository extends JpaRepository<RigaOrdine, Long> {
     List<RigaOrdine> findByCarrelloId(Long carrelloId);
+
+    void deleteAllByCarrelloId(Long carrelloId);
 }

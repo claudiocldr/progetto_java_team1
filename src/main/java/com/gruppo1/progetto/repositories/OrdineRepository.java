@@ -21,9 +21,7 @@ public interface OrdineRepository extends JpaRepository<Ordine, Long> {
     @Query(nativeQuery = true)
     Optional<Ordine> findOrdineById(Long id);
 
-    @Query(value= "DELETE FROM ordine WHERE id = ?",nativeQuery = true)
-    @Modifying
-    void deleteOrdineById(Long id);
+    void deleteAllByClienteId(Long clienteId);
 //
 //    @Modifying
 //    @Query(value= "DELETE FROM ordine WHERE cliente_id = ?",nativeQuery = true)

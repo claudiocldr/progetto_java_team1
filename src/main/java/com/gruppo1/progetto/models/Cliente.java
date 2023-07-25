@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -37,6 +39,10 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Indirizzo> indirizzi;
+
+    @OneToMany(mappedBy = "cliente")
+    private final List<Carrello> carrelli = new ArrayList<>(List.of(new Carrello("carrello"), new Carrello("lista desideri")));
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -188,5 +194,9 @@ public class Cliente {
 
     public void setModifyOn(LocalDateTime modifyOn) {
         this.modifyOn = modifyOn;
+    }
+
+    public List<Carrello> getCarrelli() {
+        return carrelli;
     }
 }

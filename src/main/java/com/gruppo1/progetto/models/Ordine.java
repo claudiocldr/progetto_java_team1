@@ -40,8 +40,12 @@ public class Ordine {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
-    @OneToOne
-    private Carrello carrello;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ordine_carrello",
+            joinColumns = @JoinColumn(name = "ordine_id"),
+            inverseJoinColumns = @JoinColumn(name = "carrello_id")
+    )
+    private List<Carrello> carrello;
 
 
     public Long getId() {
@@ -68,21 +72,13 @@ public class Ordine {
         this.cliente = cliente;
     }
 
-    public Carrello getCarrello() {
+    public List<Carrello> getCarrello() {
         return carrello;
     }
 
-    public void setCarrello(Carrello carrello) {
+    public void setCarrello(List<Carrello> carrello) {
         this.carrello = carrello;
     }
-
-    //    public List<OrdineProdotto> getOrdineProdottoList() {
-//        return ordineProdottoList;
-//    }
-//
-//    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
-//        this.ordineProdottoList = ordineProdottoList;
-//    }
 
     public String getCreatedBy() {
         return createdBy;

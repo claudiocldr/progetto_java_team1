@@ -1,11 +1,14 @@
 package com.gruppo1.progetto.services;
-import com.gruppo1.progetto.models.RecordStatusEnum;
+
+import com.gruppo1.progetto.models.*;
+import com.gruppo1.progetto.repositories.CarrelloRepository;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.dto.ClienteDto;
-import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.repositories.OrdineRepository;
+import com.gruppo1.progetto.repositories.RigaOrdineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -23,6 +26,12 @@ public class ClienteService {
 
     @Autowired
     private OrdineService ordineService;
+
+    @Autowired
+    private CarrelloRepository carrelloRepository;
+
+    @Autowired
+    private RigaOrdineRepository rigaOrdineRepository;
 
 
     //Create
@@ -43,6 +52,10 @@ public class ClienteService {
         c.setOrdini(new ArrayList<>());
         c.setIndirizzi(new ArrayList<>());
         Cliente cliente = clienteRepository.save(c);
+        for (Carrello carrello : cliente.getCarrelli()) {
+            carrello.setCliente(c);
+            carrelloRepository.save(carrello);
+        }
         ClienteDto clienteDtoAggiornato = new ClienteDto(cliente.getId(),
                 cliente.getNome(),
                 cliente.getCognome(),
@@ -99,22 +112,32 @@ public class ClienteService {
         clienteDtoAggiornato.setPassword(cliente.get().getPassword());
         clienteDtoAggiornato.setTelefono(cliente.get().getTelefono());
         return clienteDtoAggiornato;
-    }}
+    }
 
-//public ClienteDto deleteCliente(Long id){
-//        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
-//        clienteDaCancellare.get().getOrdini().stream().forEach(x ->ordineService.deleteOrdine(x.getId()));
-//        clienteRepository.deleteClienteById(id);
-//
-//    ClienteDto clienteDtoCancellato = new ClienteDto();
-//    if (clienteDaCancellare.isPresent()) {
-//        clienteDtoCancellato.setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
-//        clienteDtoCancellato.setCognome(clienteDaCancellare.get().getCognome());
-//        clienteDtoCancellato.setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
-//        clienteDtoCancellato.setEmail(clienteDaCancellare.get().getEmail());
-//        clienteDtoCancellato.setId(clienteDaCancellare.get().getId());
-//        clienteDtoCancellato.setNome(clienteDaCancellare.get().getNome());
-//        clienteDtoCancellato.setPassword(clienteDaCancellare.get().getPassword());
-//        clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());}
-//    return clienteDtoCancellato;}
-//}
+    public ClienteDto deleteCliente(Long id) {
+        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
+
+        for (Carrello carrello : clienteDaCancellare.get().getCarrelli()) {
+            rigaOrdineRepository.deleteAllByCarrelloId(carrello.getId());
+        }
+
+        carrelloRepository.deleteAllByClienteId(clienteDaCancellare.get().getId());
+
+        ordineRepository.deleteAllByClienteId(clienteDaCancellare.get().getId());
+
+        clienteRepository.deleteClienteById(id);
+
+        ClienteDto clienteDtoCancellato = new ClienteDto();
+        if (clienteDaCancellare.isPresent()) {
+            clienteDtoCancellato.setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
+            clienteDtoCancellato.setCognome(clienteDaCancellare.get().getCognome());
+            clienteDtoCancellato.setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
+            clienteDtoCancellato.setEmail(clienteDaCancellare.get().getEmail());
+            clienteDtoCancellato.setId(clienteDaCancellare.get().getId());
+            clienteDtoCancellato.setNome(clienteDaCancellare.get().getNome());
+            clienteDtoCancellato.setPassword(clienteDaCancellare.get().getPassword());
+            clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());
+        }
+        return clienteDtoCancellato;
+    }
+}
