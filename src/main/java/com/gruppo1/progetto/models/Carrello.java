@@ -13,7 +13,7 @@ public class Carrello {
     @OneToOne
     private Ordine ordine;
 
-    @OneToMany
+    @OneToMany(mappedBy = "carrello")
     private List<RigaOrdine> rigaOrdineList;
 
     public Carrello() {
