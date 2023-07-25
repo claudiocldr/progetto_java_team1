@@ -46,7 +46,7 @@ public class OrdineService {
         ordine.setCreatedOn(LocalDateTime.now());
         ordine.setModifyBy(author);
         ordine.setModifyOn(LocalDateTime.now());
-        Carrello carrelloSelezionato = carrelloRepository.findByNomeAndClienteId(nomeCarrello, cliente.get().getId());
+        Carrello carrelloSelezionato = carrelloRepository.findByNomeAndClienteId(nomeCarrello, cliente.get().getId()).get();
 
         ordine.setCarrello(List.of(carrelloSelezionato));
 
