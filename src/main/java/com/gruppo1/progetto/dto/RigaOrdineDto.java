@@ -8,6 +8,14 @@ public class RigaOrdineDto {
     private ProdottoDto prodotto;
     private Integer quantita;
 
+    public RigaOrdineDto(ProdottoDto prodotto, Integer quantita) {
+        this.prodotto = prodotto;
+        this.quantita = quantita;
+    }
+
+    public RigaOrdineDto() {
+    }
+
     public ProdottoDto getProdotto() {
         return prodotto;
     }
