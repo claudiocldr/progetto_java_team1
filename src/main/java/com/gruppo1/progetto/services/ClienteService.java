@@ -99,22 +99,22 @@ public class ClienteService {
         clienteDtoAggiornato.setPassword(cliente.get().getPassword());
         clienteDtoAggiornato.setTelefono(cliente.get().getTelefono());
         return clienteDtoAggiornato;
-    }
+    }}
 
-public ClienteDto deleteCliente(Long id){
-        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
-        clienteDaCancellare.get().getOrdini().stream().forEach(x ->ordineService.deleteOrdine(x.getId()));
-        clienteRepository.deleteClienteById(id);
-
-    ClienteDto clienteDtoCancellato = new ClienteDto();
-    if (clienteDaCancellare.isPresent()) {
-        clienteDtoCancellato.setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
-        clienteDtoCancellato.setCognome(clienteDaCancellare.get().getCognome());
-        clienteDtoCancellato.setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
-        clienteDtoCancellato.setEmail(clienteDaCancellare.get().getEmail());
-        clienteDtoCancellato.setId(clienteDaCancellare.get().getId());
-        clienteDtoCancellato.setNome(clienteDaCancellare.get().getNome());
-        clienteDtoCancellato.setPassword(clienteDaCancellare.get().getPassword());
-        clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());}
-    return clienteDtoCancellato;}
-}
+//public ClienteDto deleteCliente(Long id){
+//        Optional<Cliente> clienteDaCancellare = clienteRepository.findById(id);
+//        clienteDaCancellare.get().getOrdini().stream().forEach(x ->ordineService.deleteOrdine(x.getId()));
+//        clienteRepository.deleteClienteById(id);
+//
+//    ClienteDto clienteDtoCancellato = new ClienteDto();
+//    if (clienteDaCancellare.isPresent()) {
+//        clienteDtoCancellato.setCodiceFiscale(clienteDaCancellare.get().getCodiceFiscale());
+//        clienteDtoCancellato.setCognome(clienteDaCancellare.get().getCognome());
+//        clienteDtoCancellato.setDataDiNascita(clienteDaCancellare.get().getDataDiNascita());
+//        clienteDtoCancellato.setEmail(clienteDaCancellare.get().getEmail());
+//        clienteDtoCancellato.setId(clienteDaCancellare.get().getId());
+//        clienteDtoCancellato.setNome(clienteDaCancellare.get().getNome());
+//        clienteDtoCancellato.setPassword(clienteDaCancellare.get().getPassword());
+//        clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());}
+//    return clienteDtoCancellato;}
+//}

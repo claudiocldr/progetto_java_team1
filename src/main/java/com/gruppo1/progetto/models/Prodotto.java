@@ -21,9 +21,9 @@ public class Prodotto {
     @Column
     private String sku;
 
-    @OneToMany
-    @JoinColumn(name = "prodotto_id")
-    private List<OrdineProdotto> ordineProdottoList;
+//    @OneToMany
+//    @JoinColumn(name = "prodotto_id")
+//    private List<OrdineProdotto> ordineProdottoList;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -45,13 +45,13 @@ public class Prodotto {
         this.id = id;
     }
 
-    public List<OrdineProdotto> getOrdineProdottoList() {
-        return ordineProdottoList;
-    }
-
-    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
-        this.ordineProdottoList = ordineProdottoList;
-    }
+//    public List<OrdineProdotto> getOrdineProdottoList() {
+//        return ordineProdottoList;
+//    }
+//
+//    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
+//        this.ordineProdottoList = ordineProdottoList;
+//    }
 
     public String getNome() {
         return nome;

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Ordine {
 
     @Id
-    private UUID id;
+    private Long id;
     @Column(name = "data_ordine")
     private LocalDate dataOrdine;
 
@@ -23,9 +23,9 @@ public class Ordine {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany
-    @JoinColumn(name = "ordine_id")
-    private List<OrdineProdotto> ordineProdottoList;
+//    @OneToMany
+//    @JoinColumn(name = "ordine_id")
+//    private List<OrdineProdotto> ordineProdottoList;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -39,12 +39,15 @@ public class Ordine {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
+    @OneToOne
+    private Carrello carrello;
 
-    public UUID getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,14 +67,21 @@ public class Ordine {
         this.cliente = cliente;
     }
 
-
-    public List<OrdineProdotto> getOrdineProdottoList() {
-        return ordineProdottoList;
+    public Carrello getCarrello() {
+        return carrello;
     }
 
-    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
-        this.ordineProdottoList = ordineProdottoList;
+    public void setCarrello(Carrello carrello) {
+        this.carrello = carrello;
     }
+
+    //    public List<OrdineProdotto> getOrdineProdottoList() {
+//        return ordineProdottoList;
+//    }
+//
+//    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
+//        this.ordineProdottoList = ordineProdottoList;
+//    }
 
     public String getCreatedBy() {
         return createdBy;
