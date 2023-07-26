@@ -1,9 +1,9 @@
 package com.gruppo1.progetto.services;
 
+import com.gruppo1.progetto.dto.*;
 import com.gruppo1.progetto.models.*;
 import com.gruppo1.progetto.repositories.CarrelloRepository;
 import com.gruppo1.progetto.repositories.ClienteRepository;
-import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.repositories.OrdineRepository;
 import com.gruppo1.progetto.repositories.RigaOrdineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,10 @@ public class ClienteService {
 
     @Autowired
     private OrdineService ordineService;
+    @Autowired
+    private MetodoDiPagamentoService metodoDiPagamentoService;
+    @Autowired
+    private IndirizzoService indirizzoService;
 
     @Autowired
     private CarrelloRepository carrelloRepository;
@@ -139,5 +143,19 @@ public class ClienteService {
             clienteDtoCancellato.setTelefono(clienteDaCancellare.get().getTelefono());
         }
         return clienteDtoCancellato;
+    }
+
+    public RiepilogoOrdine buy(Long clienteId, Long metodoDiPagamentoId, String carrelloNome, Long indirizzoDiSpedizioneAlternativoId, String author) {
+        OrdineDto nuovoOrdine = ordineService.createOrdine(clienteId, carrelloNome, author);
+        MetodoDiPagamentoDto metodoDiPagamentoDtoSelezionato = metodoDiPagamentoService.readMetodoDiPagamento(metodoDiPagamentoId);
+        RiepilogoOrdine riepilogoOrdine = new RiepilogoOrdine();
+        if (indirizzoDiSpedizioneAlternativoId == 0) {
+            riepilogoOrdine = new RiepilogoOrdine(metodoDiPagamentoDtoSelezionato, nuovoOrdine, metodoDiPagamentoDtoSelezionato.getIndirizzo());
+            return riepilogoOrdine;
+        } else {
+            IndirizzoDto indirizzoAlternativo = indirizzoService.readIndirizzo(indirizzoDiSpedizioneAlternativoId);
+            riepilogoOrdine = new RiepilogoOrdine(metodoDiPagamentoDtoSelezionato, nuovoOrdine, indirizzoAlternativo);
+            return riepilogoOrdine;
+        }
     }
 }
