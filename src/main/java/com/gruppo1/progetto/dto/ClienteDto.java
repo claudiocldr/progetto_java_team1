@@ -1,5 +1,6 @@
 package com.gruppo1.progetto.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.Ordine;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import java.util.*;
 
 @Component
 public class ClienteDto {
-
+    @JsonIgnore
     private Long id;
     private String nome;
     private String cognome;

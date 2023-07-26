@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Cliente;
 
 public class IndirizzoDto {
+    @JsonIgnore
+
     private Long id;
     private String via;
     private String cap;

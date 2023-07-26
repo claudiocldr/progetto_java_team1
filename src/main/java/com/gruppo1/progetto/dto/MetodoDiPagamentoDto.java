@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
 import jakarta.persistence.Column;
@@ -8,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 public class MetodoDiPagamentoDto {
+    @JsonIgnore
+
     private Long id;
     private String numeroCarta;
     private String nomeCognome;
