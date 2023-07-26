@@ -36,7 +36,9 @@ public class MetodoDiPagamentoService {
         mE.setCvv(metodoDiPagamentoDto.getCvv());
         mE.setCreatedBy(author);
         mE.setCreatedOn(LocalDateTime.now());
-
+        mE.setModifyBy(author);
+        mE.setModifyOn(LocalDateTime.now());
+        mE.setCliente(cliente.get());
         MetodoDiPagamento metodoDiPagamento = metodoDiPagamentoRepository.save(mE);
         metodoDiPagamentoDto.setId(metodoDiPagamento.getId());
         IndirizzoDto indirizzoDto = new IndirizzoDto();
@@ -70,8 +72,8 @@ public class MetodoDiPagamentoService {
             metodoDiPagamentoDto.setCvv(m.getCvv());
 
             return metodoDiPagamentoDto;
-        }
-        return metodoDiPagamentoDto;
+        } else{
+        return metodoDiPagamentoDto;}
     }
 
 
@@ -110,6 +112,7 @@ public class MetodoDiPagamentoService {
         metodoDiPagamentoDto.setId(metodoDiPagamento.get().getId());
         metodoDiPagamentoDto.setNomeCognome(metodoDiPagamento.get().getNomeCognome());
         metodoDiPagamentoDto.setNumeroCarta(metodoDiPagamento.get().getNumeroCarta());
+        metodoDiPagamentoDto.setCvv(metodoDiPagamento.get().getCvv());
         IndirizzoDto indirizzoDto = new IndirizzoDto();
         indirizzoDto.setCap(metodoDiPagamento.get().getIndirizzo().getCap());
         indirizzoDto.setNumeroCivico(metodoDiPagamento.get().getIndirizzo().getNumeroCivico());

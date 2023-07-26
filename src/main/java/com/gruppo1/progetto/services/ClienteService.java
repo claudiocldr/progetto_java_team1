@@ -2,10 +2,7 @@ package com.gruppo1.progetto.services;
 
 import com.gruppo1.progetto.dto.*;
 import com.gruppo1.progetto.models.*;
-import com.gruppo1.progetto.repositories.CarrelloRepository;
-import com.gruppo1.progetto.repositories.ClienteRepository;
-import com.gruppo1.progetto.repositories.OrdineRepository;
-import com.gruppo1.progetto.repositories.RigaOrdineRepository;
+import com.gruppo1.progetto.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +25,14 @@ public class ClienteService {
     private OrdineService ordineService;
     @Autowired
     private MetodoDiPagamentoService metodoDiPagamentoService;
+
+    @Autowired
+    private MetodoDiPagamentoRepository metodoDiPagamentoRepository;
     @Autowired
     private IndirizzoService indirizzoService;
+
+    @Autowired
+    private IndirizzoRepository indirizzoRepository;
 
     @Autowired
     private CarrelloRepository carrelloRepository;
@@ -125,11 +128,16 @@ public class ClienteService {
             rigaOrdineRepository.deleteAllByCarrelloId(carrello.getId());
         }
 
-        carrelloRepository.deleteAllByClienteId(clienteDaCancellare.get().getId());
+        ordineRepository.deleteByClienteId(clienteDaCancellare.get().getId());
 
-        ordineRepository.deleteAllByClienteId(clienteDaCancellare.get().getId());
+        carrelloRepository.deleteByClienteId(clienteDaCancellare.get().getId());
 
-        clienteRepository.deleteClienteById(id);
+        metodoDiPagamentoRepository.deleteByClienteId(clienteDaCancellare.get().getId());
+
+        indirizzoRepository.deleteByClienteId(clienteDaCancellare.get().getId());
+
+
+        clienteRepository.deleteClienteById(clienteDaCancellare.get().getId());
 
         ClienteDto clienteDtoCancellato = new ClienteDto();
         if (clienteDaCancellare.isPresent()) {
@@ -148,12 +156,13 @@ public class ClienteService {
     public RiepilogoOrdine buy(Long clienteId, Long metodoDiPagamentoId, String carrelloNome, Long indirizzoDiSpedizioneAlternativoId, String author) {
         OrdineDto nuovoOrdine = ordineService.createOrdine(clienteId, carrelloNome, author);
         MetodoDiPagamentoDto metodoDiPagamentoDtoSelezionato = metodoDiPagamentoService.readMetodoDiPagamento(metodoDiPagamentoId);
+
         RiepilogoOrdine riepilogoOrdine = new RiepilogoOrdine();
         if (indirizzoDiSpedizioneAlternativoId == 0) {
             riepilogoOrdine = new RiepilogoOrdine(metodoDiPagamentoDtoSelezionato, nuovoOrdine, metodoDiPagamentoDtoSelezionato.getIndirizzo());
             return riepilogoOrdine;
         } else {
-            IndirizzoDto indirizzoAlternativo = indirizzoService.readIndirizzo(indirizzoDiSpedizioneAlternativoId);
+            IndirizzoDto indirizzoAlternativo = indirizzoService.findIndirizzo(indirizzoDiSpedizioneAlternativoId);
             riepilogoOrdine = new RiepilogoOrdine(metodoDiPagamentoDtoSelezionato, nuovoOrdine, indirizzoAlternativo);
             return riepilogoOrdine;
         }

@@ -4,16 +4,16 @@ import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.dto.IndirizzoDto;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
-import com.gruppo1.progetto.models.RecordStatusEnum;
 import com.gruppo1.progetto.repositories.ClienteRepository;
 import com.gruppo1.progetto.repositories.IndirizzoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IndirizzoService {
@@ -53,7 +53,7 @@ public class IndirizzoService {
     }
 
     // Read
-    public IndirizzoDto readIndirizzo(Long id) {
+    public IndirizzoDto findIndirizzo(Long id) {
         Optional<Indirizzo> indirizzo = indirizzoRepository.findById(id);
         if (indirizzo.isPresent()) {
             IndirizzoDto indirizzoDto = new IndirizzoDto();
@@ -67,24 +67,21 @@ public class IndirizzoService {
         return null;
     }
 
-    // Update
-    public IndirizzoDto updateIndirizzo(IndirizzoDto indirizzoDto, String author) {
-        Optional<Indirizzo> indirizzo = indirizzoRepository.findById(indirizzoDto.getId());
-        indirizzo.get().setVia(indirizzoDto.getVia());
-        indirizzo.get().setCap(indirizzoDto.getCap());
-        indirizzo.get().setNumeroCivico(indirizzoDto.getNumeroCivico());
-        indirizzo.get().setModifyBy(author);
-        indirizzo.get().setModifyOn(LocalDateTime.now());
-        indirizzoRepository.updateIndirizzoById(indirizzo.get().getVia(),
-                indirizzo.get().getCap(),
-                indirizzo.get().getNumeroCivico(),
-                indirizzo.get().getModifyBy(),
-                indirizzo.get().getModifyOn(),
-                indirizzo.get().getId());
-
-        return indirizzoDto;
-
+    public List<IndirizzoDto> findAllIndirizziByClienteId(Long clienteId) {
+        List<Indirizzo> indirizzi =  indirizzoRepository.findByClienteId(clienteId).get();
+       Cliente cliente = clienteRepository.findById(clienteId).get();
+       ClienteDto clienteDto = new ClienteDto(cliente.getId(),
+               cliente.getNome(),
+               cliente.getCognome(),
+               cliente.getDataDiNascita(),
+               cliente.getTelefono(),
+               cliente.getEmail(),
+               cliente.getCodiceFiscale(),
+               cliente.getPassword());
+        List<IndirizzoDto> indirizziDto = indirizzi.stream().map(x -> new IndirizzoDto(x.getId(), x.getVia(), x.getCap(), x.getNumeroCivico(), clienteDto)).collect(Collectors.toList());
+        return indirizziDto;
     }
+
 
     // Delete
     public IndirizzoDto deleteIndirizzo(Long id) {

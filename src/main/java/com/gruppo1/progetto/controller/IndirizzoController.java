@@ -1,17 +1,14 @@
 package com.gruppo1.progetto.controller;
 
 import com.gruppo1.progetto.dto.IndirizzoDto;
-import com.gruppo1.progetto.dto.OrdineDto;
 import com.gruppo1.progetto.services.IndirizzoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/indirizzo")
@@ -32,18 +29,15 @@ public class IndirizzoController {
     @Operation(summary = "Find address by ID",
             description= "The address must exist")
     public ResponseEntity<IndirizzoDto> readIndirizzoById(@RequestParam Long id) {
-        return ResponseEntity.ok().body(indirizzoService.readIndirizzo(id));
+        return ResponseEntity.ok().body(indirizzoService.findIndirizzo(id));
     }
 
-    @PutMapping("/update")
-    @Operation(summary = "Update indirizzo by ID",
-            description= "The address must exist")
-    public ResponseEntity<Optional<IndirizzoDto>> updateIndirizzoById(@RequestBody IndirizzoDto indirizzoDto, @RequestParam String author) throws Exception {
-
-
-            return ResponseEntity.ok().body(Optional.of(indirizzoService.updateIndirizzo(indirizzoDto, author)));
-
+    @GetMapping("/find-all")
+    @Operation(summary = "Find all address by customer ID")
+    public ResponseEntity<List<IndirizzoDto>> readIndirizziById(@RequestParam Long clienteId) {
+        return ResponseEntity.ok().body(indirizzoService.findAllIndirizziByClienteId(clienteId));
     }
+
 
     @DeleteMapping("/delete")
     @Operation(summary = "Delete address by ID",

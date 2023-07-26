@@ -33,10 +33,11 @@ public class OrdineService {
         clienteDto.setId(cliente.get().getId());
         clienteDto.setEmail(cliente.get().getEmail());
         clienteDto.setTelefono(cliente.get().getTelefono());
-        clienteDto.setNome(clienteDto.getNome());
-        clienteDto.setCognome(clienteDto.getCognome());
-        clienteDto.setPassword(clienteDto.getPassword());
-        clienteDto.setCodiceFiscale(clienteDto.getCodiceFiscale());
+        clienteDto.setDataDiNascita(cliente.get().getDataDiNascita());
+        clienteDto.setNome(cliente.get().getNome());
+        clienteDto.setCognome(cliente.get().getCognome());
+        clienteDto.setPassword(cliente.get().getPassword());
+        clienteDto.setCodiceFiscale(cliente.get().getCodiceFiscale());
 
 
         Ordine ordine = new Ordine();

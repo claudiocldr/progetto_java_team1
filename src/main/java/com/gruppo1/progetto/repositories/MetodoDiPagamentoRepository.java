@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Transactional
 public interface MetodoDiPagamentoRepository extends JpaRepository<MetodoDiPagamento, Long> {
 
+    void deleteByClienteId (Long clienteId);
     @Modifying
     @Query(value = "UPDATE metodo_di_pagamento SET numero_carta = ?, nome_cognome = ?, indirizzo_id = ?, cvv = ?, modify_by = ?, modify_on = ? WHERE id = ?", nativeQuery = true)
     void updateIndirizzoById(String numeroCarta, String nomeCognome, Long indirizzoId, String cvv, String modifyBy, LocalDateTime modifyOn, Long id);

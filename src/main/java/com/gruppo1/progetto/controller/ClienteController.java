@@ -64,7 +64,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "Update customer",
+    @Operation(summary = "delete customer",
             description = "Customer must exist")
 
     public ResponseEntity<Optional<ClienteDto>> deleteCliente(@RequestParam Long id) {

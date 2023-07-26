@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public class OrdineDto {
     @JsonIgnore
-
     private Long id;
     private LocalDate data;
 

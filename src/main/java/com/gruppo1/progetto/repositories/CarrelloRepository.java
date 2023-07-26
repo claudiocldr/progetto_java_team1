@@ -13,6 +13,6 @@ public interface CarrelloRepository extends JpaRepository<Carrello, Long> {
 
     Optional<Carrello> findByNomeAndClienteId(String nome, Long clienteId);
 
-    void deleteAllByClienteId(Long clienteId);
+    void deleteByClienteId(Long clienteId);
 
 }

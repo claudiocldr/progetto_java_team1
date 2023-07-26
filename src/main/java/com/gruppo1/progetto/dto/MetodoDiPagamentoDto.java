@@ -10,11 +10,11 @@ import jakarta.persistence.OneToOne;
 
 public class MetodoDiPagamentoDto {
     @JsonIgnore
-
     private Long id;
     private String numeroCarta;
     private String nomeCognome;
 
+    @JsonIgnore
     private IndirizzoDto indirizzo;
     private String cvv;
 
