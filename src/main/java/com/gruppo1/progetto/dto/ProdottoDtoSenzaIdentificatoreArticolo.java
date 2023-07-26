@@ -1,23 +1,17 @@
 package com.gruppo1.progetto.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.UUID;
-
-public class ProdottoDto {
+public class ProdottoDtoSenzaIdentificatoreArticolo {
     private String nome;
     private String descrizione;
     private Double prezzo;
-    private UUID identificatoreArticolo;
 
-    public ProdottoDto() {
-    }
-
-    public ProdottoDto(String nome, String descrizione, Double prezzo, UUID identificatoreArticolo) {
+    public ProdottoDtoSenzaIdentificatoreArticolo(String nome, String descrizione, Double prezzo) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
-        this.identificatoreArticolo = identificatoreArticolo;
+    }
+
+    public ProdottoDtoSenzaIdentificatoreArticolo() {
     }
 
     public String getNome() {
@@ -42,14 +36,5 @@ public class ProdottoDto {
 
     public void setPrezzo(Double prezzo) {
         this.prezzo = prezzo;
-    }
-
-
-    public UUID getIdentificatoreArticolo() {
-        return identificatoreArticolo;
-    }
-
-    public void setIdentificatoreArticolo(UUID identificatoreArticolo) {
-        this.identificatoreArticolo = identificatoreArticolo;
     }
 }

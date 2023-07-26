@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "prodotto")
@@ -20,7 +21,7 @@ public class Prodotto {
     private Double prezzo;
 
     @Column
-    private Long numeroArticolo;
+    private UUID identificatoreArticolo;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -37,12 +38,13 @@ public class Prodotto {
     public Prodotto() {
     }
 
-    public Prodotto(Long id, String nome, String descrizione, Double prezzo, Long numeroArticolo, String createdBy, LocalDateTime createdOn, String modifyBy, LocalDateTime modifyOn) {
+
+    public Prodotto(Long id, String nome, String descrizione, Double prezzo, UUID identificatoreArticolo, String createdBy, LocalDateTime createdOn, String modifyBy, LocalDateTime modifyOn) {
         this.id = id;
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
-        this.numeroArticolo = numeroArticolo;
+        this.identificatoreArticolo = identificatoreArticolo;
         this.createdBy = createdBy;
         this.createdOn = createdOn;
         this.modifyBy = modifyBy;
@@ -56,6 +58,7 @@ public class Prodotto {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getNome() {
         return nome;
@@ -81,12 +84,12 @@ public class Prodotto {
         this.prezzo = prezzo;
     }
 
-    public Long getNumeroArticolo() {
-        return numeroArticolo;
+    public UUID getIdentificatoreArticolo() {
+        return identificatoreArticolo;
     }
 
-    public void setNumeroArticolo(Long numeroArticolo) {
-        this.numeroArticolo = numeroArticolo;
+    public void setIdentificatoreArticolo(UUID identificatoreArticolo) {
+        this.identificatoreArticolo = identificatoreArticolo;
     }
 
     public String getCreatedBy() {

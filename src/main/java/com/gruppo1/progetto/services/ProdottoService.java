@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.services;
 
 import com.gruppo1.progetto.dto.ProdottoDto;
+import com.gruppo1.progetto.dto.ProdottoDtoSenzaIdentificatoreArticolo;
 import com.gruppo1.progetto.models.Prodotto;
 import com.gruppo1.progetto.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProdottoService {
@@ -19,19 +21,19 @@ public class ProdottoService {
     }
 
     //Create
-    public ProdottoDto createProdotto(ProdottoDto prodottoDto, String author) throws Exception {
+    public ProdottoDto createProdotto(ProdottoDtoSenzaIdentificatoreArticolo prodottoDto, String author) throws Exception {
             Prodotto prodotto = new Prodotto();
             prodotto.setNome(prodottoDto.getNome());
             prodotto.setDescrizione(prodottoDto.getDescrizione());
             prodotto.setPrezzo(prodottoDto.getPrezzo());
-            prodotto.setNumeroArticolo(prodottoDto.getNumeroArticolo());
+            prodotto.setIdentificatoreArticolo(UUID.randomUUID());
             prodotto.setModifyBy(author);
             prodotto.setModifyOn(LocalDateTime.now());
             prodotto.setCreatedBy(author);
             prodotto.setCreatedOn(LocalDateTime.now());
             try {
             Prodotto prodottoSaved = prodottoRepository.save(prodotto);
-            return new ProdottoDto(prodottoSaved.getNome(), prodottoSaved.getDescrizione(), prodottoSaved.getPrezzo(), prodottoDto.getNumeroArticolo());}
+            return new ProdottoDto (prodottoSaved.getNome(), prodottoSaved.getDescrizione(), prodottoSaved.getPrezzo(), prodottoSaved.getIdentificatoreArticolo());}
             catch (Exception e) {
                 return new ProdottoDto();
             }
@@ -39,17 +41,17 @@ public class ProdottoService {
     }
 
     //Read
-    public Optional<Prodotto> findProdottoByNumeroArticolo(Long numeroArticolo) {
-        return prodottoRepository.findByNumeroArticolo(numeroArticolo);
+    public Optional<Prodotto> findProdottoByIdentificatoreArticolo(UUID identificatoreArticolo) {
+        return prodottoRepository.findByIdentificatoreArticolo(identificatoreArticolo);
     }
-    public Optional<ProdottoDto> findProdottoAndReturnDto(Long numeroArticolo) {
-        Optional<Prodotto> prodotto = prodottoRepository.findByNumeroArticolo(numeroArticolo);
+    public Optional<ProdottoDto> findProdottoAndReturnDto(UUID identificatoreArticolo) {
+        Optional<Prodotto> prodotto = prodottoRepository.findByIdentificatoreArticolo(identificatoreArticolo);
         ProdottoDto prodottoDto = new ProdottoDto();
         try {
             prodottoDto.setNome(prodotto.get().getNome());
             prodottoDto.setDescrizione(prodotto.get().getDescrizione());
             prodottoDto.setPrezzo(prodotto.get().getPrezzo());
-            prodottoDto.setNumeroArticolo(prodotto.get().getNumeroArticolo());
+            prodottoDto.setIdentificatoreArticolo(prodotto.get().getIdentificatoreArticolo());
             return Optional.of(prodottoDto);}
 
         catch (Exception e){
@@ -61,35 +63,35 @@ public class ProdottoService {
     //Update
     public ProdottoDto updateProdotto(ProdottoDto prodottoDto, String author) {
         LocalDateTime modifyOn = LocalDateTime.now();
-        prodottoRepository.updateProdottoByNumeroArticolo(
+        prodottoRepository.updateProdottoByIdentificatoreArticolo(
                 prodottoDto.getNome(),
                 prodottoDto.getDescrizione(),
                 prodottoDto.getPrezzo(),
                 modifyOn,
                 author,
-                prodottoDto.getNumeroArticolo());
-        Optional<Prodotto> prodotto = prodottoRepository.findByNumeroArticolo(prodottoDto.getNumeroArticolo());
+                prodottoDto.getIdentificatoreArticolo());
+        Optional<Prodotto> prodotto = prodottoRepository.findByIdentificatoreArticolo(prodottoDto.getIdentificatoreArticolo());
         ProdottoDto prodottoDtoAggiornato = new ProdottoDto();
         if(prodotto.isPresent()){
         prodottoDtoAggiornato.setNome(prodotto.get().getNome());
         prodottoDtoAggiornato.setDescrizione(prodotto.get().getDescrizione());
         prodottoDtoAggiornato.setPrezzo(prodotto.get().getPrezzo());
-        prodottoDtoAggiornato.setNumeroArticolo(prodotto.get().getNumeroArticolo());
+        prodottoDtoAggiornato.setIdentificatoreArticolo(prodotto.get().getIdentificatoreArticolo());
         return prodottoDtoAggiornato;} else {
             return prodottoDtoAggiornato;
         }
     }
 
     //Delete
-    public ProdottoDto deleteProdotto(Long numeroArticolo) {
-        Optional<Prodotto> prodottoDaCancellare = prodottoRepository.findByNumeroArticolo(numeroArticolo);
+    public ProdottoDto deleteProdotto(UUID identificatoreArticolo) {
+        Optional<Prodotto> prodottoDaCancellare = prodottoRepository.findByIdentificatoreArticolo(identificatoreArticolo);
         ProdottoDto prodottoDtoCancellato = new ProdottoDto();
         if (prodottoDaCancellare.isPresent()) {
             prodottoDtoCancellato.setDescrizione(prodottoDaCancellare.get().getDescrizione());
             prodottoDtoCancellato.setNome(prodottoDaCancellare.get().getNome());
             prodottoDtoCancellato.setPrezzo(prodottoDaCancellare.get().getPrezzo());
-            prodottoDtoCancellato.setNumeroArticolo(prodottoDaCancellare.get().getNumeroArticolo());
-            prodottoRepository.deleteByNumeroArticolo(prodottoDaCancellare.get().getNumeroArticolo());
+            prodottoDtoCancellato.setIdentificatoreArticolo(prodottoDaCancellare.get().getIdentificatoreArticolo());
+            prodottoRepository.deleteByIdentificatoreArticolo(prodottoDaCancellare.get().getIdentificatoreArticolo());
             return prodottoDtoCancellato;
         } else {
             return prodottoDtoCancellato;

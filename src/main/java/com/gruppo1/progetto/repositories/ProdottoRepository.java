@@ -9,19 +9,20 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Transactional
 public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
 
     @Modifying
-    @Query(value = "UPDATE prodotto SET nome = ?, descrizione = ?, prezzo = ?, modify_on = ?, modify_by = ? WHERE numero_articolo = ?", nativeQuery = true)
-    void updateProdottoByNumeroArticolo(String nome, String descrizione, Double prezzo, LocalDateTime modifyOn, String modifyBy, Long numeroArticolo);
+    @Query(value = "UPDATE prodotto SET nome = ?, descrizione = ?, prezzo = ?, modify_on = ?, modify_by = ? WHERE identificatore_articolo = ?", nativeQuery = true)
+    void updateProdottoByIdentificatoreArticolo(String nome, String descrizione, Double prezzo, LocalDateTime modifyOn, String modifyBy, UUID identificatoreArticolo);
 
-    Optional<Prodotto> findByNumeroArticolo (Long numeroArticolo);
+    Optional<Prodotto> findByIdentificatoreArticolo (UUID identificatoreArticolo);
 
     @Modifying
-    void deleteByNumeroArticolo (Long numeroArticolo);
+    void deleteByIdentificatoreArticolo (UUID identificatoreArticolo);
 
 
 }

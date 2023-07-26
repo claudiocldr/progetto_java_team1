@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/cliente")
@@ -47,8 +48,8 @@ public class ClienteController {
     @PostMapping("/insert-product")
     @Operation(summary = "insert a new product into the selected shopping cart")
     public ResponseEntity<Optional<RigaOrdineDto>> insertProductIntoCart(@RequestParam Long clienteId, @RequestParam String nomeCarrello,
-                                                                         @RequestParam Long numeroArticolo, @RequestParam Integer quantita) {
-        Optional< RigaOrdineDto> rigaOrdineDto = rigaOrdineService.inserisciProdottoNelCarrello(nomeCarrello, clienteId, numeroArticolo, quantita);
+                                                                         @RequestParam UUID identificatoreArticolo, @RequestParam Integer quantita) {
+        Optional< RigaOrdineDto> rigaOrdineDto = rigaOrdineService.inserisciProdottoNelCarrello(nomeCarrello, clienteId, identificatoreArticolo, quantita);
         if (rigaOrdineDto.isPresent()) {
             return ResponseEntity.ok().body(rigaOrdineDto);
         }else {

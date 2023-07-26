@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RigaOrdineService {
@@ -31,7 +32,7 @@ public class RigaOrdineService {
             prodottoDto.setPrezzo(m.getProdotto().getPrezzo());
             prodottoDto.setNome(m.getProdotto().getNome());
             prodottoDto.setDescrizione(m.getProdotto().getDescrizione());
-            prodottoDto.setNumeroArticolo(m.getProdotto().getNumeroArticolo());
+            prodottoDto.setIdentificatoreArticolo(m.getProdotto().getIdentificatoreArticolo());
 
             r.setProdotto(prodottoDto);
             r.setQuantita(m.getQuantita());
@@ -40,8 +41,8 @@ public class RigaOrdineService {
         return righeDto;
     }
 
-    public Optional<RigaOrdineDto> inserisciProdottoNelCarrello(String nomeCarrello, Long clienteId, Long numeroArticolo, Integer quantita) {
-        Optional<Prodotto> prodottoOptional = prodottoRepo.findByNumeroArticolo(numeroArticolo);
+    public Optional<RigaOrdineDto> inserisciProdottoNelCarrello(String nomeCarrello, Long clienteId, UUID identificatoreArticolo, Integer quantita) {
+        Optional<Prodotto> prodottoOptional = prodottoRepo.findByIdentificatoreArticolo(identificatoreArticolo);
         RigaOrdine rigaOrdine = new RigaOrdine();
         rigaOrdine.setProdotto(prodottoOptional.get());
         rigaOrdine.setQuantita(quantita);
@@ -52,7 +53,7 @@ public class RigaOrdineService {
                 rigaOrdineSalvata.getProdotto().getNome(),
                 rigaOrdineSalvata.getProdotto().getDescrizione(),
                 rigaOrdineSalvata.getProdotto().getPrezzo(),
-                rigaOrdineSalvata.getProdotto().getNumeroArticolo());
+                rigaOrdineSalvata.getProdotto().getIdentificatoreArticolo());
         RigaOrdineDto rigaOrdineDto = new RigaOrdineDto(prodottoDto, quantita);
         return  Optional.of(rigaOrdineDto);
     }
