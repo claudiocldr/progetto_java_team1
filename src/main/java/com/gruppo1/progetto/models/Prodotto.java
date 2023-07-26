@@ -18,12 +18,9 @@ public class Prodotto {
     private String descrizione;
     @Column
     private Double prezzo;
-    @Column
-    private String sku;
 
-//    @OneToMany
-//    @JoinColumn(name = "prodotto_id")
-//    private List<OrdineProdotto> ordineProdottoList;
+    @Column
+    private Long numeroArticolo;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -37,6 +34,21 @@ public class Prodotto {
     @Column(name = "modify_on")
     private LocalDateTime modifyOn;
 
+    public Prodotto() {
+    }
+
+    public Prodotto(Long id, String nome, String descrizione, Double prezzo, Long numeroArticolo, String createdBy, LocalDateTime createdOn, String modifyBy, LocalDateTime modifyOn) {
+        this.id = id;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.numeroArticolo = numeroArticolo;
+        this.createdBy = createdBy;
+        this.createdOn = createdOn;
+        this.modifyBy = modifyBy;
+        this.modifyOn = modifyOn;
+    }
+
     public Long getId() {
         return id;
     }
@@ -44,14 +56,6 @@ public class Prodotto {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public List<OrdineProdotto> getOrdineProdottoList() {
-//        return ordineProdottoList;
-//    }
-//
-//    public void setOrdineProdottoList(List<OrdineProdotto> ordineProdottoList) {
-//        this.ordineProdottoList = ordineProdottoList;
-//    }
 
     public String getNome() {
         return nome;
@@ -77,12 +81,12 @@ public class Prodotto {
         this.prezzo = prezzo;
     }
 
-    public String getSku() {
-        return sku;
+    public Long getNumeroArticolo() {
+        return numeroArticolo;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setNumeroArticolo(Long numeroArticolo) {
+        this.numeroArticolo = numeroArticolo;
     }
 
     public String getCreatedBy() {

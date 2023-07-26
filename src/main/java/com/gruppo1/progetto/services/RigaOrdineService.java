@@ -28,11 +28,10 @@ public class RigaOrdineService {
         List<RigaOrdineDto> righeDto = righe.stream().map(m -> {
             RigaOrdineDto r = new RigaOrdineDto();
             ProdottoDto prodottoDto = new ProdottoDto();
-            prodottoDto.setId(m.getProdotto().getId());
             prodottoDto.setPrezzo(m.getProdotto().getPrezzo());
             prodottoDto.setNome(m.getProdotto().getNome());
             prodottoDto.setDescrizione(m.getProdotto().getDescrizione());
-            prodottoDto.setSku(m.getProdotto().getSku());
+            prodottoDto.setNumeroArticolo(m.getProdotto().getNumeroArticolo());
 
             r.setProdotto(prodottoDto);
             r.setQuantita(m.getQuantita());
@@ -41,19 +40,19 @@ public class RigaOrdineService {
         return righeDto;
     }
 
-    public Optional<RigaOrdineDto> inserisciProdottoNelCarrello(String nomeCarrello, Long clienteId, Long prodottoId, Integer quantita) {
-        Optional<Prodotto> prodottoOptional = prodottoRepo.findById(prodottoId);
+    public Optional<RigaOrdineDto> inserisciProdottoNelCarrello(String nomeCarrello, Long clienteId, Long numeroArticolo, Integer quantita) {
+        Optional<Prodotto> prodottoOptional = prodottoRepo.findByNumeroArticolo(numeroArticolo);
         RigaOrdine rigaOrdine = new RigaOrdine();
         rigaOrdine.setProdotto(prodottoOptional.get());
         rigaOrdine.setQuantita(quantita);
         Carrello carrello = carrelloRepo.findByNomeAndClienteId(nomeCarrello, clienteId).get();
         rigaOrdine.setCarrello(carrello);
         RigaOrdine rigaOrdineSalvata = rigaOrdineRepo.save(rigaOrdine);
-        ProdottoDto prodottoDto = new ProdottoDto(rigaOrdineSalvata.getProdotto().getId(),
+        ProdottoDto prodottoDto = new ProdottoDto(
                 rigaOrdineSalvata.getProdotto().getNome(),
                 rigaOrdineSalvata.getProdotto().getDescrizione(),
                 rigaOrdineSalvata.getProdotto().getPrezzo(),
-                rigaOrdineSalvata.getProdotto().getSku());
+                rigaOrdineSalvata.getProdotto().getNumeroArticolo());
         RigaOrdineDto rigaOrdineDto = new RigaOrdineDto(prodottoDto, quantita);
         return  Optional.of(rigaOrdineDto);
     }

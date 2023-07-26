@@ -17,43 +17,41 @@ public class ProdottoController {
     private final ProdottoService prodottoService;
 
     @Autowired
-    public ProdottoController(ProdottoService prodottoService){
+    public ProdottoController(ProdottoService prodottoService) {
         this.prodottoService = prodottoService;
     }
 
     @GetMapping("/find")
-    @Operation(summary = "Find a product by ID",
-            description= "Product must exist")
-    public ResponseEntity<Optional<ProdottoDto>> getProdottoById(@RequestParam Long id) throws Exception {
-        Optional<ProdottoDto> prodottoDto = prodottoService.findProdottoAndReturnDto(id);
-                if (prodottoDto.get().getId() != null) {
-                    return ResponseEntity.ok().body(prodottoDto);
-                }
-                else {
-                    return ResponseEntity.notFound().build();
-                }
+    @Operation(summary = "Find a product by its article number",
+            description = "Product must exist")
+    public ResponseEntity<Optional<ProdottoDto>> getProdottoByNumeroArticolo(@RequestParam Long numeroArticolo) throws Exception {
+        Optional<ProdottoDto> prodottoDto = prodottoService.findProdottoAndReturnDto(numeroArticolo);
+        if (prodottoDto.get().getNumeroArticolo() != null) {
+            return ResponseEntity.ok().body(prodottoDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
 
     }
 
     @PutMapping("/update")
-    @Operation(summary = "Update a product by ID",
-            description= "Product must exist")
-    public ResponseEntity<Optional<ProdottoDto>> updateProdottoById (@RequestBody ProdottoDto prodottoDto, @RequestParam Long id, @RequestParam String author) {
-            Optional<ProdottoDto> prodottoDtoAggiornato = Optional.of(prodottoService.updateProdotto(prodottoDto, id, author));
-            if (prodottoDtoAggiornato.get().getId() != null) {
-                return ResponseEntity.ok().body(prodottoDtoAggiornato);
-            }
-            else {
-                return ResponseEntity.badRequest().body(prodottoDtoAggiornato);
-            }
+    @Operation(summary = "Update a product by its article number",
+            description = "Product must exist")
+    public ResponseEntity<Optional<ProdottoDto>> updateProdottoByNumeroArticolo(@RequestBody ProdottoDto prodottoDto, @RequestParam String author) {
+        Optional<ProdottoDto> prodottoDtoAggiornato = Optional.of(prodottoService.updateProdotto(prodottoDto, author));
+        if (prodottoDtoAggiornato.get().getNumeroArticolo() != null) {
+            return ResponseEntity.ok().body(prodottoDtoAggiornato);
+        } else {
+            return ResponseEntity.badRequest().body(prodottoDtoAggiornato);
+        }
     }
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Delete a product by ID",
+    @Operation(summary = "Delete a product by its article number",
             description= "Product must exist")
-    public ResponseEntity<Optional<ProdottoDto>> deleteProdottoById(@RequestParam Long id) {
-        Optional<ProdottoDto> prodottoDtoCancellato = Optional.of(prodottoService.deleteProdotto(id));
-            if(prodottoDtoCancellato.get().getId() != null) {
+    public ResponseEntity<Optional<ProdottoDto>> deleteProdottoById(@RequestParam Long numeroArticolo) {
+        Optional<ProdottoDto> prodottoDtoCancellato = Optional.of(prodottoService.deleteProdotto(numeroArticolo));
+            if(prodottoDtoCancellato.get().getNumeroArticolo() != null) {
                 return ResponseEntity.ok().body(prodottoDtoCancellato);
             }
             else {
@@ -63,10 +61,10 @@ public class ProdottoController {
     }
 
     @PostMapping("/create")
-    @Operation(summary = "Create a product by ID")
+    @Operation(summary = "Create a product and save it to the database")
     public ResponseEntity<Optional<ProdottoDto>> insertProdotto(@RequestBody ProdottoDto prodottoDto, @RequestParam String author) throws Exception {
         Optional<ProdottoDto> prodottoDtoInserito = Optional.of(prodottoService.createProdotto(prodottoDto, author));
-        if (prodottoDtoInserito.get().getId() != null) {
+        if (prodottoDtoInserito.get().getNumeroArticolo() != null) {
             return ResponseEntity.ok().body(prodottoDtoInserito);
         }
         else {

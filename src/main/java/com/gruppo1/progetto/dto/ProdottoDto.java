@@ -1,29 +1,20 @@
 package com.gruppo1.progetto.dto;
 
 public class ProdottoDto {
-    private Long id;
     private String nome;
     private String descrizione;
     private Double prezzo;
-    private String sku;
+
+    private Long numeroArticolo;
 
     public ProdottoDto() {
     }
 
-    public ProdottoDto(Long id, String nome, String descrizione, Double prezzo, String sku) {
-        this.id = id;
+    public ProdottoDto(String nome, String descrizione, Double prezzo, Long numeroArticolo) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
-        this.sku = sku;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.numeroArticolo = numeroArticolo;
     }
 
     public String getNome() {
@@ -50,12 +41,11 @@ public class ProdottoDto {
         this.prezzo = prezzo;
     }
 
-    public String getSku() {
-        return sku;
+    public Long getNumeroArticolo() {
+        return numeroArticolo;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setNumeroArticolo(Long numeroArticolo) {
+        this.numeroArticolo = numeroArticolo;
     }
-
 }

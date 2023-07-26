@@ -47,8 +47,8 @@ public class ClienteController {
     @PostMapping("/insert-product")
     @Operation(summary = "insert a new product into the selected shopping cart")
     public ResponseEntity<Optional<RigaOrdineDto>> insertProductIntoCart(@RequestParam Long clienteId, @RequestParam String nomeCarrello,
-                                                                         @RequestParam Long prodottoId, @RequestParam Integer quantita) {
-        Optional< RigaOrdineDto> rigaOrdineDto = rigaOrdineService.inserisciProdottoNelCarrello(nomeCarrello, clienteId, prodottoId, quantita);
+                                                                         @RequestParam Long numeroArticolo, @RequestParam Integer quantita) {
+        Optional< RigaOrdineDto> rigaOrdineDto = rigaOrdineService.inserisciProdottoNelCarrello(nomeCarrello, clienteId, numeroArticolo, quantita);
         if (rigaOrdineDto.isPresent()) {
             return ResponseEntity.ok().body(rigaOrdineDto);
         }else {
