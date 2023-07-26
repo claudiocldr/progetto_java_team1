@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.controller;
 
 import com.gruppo1.progetto.dto.ClienteDto;
+import com.gruppo1.progetto.dto.RiepilogoOrdine;
 import com.gruppo1.progetto.dto.RigaOrdineDto;
 import com.gruppo1.progetto.services.ClienteService;
 import com.gruppo1.progetto.services.RigaOrdineService;
@@ -54,6 +55,11 @@ public class ClienteController {
         }else {
             return ResponseEntity.badRequest().body(rigaOrdineDto);
         }
+    }
+    @PostMapping("/buy")
+    @Operation(summary = "make your purchase")
+    public ResponseEntity<RiepilogoOrdine> buy(@RequestParam Long clienteId, @RequestParam Long metodoDiPagamentoId, @RequestParam String carrelloNome, @RequestParam Long indirizzoDiSpedizioneAlternativoId, @RequestParam String author){
+        return ResponseEntity.ok().body(clienteService.buy(clienteId, metodoDiPagamentoId, carrelloNome, indirizzoDiSpedizioneAlternativoId, author));
     }
 
     @DeleteMapping("/delete")
