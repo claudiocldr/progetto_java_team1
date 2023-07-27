@@ -12,30 +12,28 @@ public class User {
     private String password;
 
     @Column(nullable = false)
+    private String role;
+
+    @Column(nullable = false)
     private Boolean enabled;
 
 
-    @ManyToOne
-    @JoinColumn(name = "authority_id", nullable = false)
-    private Authority authority;
-
-
-    public User(String username, String password, Boolean enabled, Authority authority) {
+    public User(String username, String password, String role, Boolean enabled) {
         this.username = username;
         this.password = password;
+        this.role = role;
         this.enabled = enabled;
-        this.authority = authority;
     }
 
     public User() {
     }
 
-    public Authority getAuthority() {
-        return authority;
+    public String getRole() {
+        return role;
     }
 
-    public void setAuthority(Authority authority) {
-        this.authority = authority;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getUsername() {
