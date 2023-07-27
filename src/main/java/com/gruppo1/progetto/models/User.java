@@ -27,6 +27,9 @@ public class User {
         this.authority = authority;
     }
 
+    public User() {
+    }
+
     public Authority getAuthority() {
         return authority;
     }
