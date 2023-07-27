@@ -24,6 +24,7 @@ public class RigaOrdineService {
     @Autowired
     public CarrelloRepository carrelloRepo;
 
+    //Read
     public List<RigaOrdineDto> getAllByCarrelloId(Long carrelloId) {
         List<RigaOrdine> righe = rigaOrdineRepo.findByCarrelloId(carrelloId);
         List<RigaOrdineDto> righeDto = righe.stream().map(m -> {
@@ -41,6 +42,7 @@ public class RigaOrdineService {
         return righeDto;
     }
 
+    //Create
     public Optional<RigaOrdineDto> inserisciProdottoNelCarrello(String nomeCarrello, Long clienteId, UUID identificatoreArticolo, Integer quantita) {
         Optional<Prodotto> prodottoOptional = prodottoRepo.findByIdentificatoreArticolo(identificatoreArticolo);
         RigaOrdine rigaOrdine = new RigaOrdine();

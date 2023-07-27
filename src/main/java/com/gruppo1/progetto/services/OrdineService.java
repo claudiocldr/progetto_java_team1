@@ -26,6 +26,7 @@ public class OrdineService {
         this.rigaOrdineService = rigaOrdineService;
     }
 
+    //create
     public OrdineDto createOrdine(Long idCliente, String nomeCarrello, String author) {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
@@ -66,6 +67,8 @@ public class OrdineService {
         return ordineDto;
 
     }
+
+    //read
     public OrdineDto findOrdineById(Long id) {
 
         Optional<Ordine> ordine = ordineRepository.findById(id);

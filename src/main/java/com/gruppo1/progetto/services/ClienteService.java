@@ -42,7 +42,7 @@ public class ClienteService {
 
 
     //Create
-    public ClienteDto insertCliente(ClienteDto clienteDto, String author) {
+    public ClienteDto insertCliente(ClienteSenzaIdDto clienteDto, String author) {
         Cliente c = new Cliente();
         c.setNome(clienteDto.getNome());
         c.setCodiceFiscale(clienteDto.getCodiceFiscale());
@@ -94,7 +94,7 @@ public class ClienteService {
     }
 
     //Update
-    public ClienteDto updateCliente(Long id, ClienteDto clienteDto, String author) {
+    public ClienteDto updateCliente(Long id, ClienteSenzaIdDto clienteDto, String author) {
         LocalDateTime modifyOn = LocalDateTime.now();
         clienteRepository.updateClienteById(
                 clienteDto.getDataDiNascita(),
@@ -135,7 +135,6 @@ public class ClienteService {
         metodoDiPagamentoRepository.deleteByClienteId(clienteDaCancellare.get().getId());
 
         indirizzoRepository.deleteByClienteId(clienteDaCancellare.get().getId());
-
 
         clienteRepository.deleteClienteById(clienteDaCancellare.get().getId());
 

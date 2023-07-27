@@ -1,34 +1,25 @@
 package com.gruppo1.progetto.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gruppo1.progetto.models.Cliente;
 
-public class IndirizzoDto {
-    private Long id;
+public class IndirizzoSenzaIdDto {
+
     private String via;
     private String cap;
     private Integer numeroCivico;
     @JsonIgnore
     private ClienteDto clienteDto;
 
-    public IndirizzoDto(Long id, String via, String cap, Integer numeroCivico, ClienteDto clienteDto) {
-        this.id = id;
+    public IndirizzoSenzaIdDto(String via, String cap, Integer numeroCivico, ClienteDto clienteDto) {
         this.via = via;
         this.cap = cap;
         this.numeroCivico = numeroCivico;
         this.clienteDto = clienteDto;
     }
 
-    public IndirizzoDto() {
+    public IndirizzoSenzaIdDto() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getVia() {
         return via;

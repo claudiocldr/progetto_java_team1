@@ -2,6 +2,7 @@ package com.gruppo1.progetto.services;
 
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.dto.IndirizzoDto;
+import com.gruppo1.progetto.dto.IndirizzoSenzaIdDto;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.repositories.ClienteRepository;
@@ -24,7 +25,7 @@ public class IndirizzoService {
     private ClienteRepository clienteRepository;
 
     // Create
-    public IndirizzoDto createIndirizzo(IndirizzoDto indirizzoDto, String author, Long clienteId) {
+    public IndirizzoDto createIndirizzo(IndirizzoSenzaIdDto indirizzoDto, String author, Long clienteId) {
 
         Indirizzo iE = new Indirizzo();
         iE.setVia(indirizzoDto.getVia());
@@ -46,8 +47,13 @@ public class IndirizzoService {
         iE.setCliente(cliente.get());
         indirizzoDto.setClienteDto(clienteDto);
         Indirizzo indirizzoCreato = indirizzoRepository.save(iE);
-        indirizzoDto.setId(indirizzoCreato.getId());
-        return indirizzoDto;
+        IndirizzoDto indirizzoDtoForResponse = new IndirizzoDto(indirizzoCreato.getId(),
+                indirizzoCreato.getVia(),
+                indirizzoCreato.getCap(),
+                indirizzoCreato.getNumeroCivico(),
+                clienteDto);
+
+        return indirizzoDtoForResponse;
 
 
     }
@@ -68,16 +74,16 @@ public class IndirizzoService {
     }
 
     public List<IndirizzoDto> findAllIndirizziByClienteId(Long clienteId) {
-        List<Indirizzo> indirizzi =  indirizzoRepository.findByClienteId(clienteId).get();
-       Cliente cliente = clienteRepository.findById(clienteId).get();
-       ClienteDto clienteDto = new ClienteDto(cliente.getId(),
-               cliente.getNome(),
-               cliente.getCognome(),
-               cliente.getDataDiNascita(),
-               cliente.getTelefono(),
-               cliente.getEmail(),
-               cliente.getCodiceFiscale(),
-               cliente.getPassword());
+        List<Indirizzo> indirizzi = indirizzoRepository.findByClienteId(clienteId).get();
+        Cliente cliente = clienteRepository.findById(clienteId).get();
+        ClienteDto clienteDto = new ClienteDto(cliente.getId(),
+                cliente.getNome(),
+                cliente.getCognome(),
+                cliente.getDataDiNascita(),
+                cliente.getTelefono(),
+                cliente.getEmail(),
+                cliente.getCodiceFiscale(),
+                cliente.getPassword());
         List<IndirizzoDto> indirizziDto = indirizzi.stream().map(x -> new IndirizzoDto(x.getId(), x.getVia(), x.getCap(), x.getNumeroCivico(), clienteDto)).collect(Collectors.toList());
         return indirizziDto;
     }
@@ -85,13 +91,13 @@ public class IndirizzoService {
 
     // Delete
     public IndirizzoDto deleteIndirizzo(Long id) {
-            Indirizzo indirizzo = indirizzoRepository.findById(id).get();
-            IndirizzoDto indirizzoCancellato = new IndirizzoDto();
-            indirizzoCancellato.setId(indirizzo.getId());
-            indirizzoCancellato.setCap(indirizzo.getCap());
-            indirizzoCancellato.setVia(indirizzo.getVia());
-            indirizzoCancellato.setNumeroCivico(indirizzo.getNumeroCivico());
-            indirizzoRepository.deleteIndirizzoById(id);
+        Indirizzo indirizzo = indirizzoRepository.findById(id).get();
+        IndirizzoDto indirizzoCancellato = new IndirizzoDto();
+        indirizzoCancellato.setId(indirizzo.getId());
+        indirizzoCancellato.setCap(indirizzo.getCap());
+        indirizzoCancellato.setVia(indirizzo.getVia());
+        indirizzoCancellato.setNumeroCivico(indirizzo.getNumeroCivico());
+        indirizzoRepository.deleteIndirizzoById(id);
         return indirizzoCancellato;
     }
 }

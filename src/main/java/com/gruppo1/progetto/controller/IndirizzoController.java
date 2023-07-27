@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.controller;
 
 import com.gruppo1.progetto.dto.IndirizzoDto;
+import com.gruppo1.progetto.dto.IndirizzoSenzaIdDto;
 import com.gruppo1.progetto.services.IndirizzoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class IndirizzoController {
 
     @PostMapping("/create")
     @Operation(summary = "Create a new address")
-    public ResponseEntity<Optional<IndirizzoDto>> createIndirizzo(@RequestBody IndirizzoDto indirizzoDto, @RequestParam String author, @RequestParam Long idCliente) {
+    public ResponseEntity<Optional<IndirizzoDto>> createIndirizzo(@RequestBody IndirizzoSenzaIdDto indirizzoDto, @RequestParam String author, @RequestParam Long idCliente) {
 
             return ResponseEntity.ok().body(Optional.of(indirizzoService.createIndirizzo(indirizzoDto, author, idCliente)));
     }

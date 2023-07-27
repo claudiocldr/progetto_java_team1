@@ -3,6 +3,7 @@ package com.gruppo1.progetto.services;
 import com.gruppo1.progetto.dto.ClienteDto;
 import com.gruppo1.progetto.dto.IndirizzoDto;
 import com.gruppo1.progetto.dto.MetodoDiPagamentoDto;
+import com.gruppo1.progetto.dto.MetodoDiPagamentoSenzaIdDto;
 import com.gruppo1.progetto.models.Cliente;
 import com.gruppo1.progetto.models.Indirizzo;
 import com.gruppo1.progetto.models.MetodoDiPagamento;
@@ -27,7 +28,7 @@ public class MetodoDiPagamentoService {
     private IndirizzoRepository indirizzoRepository;
 
     // Create
-    public MetodoDiPagamentoDto createMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, Long clienteId, Long indirizzoId, String author) {
+    public MetodoDiPagamentoDto createMetodoDiPagamento(MetodoDiPagamentoSenzaIdDto metodoDiPagamentoDto, Long clienteId, Long indirizzoId, String author) {
         MetodoDiPagamento mE = new MetodoDiPagamento();
         mE.setNumeroCarta(metodoDiPagamentoDto.getNumeroCarta());
         mE.setNomeCognome(metodoDiPagamentoDto.getNomeCognome());
@@ -40,14 +41,19 @@ public class MetodoDiPagamentoService {
         mE.setModifyOn(LocalDateTime.now());
         mE.setCliente(cliente.get());
         MetodoDiPagamento metodoDiPagamento = metodoDiPagamentoRepository.save(mE);
-        metodoDiPagamentoDto.setId(metodoDiPagamento.getId());
         IndirizzoDto indirizzoDto = new IndirizzoDto();
         indirizzoDto.setId(metodoDiPagamento.getIndirizzo().getId());
         indirizzoDto.setCap(metodoDiPagamento.getIndirizzo().getCap());
         indirizzoDto.setNumeroCivico(metodoDiPagamento.getIndirizzo().getNumeroCivico());
         indirizzoDto.setVia(metodoDiPagamento.getIndirizzo().getVia());
         metodoDiPagamentoDto.setIndirizzo(indirizzoDto);
-        return metodoDiPagamentoDto;
+        MetodoDiPagamentoDto metodoDiPagamentoDtoForResponse = new MetodoDiPagamentoDto(metodoDiPagamento.getId(),
+                metodoDiPagamento.getNumeroCarta(),
+                metodoDiPagamento.getNomeCognome(),
+                indirizzoDto,
+                metodoDiPagamento.getCvv());
+
+        return metodoDiPagamentoDtoForResponse;
     }
 
 
@@ -72,37 +78,38 @@ public class MetodoDiPagamentoService {
             metodoDiPagamentoDto.setCvv(m.getCvv());
 
             return metodoDiPagamentoDto;
-        } else{
-        return metodoDiPagamentoDto;}
+        } else {
+            return metodoDiPagamentoDto;
+        }
     }
 
 
     // Update
-    public MetodoDiPagamentoDto updateMetodoDiPagamento(MetodoDiPagamentoDto metodoDiPagamentoDto, String author) {
-                MetodoDiPagamento m = metodoDiPagamentoRepository.findById(metodoDiPagamentoDto.getId()).get();
-                m.setNumeroCarta(metodoDiPagamentoDto.getNumeroCarta());
-                m.setNomeCognome(metodoDiPagamentoDto.getNomeCognome());
-               Indirizzo indirizzoAggiornato = indirizzoRepository.findById(metodoDiPagamentoDto.getIndirizzo().getId()).get();
-                m.setIndirizzo(indirizzoAggiornato);
-                m.setCvv(metodoDiPagamentoDto.getCvv());
-                m.setModifyBy(author);
-                m.setModifyOn(LocalDateTime.now());
-                metodoDiPagamentoRepository.updateIndirizzoById(m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo().getId(), m.getCvv(), m.getModifyBy(), m.getModifyOn(), m.getId());
+    public MetodoDiPagamentoDto updateMetodoDiPagamento(Long metodoDiPagamentoId, MetodoDiPagamentoSenzaIdDto metodoDiPagamentoDto, String author) {
+        MetodoDiPagamento m = metodoDiPagamentoRepository.findById(metodoDiPagamentoId).get();
+        m.setNumeroCarta(metodoDiPagamentoDto.getNumeroCarta());
+        m.setNomeCognome(metodoDiPagamentoDto.getNomeCognome());
+        Indirizzo indirizzoAggiornato = indirizzoRepository.findById(metodoDiPagamentoDto.getIndirizzo().getId()).get();
+        m.setIndirizzo(indirizzoAggiornato);
+        m.setCvv(metodoDiPagamentoDto.getCvv());
+        m.setModifyBy(author);
+        m.setModifyOn(LocalDateTime.now());
+        metodoDiPagamentoRepository.updateIndirizzoById(m.getNumeroCarta(), m.getNomeCognome(), m.getIndirizzo().getId(), m.getCvv(), m.getModifyBy(), m.getModifyOn(), m.getId());
 
-                IndirizzoDto indirizzoDto = new IndirizzoDto();
-                indirizzoDto.setCap(indirizzoAggiornato.getCap());
-                indirizzoDto.setNumeroCivico(indirizzoAggiornato.getNumeroCivico());
-                indirizzoDto.setVia(indirizzoAggiornato.getVia());
-                indirizzoDto.setId(indirizzoAggiornato.getId());
+        IndirizzoDto indirizzoDto = new IndirizzoDto();
+        indirizzoDto.setCap(indirizzoAggiornato.getCap());
+        indirizzoDto.setNumeroCivico(indirizzoAggiornato.getNumeroCivico());
+        indirizzoDto.setVia(indirizzoAggiornato.getVia());
+        indirizzoDto.setId(indirizzoAggiornato.getId());
 
-                MetodoDiPagamentoDto metodoDiPagamentoDtoAggiornato = new MetodoDiPagamentoDto();
-                metodoDiPagamentoDtoAggiornato.setNomeCognome(m.getNomeCognome());
-                metodoDiPagamentoDtoAggiornato.setNumeroCarta(m.getNumeroCarta());
-                metodoDiPagamentoDtoAggiornato.setCvv(m.getCvv());
-                metodoDiPagamentoDtoAggiornato.setId(m.getId());
-                metodoDiPagamentoDtoAggiornato.setIndirizzo(indirizzoDto);
+        MetodoDiPagamentoDto metodoDiPagamentoDtoAggiornato = new MetodoDiPagamentoDto();
+        metodoDiPagamentoDtoAggiornato.setNomeCognome(m.getNomeCognome());
+        metodoDiPagamentoDtoAggiornato.setNumeroCarta(m.getNumeroCarta());
+        metodoDiPagamentoDtoAggiornato.setCvv(m.getCvv());
+        metodoDiPagamentoDtoAggiornato.setId(m.getId());
+        metodoDiPagamentoDtoAggiornato.setIndirizzo(indirizzoDto);
 
-                return metodoDiPagamentoDtoAggiornato;
+        return metodoDiPagamentoDtoAggiornato;
     }
 
     // Delete

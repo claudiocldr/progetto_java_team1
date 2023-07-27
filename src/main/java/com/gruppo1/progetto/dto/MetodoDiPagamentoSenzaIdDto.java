@@ -1,43 +1,22 @@
 package com.gruppo1.progetto.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gruppo1.progetto.models.Cliente;
-import com.gruppo1.progetto.models.Indirizzo;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
-public class MetodoDiPagamentoDto {
-    private Long id;
+public class MetodoDiPagamentoSenzaIdDto {
+
     private String numeroCarta;
     private String nomeCognome;
     @JsonIgnore
     private IndirizzoDto indirizzo;
     private String cvv;
 
-    public MetodoDiPagamentoDto() {
+    public MetodoDiPagamentoSenzaIdDto() {
 
     }
 
-    public MetodoDiPagamentoDto(Long id, String numeroCarta, String nomeCognome, IndirizzoDto indirizzo, String cvv) {
-        this.id = id;
-        this.numeroCarta = numeroCarta;
-        this.nomeCognome = nomeCognome;
-        this.indirizzo = indirizzo;
-        this.cvv = cvv;
-    }
 
     public void setIndirizzo(IndirizzoDto indirizzo) {
         this.indirizzo = indirizzo;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNumeroCarta() {

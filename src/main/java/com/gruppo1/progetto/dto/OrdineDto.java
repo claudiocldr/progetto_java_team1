@@ -13,19 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class OrdineDto {
-    @JsonIgnore
     private Long id;
     private LocalDate data;
-
-
     private List<RigaOrdineDto> prodotti;
-
     private ClienteDto clienteDto;
 
     public OrdineDto() {
     }
-
-
 
     public LocalDate getData() {
         return data;
@@ -42,7 +36,6 @@ public class OrdineDto {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public List<RigaOrdineDto> getProdotti() {
         return prodotti;

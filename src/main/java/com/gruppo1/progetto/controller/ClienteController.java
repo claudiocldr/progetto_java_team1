@@ -1,6 +1,7 @@
 package com.gruppo1.progetto.controller;
 
 import com.gruppo1.progetto.dto.ClienteDto;
+import com.gruppo1.progetto.dto.ClienteSenzaIdDto;
 import com.gruppo1.progetto.dto.RiepilogoOrdine;
 import com.gruppo1.progetto.dto.RigaOrdineDto;
 import com.gruppo1.progetto.services.ClienteService;
@@ -32,7 +33,7 @@ public class ClienteController {
     @PutMapping("/update")
     @Operation(summary = "Update customer",
             description = "Customer must exist")
-    public ResponseEntity<Optional<ClienteDto>> updateClienteById(@RequestBody ClienteDto clienteDto, @RequestParam Long id, @RequestParam String author) {
+    public ResponseEntity<Optional<ClienteDto>> updateClienteById(@RequestBody ClienteSenzaIdDto clienteDto, @RequestParam Long id, @RequestParam String author) {
 
         ClienteDto clienteDtoAggiornato = clienteService.updateCliente(id, clienteDto, author);
         return ResponseEntity.ok().body(Optional.of(clienteDtoAggiornato));
@@ -41,7 +42,7 @@ public class ClienteController {
     @PostMapping("/create")
     @Operation(summary = "Create a new customer")
 
-    public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody ClienteDto clienteDto, @RequestParam String author) {
+    public ResponseEntity<Optional<ClienteDto>> insertNewCliente(@RequestBody ClienteSenzaIdDto clienteDto, @RequestParam String author) {
         ClienteDto clienteDtoInserito = clienteService.insertCliente(clienteDto, author);
         return ResponseEntity.ok().body(Optional.of(clienteDtoInserito));
     }

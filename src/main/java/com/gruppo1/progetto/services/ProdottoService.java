@@ -6,7 +6,6 @@ import com.gruppo1.progetto.models.Prodotto;
 import com.gruppo1.progetto.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;

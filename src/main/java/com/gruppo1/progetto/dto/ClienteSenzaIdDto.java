@@ -1,19 +1,12 @@
 package com.gruppo1.progetto.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gruppo1.progetto.models.Indirizzo;
-import com.gruppo1.progetto.models.Ordine;
-import jakarta.persistence.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.*;
 
 @Component
-public class ClienteDto {
-
-    private Long id;
+public class ClienteSenzaIdDto {
     private String nome;
     private String cognome;
     private LocalDate dataDiNascita;
@@ -22,11 +15,11 @@ public class ClienteDto {
     private String codiceFiscale;
     private String password;
 
-    public ClienteDto() {
+    public ClienteSenzaIdDto() {
     }
 
-    public ClienteDto(Long id, String nome, String cognome, LocalDate dataDiNascita, String telefono, String email, String codiceFiscale, String password) {
-        this.id = id;
+    public ClienteSenzaIdDto(String nome, String cognome, LocalDate dataDiNascita, String telefono, String email, String codiceFiscale, String password) {
+
         this.nome = nome;
         this.cognome = cognome;
         this.dataDiNascita = dataDiNascita;
@@ -34,14 +27,6 @@ public class ClienteDto {
         this.email = email;
         this.codiceFiscale = codiceFiscale;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
