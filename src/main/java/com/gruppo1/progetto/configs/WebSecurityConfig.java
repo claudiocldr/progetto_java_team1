@@ -26,23 +26,6 @@ public class WebSecurityConfig {
         this.userRepository = userRepository;
     }
 
-
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        List<UserDetails> listOfUsers = new ArrayList<>();
-//
-//        for (com.gruppo1.progetto.models.User user : userRepository.findAll()) {
-//            UserDetails userLogin =
-//                    User.withDefaultPasswordEncoder().username(user.getUsername())
-//                            .password(user.getPassword())
-//                            .roles("USER")
-//                            .build();
-//            listOfUsers.add(userLogin);
-//        }
-//        return new InMemoryUserDetailsManager(listOfUsers);
-//    }
-
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
