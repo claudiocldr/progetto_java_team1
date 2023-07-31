@@ -7,6 +7,7 @@ import com.gruppo1.progetto.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,6 +58,11 @@ public class ProdottoService {
             return Optional.of(prodottoDto);
         }
 
+    }
+
+    public List<ProdottoDto> findAllProdotto() {
+        List<Prodotto> prodottoList = prodottoRepository.findAll();
+        return  prodottoList.stream().map(x -> new ProdottoDto(x.getNome(), x.getDescrizione(), x.getPrezzo(), x.getIdentificatoreArticolo())).toList();
     }
 
     //Update

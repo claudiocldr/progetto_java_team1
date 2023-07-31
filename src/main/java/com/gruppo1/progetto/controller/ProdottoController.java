@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +36,13 @@ public class ProdottoController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @GetMapping("/find-all")
+    @Operation(summary = "find all products")
+    public ResponseEntity<List<ProdottoDto>> getAllProducts() {
+    List<ProdottoDto> prodottoDtoList = prodottoService.findAllProdotto();
+    return ResponseEntity.ok().body(prodottoDtoList);
     }
 
     @PutMapping("/update")
